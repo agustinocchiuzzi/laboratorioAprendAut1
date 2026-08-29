@@ -1,0 +1,24 @@
+{
+  "input": "futbol_uruguayo.zip",
+  "output": "data/processed/futbol_uruguayo_clean.csv",
+  "rows_written": 15206,
+  "exact_duplicates_removed": 1,
+  "date_range": {
+    "min": "1932-03-05",
+    "max": "2025-06-30"
+  },
+  "target_counts": {
+    "E": 4172,
+    "L": 6745,
+    "V": 4289
+  },
+  "target_percentages": {
+    "E": 27.44,
+    "L": 44.36,
+    "V": 28.21
+  },
+  "model_feature_warning": [
+    "Do not use gh, ga, winner, or full_time as model features.",
+    "Use transformations such as encoding and discretization inside a training pipeline."
+  ]
+}
