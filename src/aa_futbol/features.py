@@ -16,6 +16,12 @@ NUMERIC_FEATURES = [
     "away_win_rate_all",
     "home_win_rate_10y",
     "away_win_rate_10y",
+    "home_win_rate_last_5",
+    "away_win_rate_last_5",
+    "home_win_rate_season",
+    "away_win_rate_season",
+    "home_win_rate_as_home_all",
+    "home_win_rate_h2h_as_home",
     "home_points_per_match_5",
     "away_points_per_match_5",
     "home_goal_diff_per_match_5",
@@ -33,6 +39,7 @@ class _TeamState:
     wins: int = 0
     last_ten_years: deque[tuple[pd.Timestamp, int]] = field(default_factory=deque)
     last_five: deque[tuple[int, int]] = field(default_factory=lambda: deque(maxlen=5))
+    last_five_wins: deque[int] = field(default_factory=lambda: deque(maxlen=5))
 
     def snapshot(self, match_date: pd.Timestamp) -> dict[str, float]:
         cutoff = match_date - pd.DateOffset(years=10)
@@ -46,6 +53,11 @@ class _TeamState:
             "prior_matches": float(self.matches),
             "win_rate_all": self.wins / self.matches if self.matches else 0.0,
             "win_rate_10y": wins_10y / games_10y if games_10y else 0.0,
+            "win_rate_last_5": (
+                sum(self.last_five_wins) / len(self.last_five_wins)
+                if self.last_five_wins
+                else 0.0
+            ),
             "points_per_match_5": (
                 sum(points for points, _ in self.last_five) / form_games
                 if form_games
@@ -72,6 +84,7 @@ class _TeamState:
         self.wins += int(won)
         self.last_ten_years.append((match_date, int(won)))
         self.last_five.append((points, goals_for - goals_against))
+        self.last_five_wins.append(int(won))
 
 
 def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
@@ -94,26 +107,60 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
     ).reset_index(drop=True)
 
     histories: defaultdict[str, _TeamState] = defaultdict(_TeamState)
+    season_histories: defaultdict[tuple[str, int], list[int]] = defaultdict(
+        lambda: [0, 0]
+    )
+    home_histories: defaultdict[str, list[int]] = defaultdict(lambda: [0, 0])
+    head_to_head_histories: defaultdict[tuple[str, str], list[int]] = defaultdict(
+        lambda: [0, 0]
+    )
     feature_rows: list[dict[str, object]] = []
 
     for match_date, same_day in frame.groupby("date", sort=True):
         pending_updates: list[pd.Series] = []
         for _, match in same_day.iterrows():
-            home = histories[str(match["home"])].snapshot(match_date)
-            away = histories[str(match["away"])].snapshot(match_date)
+            home_name = str(match["home"])
+            away_name = str(match["away"])
+            year = int(match_date.year)
+            home = histories[home_name].snapshot(match_date)
+            away = histories[away_name].snapshot(match_date)
+            home_season_matches, home_season_wins = season_histories[(home_name, year)]
+            away_season_matches, away_season_wins = season_histories[(away_name, year)]
+            home_matches, home_wins = home_histories[home_name]
+            h2h_matches, h2h_home_wins = head_to_head_histories[
+                (home_name, away_name)
+            ]
             feature_rows.append(
                 {
                     "date": match_date,
-                    "year": int(match_date.year),
+                    "year": year,
                     "month": int(match_date.month),
-                    "home": str(match["home"]),
-                    "away": str(match["away"]),
+                    "home": home_name,
+                    "away": away_name,
                     "home_prior_matches": home["prior_matches"],
                     "away_prior_matches": away["prior_matches"],
                     "home_win_rate_all": home["win_rate_all"],
                     "away_win_rate_all": away["win_rate_all"],
                     "home_win_rate_10y": home["win_rate_10y"],
                     "away_win_rate_10y": away["win_rate_10y"],
+                    "home_win_rate_last_5": home["win_rate_last_5"],
+                    "away_win_rate_last_5": away["win_rate_last_5"],
+                    "home_win_rate_season": (
+                        home_season_wins / home_season_matches
+                        if home_season_matches
+                        else 0.0
+                    ),
+                    "away_win_rate_season": (
+                        away_season_wins / away_season_matches
+                        if away_season_matches
+                        else 0.0
+                    ),
+                    "home_win_rate_as_home_all": (
+                        home_wins / home_matches if home_matches else 0.0
+                    ),
+                    "home_win_rate_h2h_as_home": (
+                        h2h_home_wins / h2h_matches if h2h_matches else 0.0
+                    ),
                     "home_points_per_match_5": home["points_per_match_5"],
                     "away_points_per_match_5": away["points_per_match_5"],
                     "home_goal_diff_per_match_5": home["goal_diff_per_match_5"],
@@ -146,6 +193,17 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
                 goals_for=int(match["ga"]),
                 goals_against=int(match["gh"]),
             )
+            year = int(match_date.year)
+            home_name = str(match["home"])
+            away_name = str(match["away"])
+            season_histories[(home_name, year)][0] += 1
+            season_histories[(home_name, year)][1] += int(winner == "L")
+            season_histories[(away_name, year)][0] += 1
+            season_histories[(away_name, year)][1] += int(winner == "V")
+            home_histories[home_name][0] += 1
+            home_histories[home_name][1] += int(winner == "L")
+            head_to_head_histories[(home_name, away_name)][0] += 1
+            head_to_head_histories[(home_name, away_name)][1] += int(winner == "L")
 
     featured = pd.DataFrame(feature_rows)
     if not np.isfinite(featured[NUMERIC_FEATURES].to_numpy(dtype=float)).all():

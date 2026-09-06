@@ -41,6 +41,11 @@ def test_same_day_results_do_not_leak_between_matches() -> None:
     assert featured.loc[1, "away_prior_matches"] == 0
     assert featured.loc[2, "home_prior_matches"] == 2
     assert featured.loc[2, "home_win_rate_10y"] == 1.0
+    assert featured.loc[2, "home_win_rate_last_5"] == 1.0
+    assert featured.loc[2, "home_win_rate_season"] == 1.0
+    assert featured.loc[2, "away_win_rate_season"] == 0.0
+    assert featured.loc[2, "home_win_rate_as_home_all"] == 1.0
+    assert featured.loc[2, "home_win_rate_h2h_as_home"] == 1.0
 
 
 def test_current_match_goals_do_not_affect_its_features() -> None:

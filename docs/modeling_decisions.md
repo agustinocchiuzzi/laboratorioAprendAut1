@@ -26,6 +26,13 @@ La corrida representa predicciones sucesivas: un partido puede usar resultados d
 fechas anteriores, incluso si esas fechas pertenecen a 2024-2025. El modelo no se
 reentrena durante test. Partidos del mismo dia no se actualizan entre si.
 
+Los porcentajes sin partidos previos se codifican como `0.0`. Se incorporan las
+siguientes tasas, siempre calculadas antes de la fecha del partido: victorias en
+los últimos cinco partidos de cada equipo, victorias de cada equipo dentro del
+año calendario, victorias históricas del local actuando de local y victorias del
+local frente a ese visitante con la misma localía. El último atributo es
+head-to-head orientado: no mezcla partidos con la localía invertida.
+
 Comparacion opcional para el informe: congelar todos los historiales al 31/12/2023
 y medir cuanto cambia el resultado. No mezclar ambas politicas en una misma tabla.
 
