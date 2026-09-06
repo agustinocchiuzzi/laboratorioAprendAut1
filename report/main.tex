@@ -1,0 +1,70 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Prediccion de resultados del futbol uruguayo}
+
+\author{\IEEEauthorblockN{Integrantes del grupo}
+\IEEEauthorblockA{Aprendizaje Automatico -- FING, UdelaR\\
+2026}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+% Resumir problema, datos, metodos, mejor resultado y principal conclusion.
+\end{abstract}
+
+\begin{IEEEkeywords}
+aprendizaje supervisado, clasificacion, datos temporales, futbol
+\end{IEEEkeywords}
+
+\section{Introduccion}
+% Motivacion, objetivo y contribuciones concretas del trabajo.
+
+\section{Datos y preprocesamiento}
+% Fuente, cantidad de instancias, clases, limpieza y atributos causales.
+% Explicar explicitamente como se evito leakage.
+
+\section{Metodos}
+\subsection{Clasificador base}
+% Proporcion de victorias en los diez anos anteriores.
+
+\subsection{Naive Bayes}
+% Derivacion del m-estimate e implementacion propia.
+
+\subsection{Arbol de decision}
+% Entropia, ganancia de informacion y min_info_gain.
+
+\subsection{Modelos de scikit-learn}
+% Random Forest y Naive Bayes usados como comparadores.
+
+\section{Protocolo experimental}
+% Train hasta 2023; test 2024-2025; CV temporal expansiva; grillas y semilla.
+
+\section{Resultados}
+% Incluir una tabla compacta de accuracy, macro-F1 y F1 por clase.
+% Incluir solo las curvas y matrices que aporten al argumento.
+
+\section{Analisis cualitativo y limitaciones}
+% Examinar ejemplos de aciertos/errores y amenazas a la validez.
+
+\section{Conclusiones}
+% Responder que funciono, que no y que se haria a continuacion.
+
+\section*{Declaracion de uso de IA}
+% Adaptar AI_USAGE.md a las exigencias exactas del curso.
+
+\begin{thebibliography}{1}
+\bibitem{football-data}
+D. Schoch, ``football-data,'' GitHub repository. [Online]. Available:
+\url{https://github.com/schochastics/football-data/tree/master}
+\end{thebibliography}
+
+\end{document}
+

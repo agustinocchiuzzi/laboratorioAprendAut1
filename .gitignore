@@ -1,0 +1,23 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Generated artifacts. Keep the raw course dataset under version control.
+results/*
+!results/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/legacy/*.csv
+
+# Local editor files
+.idea/
+.vscode/
