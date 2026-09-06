@@ -1,0 +1,23 @@
+{
+  "source": "data/raw/futbol_uruguayo.zip",
+  "total_clean_rows": 15206,
+  "exact_duplicates_removed": 0,
+  "training": {
+    "file": "data/processed/futbol_uruguayo_hasta_2023.csv",
+    "rows": 14734,
+    "date_range": [
+      "1932-03-05",
+      "2023-12-16"
+    ],
+    "rule": "year <= 2023"
+  },
+  "evaluation": {
+    "file": "data/processed/futbol_uruguayo_2024_2025.csv",
+    "rows": 472,
+    "date_range": [
+      "2024-02-17",
+      "2025-06-30"
+    ],
+    "rule": "2024 <= year <= 2025"
+  }
+}
