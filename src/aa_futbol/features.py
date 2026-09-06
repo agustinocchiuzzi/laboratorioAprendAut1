@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
-CATEGORICAL_FEATURES = ["home_ident", "away_ident", "month"]
+CATEGORICAL_FEATURES = ["home", "away", "month"]
 NUMERIC_FEATURES = [
     "home_prior_matches",
     "away_prior_matches",
@@ -82,7 +82,7 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
     dates are therefore available, which models the realistic online prediction
     setting without ever using the current or future match result.
     """
-    required = {"date", "home_ident", "away_ident", "gh", "ga", "winner"}
+    required = {"date", "home", "away", "gh", "ga", "winner"}
     missing = required.difference(matches.columns)
     if missing:
         raise ValueError("Faltan columnas para crear atributos: " + ", ".join(missing))
@@ -90,7 +90,7 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
     frame = matches.copy()
     frame["date"] = pd.to_datetime(frame["date"], errors="raise")
     frame = frame.sort_values(
-        ["date", "home_ident", "away_ident"], kind="stable"
+        ["date", "home", "away"], kind="stable"
     ).reset_index(drop=True)
 
     histories: defaultdict[str, _TeamState] = defaultdict(_TeamState)
@@ -99,15 +99,15 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
     for match_date, same_day in frame.groupby("date", sort=True):
         pending_updates: list[pd.Series] = []
         for _, match in same_day.iterrows():
-            home = histories[str(match["home_ident"])].snapshot(match_date)
-            away = histories[str(match["away_ident"])].snapshot(match_date)
+            home = histories[str(match["home"])].snapshot(match_date)
+            away = histories[str(match["away"])].snapshot(match_date)
             feature_rows.append(
                 {
                     "date": match_date,
                     "year": int(match_date.year),
                     "month": int(match_date.month),
-                    "home_ident": str(match["home_ident"]),
-                    "away_ident": str(match["away_ident"]),
+                    "home": str(match["home"]),
+                    "away": str(match["away"]),
                     "home_prior_matches": home["prior_matches"],
                     "away_prior_matches": away["prior_matches"],
                     "home_win_rate_all": home["win_rate_all"],
@@ -132,14 +132,14 @@ def build_causal_match_features(matches: pd.DataFrame) -> pd.DataFrame:
             winner = str(match["winner"])
             home_points = 3 if winner == "L" else 1 if winner == "E" else 0
             away_points = 3 if winner == "V" else 1 if winner == "E" else 0
-            histories[str(match["home_ident"])].update(
+            histories[str(match["home"])].update(
                 match_date,
                 won=winner == "L",
                 points=home_points,
                 goals_for=int(match["gh"]),
                 goals_against=int(match["ga"]),
             )
-            histories[str(match["away_ident"])].update(
+            histories[str(match["away"])].update(
                 match_date,
                 won=winner == "V",
                 points=away_points,

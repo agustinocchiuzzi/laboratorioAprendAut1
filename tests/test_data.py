@@ -14,8 +14,6 @@ def test_clean_matches_adds_target_and_removes_exact_duplicates() -> None:
                 "date": "2023-01-01",
                 "gh": 2.0,
                 "ga": 1.0,
-                "home_ident": "A (UY)",
-                "away_ident": "B (UY)",
             },
             {
                 "home": " A ",
@@ -23,8 +21,6 @@ def test_clean_matches_adds_target_and_removes_exact_duplicates() -> None:
                 "date": "2023-01-01",
                 "gh": 2.0,
                 "ga": 1.0,
-                "home_ident": "A (UY)",
-                "away_ident": "B (UY)",
             },
             {
                 "home": "B",
@@ -32,8 +28,6 @@ def test_clean_matches_adds_target_and_removes_exact_duplicates() -> None:
                 "date": "2023-01-02",
                 "gh": 0,
                 "ga": 0,
-                "home_ident": "B (UY)",
-                "away_ident": "A (UY)",
             },
         ]
     )

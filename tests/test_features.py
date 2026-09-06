@@ -10,24 +10,24 @@ def test_same_day_results_do_not_leak_between_matches() -> None:
         [
             {
                 "date": "2020-01-01",
-                "home_ident": "A",
-                "away_ident": "B",
+                "home": "A",
+                "away": "B",
                 "gh": 1,
                 "ga": 0,
                 "winner": "L",
             },
             {
                 "date": "2020-01-01",
-                "home_ident": "C",
-                "away_ident": "A",
+                "home": "C",
+                "away": "A",
                 "gh": 0,
                 "ga": 2,
                 "winner": "V",
             },
             {
                 "date": "2020-01-02",
-                "home_ident": "A",
-                "away_ident": "B",
+                "home": "A",
+                "away": "B",
                 "gh": 0,
                 "ga": 0,
                 "winner": "E",
@@ -48,8 +48,8 @@ def test_current_match_goals_do_not_affect_its_features() -> None:
         [
             {
                 "date": "2021-01-01",
-                "home_ident": "A",
-                "away_ident": "B",
+                "home": "A",
+                "away": "B",
                 "gh": 1,
                 "ga": 0,
                 "winner": "L",

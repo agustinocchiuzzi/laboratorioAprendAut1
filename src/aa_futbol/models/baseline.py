@@ -23,11 +23,11 @@ class TenYearWinRateClassifier(ClassifierMixin, BaseEstimator):
     def _validate_frame(X: pd.DataFrame) -> pd.DataFrame:
         if not isinstance(X, pd.DataFrame):
             raise TypeError("TenYearWinRateClassifier requiere un pandas DataFrame.")
-        required = {"date", "home_ident", "away_ident"}
+        required = {"date", "home", "away"}
         missing = required.difference(X.columns)
         if missing:
             raise ValueError("Faltan atributos: " + ", ".join(sorted(missing)))
-        frame = X.loc[:, ["date", "home_ident", "away_ident"]].copy()
+        frame = X.loc[:, ["date", "home", "away"]].copy()
         frame["date"] = pd.to_datetime(frame["date"], errors="raise")
         return frame
 
@@ -46,10 +46,10 @@ class TenYearWinRateClassifier(ClassifierMixin, BaseEstimator):
             frame.itertuples(index=False), target
         ):
             match_date = np.datetime64(match.date, "D")
-            events.setdefault(str(match.home_ident), []).append(
+            events.setdefault(str(match.home), []).append(
                 (match_date, int(winner == "L"))
             )
-            events.setdefault(str(match.away_ident), []).append(
+            events.setdefault(str(match.away), []).append(
                 (match_date, int(winner == "V"))
             )
 
@@ -87,8 +87,8 @@ class TenYearWinRateClassifier(ClassifierMixin, BaseEstimator):
         frame = self._validate_frame(X)
         predictions: list[str] = []
         for match in frame.itertuples(index=False):
-            home_rate = self._win_rate(str(match.home_ident), match.date)
-            away_rate = self._win_rate(str(match.away_ident), match.date)
+            home_rate = self._win_rate(str(match.home), match.date)
+            away_rate = self._win_rate(str(match.away), match.date)
             if home_rate > away_rate:
                 predictions.append("L")
             elif away_rate > home_rate:

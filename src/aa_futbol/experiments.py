@@ -299,7 +299,7 @@ def run_experiments(
     details: dict[str, object] = {}
     fitted_models: dict[str, object] = {}
     prediction_table = test.loc[
-        :, ["date", "home_ident", "away_ident", "winner"]
+        :, ["date", "home", "away", "winner"]
     ].copy()
 
     for model_name, spec in specs.items():

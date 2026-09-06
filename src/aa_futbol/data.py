@@ -21,6 +21,18 @@ REQUIRED_COLUMNS = {
     "date",
     "gh",
     "ga",
+}
+
+UNUSED_COLUMNS = {
+    "competition",
+    "level",
+    "home_country",
+    "away_country",
+    "home_code",
+    "away_code",
+    "home_continent",
+    "away_continent",
+    "continent",
     "home_ident",
     "away_ident",
 }
@@ -91,8 +103,9 @@ def clean_matches(raw: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
     frame["year"] = frame["date"].dt.year.astype("int64")
     frame["month"] = frame["date"].dt.month.astype("int64")
     frame = frame.sort_values(
-        ["date", "home_ident", "away_ident"], kind="stable"
+        ["date", "home", "away"], kind="stable"
     ).reset_index(drop=True)
+    frame = frame.drop(columns=UNUSED_COLUMNS.intersection(frame.columns))
 
     target_counts = frame["winner"].value_counts().sort_index()
     report: dict[str, object] = {

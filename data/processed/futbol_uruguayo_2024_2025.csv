@@ -1,0 +1,473 @@
+home,away,date,gh,ga,full_time,winner,year,month
+CA Fenix,Danubio,2024-02-17,1,2,F,V,2024,2
+Miramar Misiones,CA Progreso,2024-02-17,2,3,F,V,2024,2
+Nacional,River Plate,2024-02-17,2,1,F,L,2024,2
+CA Cerro,Montevideo Wanderers,2024-02-18,1,1,F,E,2024,2
+Deportivo Maldonado,Boston River,2024-02-18,1,2,F,V,2024,2
+Racing Club,Liverpool,2024-02-18,2,2,F,E,2024,2
+Cerro Largo FC,CA Penarol,2024-02-19,1,2,F,V,2024,2
+River Plate,Deportivo Maldonado,2024-02-23,3,1,F,L,2024,2
+Boston River,Danubio,2024-02-24,0,0,F,E,2024,2
+Montevideo Wanderers,Racing Club,2024-02-24,0,1,F,V,2024,2
+CA Penarol,Miramar Misiones,2024-02-25,2,0,F,L,2024,2
+Cerro Largo FC,CA Fenix,2024-02-25,0,0,F,E,2024,2
+Defensor Sporting,CA Cerro,2024-02-25,5,0,F,L,2024,2
+Liverpool,Nacional,2024-02-25,1,1,F,E,2024,2
+CA Cerro,CA Progreso,2024-03-01,2,3,F,V,2024,3
+Miramar Misiones,Cerro Largo FC,2024-03-01,1,2,F,V,2024,3
+Racing Club,Defensor Sporting,2024-03-02,1,2,F,V,2024,3
+River Plate,Danubio,2024-03-02,1,0,F,L,2024,3
+CA Fenix,Boston River,2024-03-03,1,2,F,V,2024,3
+Liverpool,Deportivo Maldonado,2024-03-03,1,2,F,V,2024,3
+Nacional,Montevideo Wanderers,2024-03-03,3,0,F,L,2024,3
+Rampla Juniors Futbol Club,CA Penarol,2024-03-04,0,3,F,V,2024,3
+CA Penarol,CA Cerro,2024-03-09,3,0,F,L,2024,3
+Miramar Misiones,CA Fenix,2024-03-09,1,1,F,E,2024,3
+River Plate,Boston River,2024-03-09,1,2,F,V,2024,3
+CA Progreso,Racing Club,2024-03-10,4,3,F,L,2024,3
+Defensor Sporting,Nacional,2024-03-10,3,3,F,E,2024,3
+Liverpool,Danubio,2024-03-10,1,2,F,V,2024,3
+Cerro Largo FC,Rampla Juniors Futbol Club,2024-03-11,2,0,F,L,2024,3
+Montevideo Wanderers,Deportivo Maldonado,2024-03-11,0,0,F,E,2024,3
+Boston River,Liverpool,2024-03-15,1,1,F,E,2024,3
+CA Fenix,River Plate,2024-03-16,0,0,F,E,2024,3
+Racing Club,CA Penarol,2024-03-16,1,2,F,V,2024,3
+Nacional,CA Progreso,2024-03-23,0,0,F,E,2024,3
+Rampla Juniors Futbol Club,Miramar Misiones,2024-03-23,1,1,F,E,2024,3
+CA Cerro,Cerro Largo FC,2024-03-24,1,1,F,E,2024,3
+Danubio,Montevideo Wanderers,2024-03-24,0,2,F,V,2024,3
+Deportivo Maldonado,Defensor Sporting,2024-03-24,1,0,F,L,2024,3
+CA Progreso,Rampla Juniors Futbol Club,2024-03-27,4,2,F,L,2024,3
+CA Penarol,Nacional,2024-03-29,0,0,F,E,2024,3
+Cerro Largo FC,Racing Club,2024-03-29,0,2,F,V,2024,3
+Defensor Sporting,Danubio,2024-03-30,1,0,F,L,2024,3
+Liverpool,River Plate,2024-03-30,1,1,F,E,2024,3
+Rampla Juniors Futbol Club,CA Fenix,2024-03-30,1,0,F,L,2024,3
+CA Progreso,Deportivo Maldonado,2024-03-31,3,1,F,L,2024,3
+Miramar Misiones,CA Cerro,2024-03-31,2,2,F,E,2024,3
+Montevideo Wanderers,Boston River,2024-04-01,0,2,F,V,2024,4
+Boston River,Defensor Sporting,2024-04-06,2,2,F,E,2024,4
+Danubio,CA Progreso,2024-04-06,1,1,F,E,2024,4
+Nacional,Cerro Largo FC,2024-04-06,1,0,F,L,2024,4
+Racing Club,Miramar Misiones,2024-04-06,1,1,F,E,2024,4
+River Plate,Montevideo Wanderers,2024-04-06,3,1,F,L,2024,4
+CA Cerro,Rampla Juniors Futbol Club,2024-04-07,3,0,F,L,2024,4
+CA Fenix,Liverpool,2024-04-07,1,3,F,V,2024,4
+Deportivo Maldonado,CA Penarol,2024-04-07,1,2,F,V,2024,4
+CA Cerro,CA Fenix,2024-04-13,0,0,F,E,2024,4
+CA Progreso,Boston River,2024-04-13,1,0,F,L,2024,4
+CA Penarol,Danubio,2024-04-14,2,0,F,L,2024,4
+Defensor Sporting,River Plate,2024-04-14,2,1,F,L,2024,4
+Deportivo Maldonado,Cerro Largo FC,2024-04-14,0,1,F,V,2024,4
+Rampla Juniors Futbol Club,Racing Club,2024-04-14,0,1,F,V,2024,4
+Montevideo Wanderers,Liverpool,2024-04-16,2,3,F,V,2024,4
+Miramar Misiones,Nacional,2024-04-17,1,2,F,V,2024,4
+Liverpool,Defensor Sporting,2024-04-19,1,1,F,E,2024,4
+Racing Club,CA Cerro,2024-04-19,1,1,F,E,2024,4
+Boston River,CA Penarol,2024-04-20,1,3,F,V,2024,4
+Danubio,Cerro Largo FC,2024-04-20,1,1,F,E,2024,4
+Nacional,Rampla Juniors Futbol Club,2024-04-20,6,2,F,L,2024,4
+CA Fenix,Montevideo Wanderers,2024-04-21,1,2,F,V,2024,4
+Deportivo Maldonado,Miramar Misiones,2024-04-21,1,2,F,V,2024,4
+River Plate,CA Progreso,2024-04-21,2,2,F,E,2024,4
+Rampla Juniors Futbol Club,Defensor Sporting,2024-04-24,2,1,F,L,2024,4
+Cerro Largo FC,Boston River,2024-04-27,2,0,F,L,2024,4
+Rampla Juniors Futbol Club,Deportivo Maldonado,2024-04-27,1,1,F,E,2024,4
+CA Cerro,Nacional,2024-04-28,1,2,F,V,2024,4
+CA Progreso,Liverpool,2024-04-28,2,1,F,L,2024,4
+Miramar Misiones,Danubio,2024-04-28,3,5,F,V,2024,4
+Defensor Sporting,Montevideo Wanderers,2024-04-29,2,2,F,E,2024,4
+Racing Club,CA Fenix,2024-04-29,2,0,F,L,2024,4
+CA Penarol,River Plate,2024-04-30,3,0,F,L,2024,4
+Danubio,Rampla Juniors Futbol Club,2024-05-03,1,1,F,E,2024,5
+Liverpool,CA Penarol,2024-05-03,2,2,F,E,2024,5
+Boston River,Miramar Misiones,2024-05-04,3,1,F,L,2024,5
+Montevideo Wanderers,CA Progreso,2024-05-04,2,0,F,L,2024,5
+Nacional,Racing Club,2024-05-04,4,2,F,L,2024,5
+CA Fenix,Defensor Sporting,2024-05-05,0,2,F,V,2024,5
+Deportivo Maldonado,CA Cerro,2024-05-05,3,0,F,L,2024,5
+River Plate,Cerro Largo FC,2024-05-05,2,3,F,V,2024,5
+CA Cerro,Danubio,2024-05-11,2,0,F,L,2024,5
+CA Penarol,Montevideo Wanderers,2024-05-11,1,0,F,L,2024,5
+Miramar Misiones,River Plate,2024-05-11,0,0,F,E,2024,5
+Nacional,CA Fenix,2024-05-11,1,4,F,V,2024,5
+Racing Club,Deportivo Maldonado,2024-05-11,0,1,F,V,2024,5
+CA Progreso,Defensor Sporting,2024-05-12,1,4,F,V,2024,5
+Liverpool,Cerro Largo FC,2024-05-12,2,1,F,L,2024,5
+Rampla Juniors Futbol Club,Boston River,2024-05-12,0,1,F,V,2024,5
+CA Fenix,CA Progreso,2024-05-18,1,0,F,L,2024,5
+Defensor Sporting,CA Penarol,2024-05-18,0,2,F,V,2024,5
+River Plate,Rampla Juniors Futbol Club,2024-05-18,0,2,F,V,2024,5
+Boston River,CA Cerro,2024-05-19,2,0,F,L,2024,5
+Danubio,Racing Club,2024-05-19,0,1,F,V,2024,5
+Montevideo Wanderers,Cerro Largo FC,2024-05-19,1,0,F,L,2024,5
+Liverpool,Miramar Misiones,2024-05-20,2,1,F,L,2024,5
+Deportivo Maldonado,Nacional,2024-05-21,0,2,F,V,2024,5
+CA Penarol,CA Progreso,2024-05-24,3,1,F,L,2024,5
+Racing Club,Boston River,2024-05-24,1,2,F,V,2024,5
+Liverpool,Rampla Juniors Futbol Club,2024-05-25,1,2,F,V,2024,5
+Miramar Misiones,Montevideo Wanderers,2024-05-25,2,0,F,L,2024,5
+Nacional,Danubio,2024-05-25,1,0,F,L,2024,5
+CA Cerro,River Plate,2024-05-26,3,2,F,L,2024,5
+Defensor Sporting,Cerro Largo FC,2024-05-26,3,1,F,L,2024,5
+Deportivo Maldonado,CA Fenix,2024-05-26,0,1,F,V,2024,5
+Montevideo Wanderers,Rampla Juniors Futbol Club,2024-06-01,2,1,F,L,2024,6
+CA Fenix,CA Penarol,2024-06-02,0,1,F,V,2024,6
+Defensor Sporting,Miramar Misiones,2024-06-02,3,0,F,L,2024,6
+River Plate,Racing Club,2024-06-02,3,3,F,E,2024,6
+Danubio,Deportivo Maldonado,2024-06-03,1,1,F,E,2024,6
+Liverpool,CA Cerro,2024-06-03,0,3,F,V,2024,6
+CA Progreso,Cerro Largo FC,2024-06-04,0,1,F,V,2024,6
+Boston River,Nacional,2024-06-05,1,3,F,V,2024,6
+Liverpool,Miramar Misiones,2024-06-08,0,1,F,V,2024,6
+Montevideo Wanderers,CA Penarol,2024-06-08,2,0,F,L,2024,6
+Racing Club,CA Fenix,2024-06-08,2,1,F,L,2024,6
+CA Cerro,Nacional,2024-06-09,3,0,F,L,2024,6
+CA Progreso,River Plate,2024-06-09,1,0,F,L,2024,6
+Cerro Largo FC,Danubio,2024-06-09,2,2,F,E,2024,6
+Deportivo Maldonado,Defensor Sporting,2024-06-09,0,2,F,V,2024,6
+Rampla Juniors Futbol Club,Boston River,2024-06-11,1,1,F,E,2024,6
+Miramar Misiones,CA Cerro,2024-06-15,1,0,F,L,2024,6
+Nacional,Liverpool,2024-06-15,2,1,F,L,2024,6
+River Plate,Deportivo Maldonado,2024-06-15,1,1,F,E,2024,6
+CA Fenix,Montevideo Wanderers,2024-06-16,3,1,F,L,2024,6
+CA Penarol,Racing Club,2024-06-16,1,1,F,E,2024,6
+Danubio,Rampla Juniors Futbol Club,2024-06-16,2,0,F,L,2024,6
+Defensor Sporting,CA Progreso,2024-06-16,1,1,F,E,2024,6
+Boston River,Cerro Largo FC,2024-06-17,0,2,F,V,2024,6
+CA Cerro,Danubio,2024-06-22,0,0,F,E,2024,6
+CA Progreso,CA Penarol,2024-06-22,0,2,F,V,2024,6
+Deportivo Maldonado,CA Fenix,2024-06-22,1,3,F,V,2024,6
+Racing Club,Defensor Sporting,2024-06-22,0,1,F,V,2024,6
+Cerro Largo FC,Nacional,2024-06-23,0,4,F,V,2024,6
+Liverpool,Boston River,2024-06-23,1,0,F,L,2024,6
+Montevideo Wanderers,River Plate,2024-06-23,1,3,F,V,2024,6
+Rampla Juniors Futbol Club,Miramar Misiones,2024-06-23,1,2,F,V,2024,6
+Boston River,CA Cerro,2024-07-06,2,0,F,L,2024,7
+CA Penarol,Deportivo Maldonado,2024-07-06,1,1,F,E,2024,7
+Cerro Largo FC,Liverpool,2024-07-06,1,0,F,L,2024,7
+CA Fenix,River Plate,2024-07-07,1,0,F,L,2024,7
+CA Progreso,Racing Club,2024-07-07,3,2,F,L,2024,7
+Defensor Sporting,Montevideo Wanderers,2024-07-07,1,1,F,E,2024,7
+Nacional,Rampla Juniors Futbol Club,2024-07-07,1,1,F,E,2024,7
+Miramar Misiones,Danubio,2024-07-08,2,3,F,V,2024,7
+Boston River,Miramar Misiones,2024-07-13,2,1,F,L,2024,7
+Danubio,Nacional,2024-07-13,0,6,F,V,2024,7
+Deportivo Maldonado,Racing Club,2024-07-13,1,1,F,E,2024,7
+Rampla Juniors Futbol Club,Liverpool,2024-07-13,3,2,F,L,2024,7
+CA Cerro,Cerro Largo FC,2024-07-14,0,1,F,V,2024,7
+CA Fenix,Defensor Sporting,2024-07-14,1,2,F,V,2024,7
+Montevideo Wanderers,CA Progreso,2024-07-14,4,2,F,L,2024,7
+River Plate,CA Penarol,2024-07-14,1,3,F,V,2024,7
+Cerro Largo FC,Rampla Juniors Futbol Club,2024-07-20,0,1,F,V,2024,7
+Defensor Sporting,River Plate,2024-07-20,0,1,F,V,2024,7
+Nacional,Miramar Misiones,2024-07-20,4,0,F,L,2024,7
+Racing Club,Montevideo Wanderers,2024-07-20,0,1,F,V,2024,7
+Boston River,Danubio,2024-07-21,1,2,F,V,2024,7
+CA Penarol,CA Fenix,2024-07-21,2,0,F,L,2024,7
+CA Progreso,Deportivo Maldonado,2024-07-21,0,1,F,V,2024,7
+Liverpool,CA Cerro,2024-07-21,0,1,F,V,2024,7
+CA Fenix,CA Progreso,2024-07-27,1,1,F,E,2024,7
+CA Penarol,Defensor Sporting,2024-07-27,1,0,F,L,2024,7
+Miramar Misiones,Cerro Largo FC,2024-07-27,0,0,F,E,2024,7
+Montevideo Wanderers,Deportivo Maldonado,2024-07-27,1,0,F,L,2024,7
+CA Cerro,Rampla Juniors Futbol Club,2024-07-28,4,1,F,L,2024,7
+Danubio,Liverpool,2024-07-28,2,0,F,L,2024,7
+Nacional,Boston River,2024-07-28,1,0,F,L,2024,7
+River Plate,Racing Club,2024-07-29,2,2,F,E,2024,7
+Nacional,CA Penarol,2024-08-04,1,1,F,E,2024,8
+CA Penarol,Cerro Largo FC,2024-08-17,0,0,F,E,2024,8
+Liverpool,Racing Club,2024-08-17,1,1,F,E,2024,8
+Montevideo Wanderers,CA Cerro,2024-08-17,1,0,F,L,2024,8
+Boston River,Deportivo Maldonado,2024-08-18,1,0,F,L,2024,8
+CA Progreso,Miramar Misiones,2024-08-18,0,0,F,E,2024,8
+Danubio,CA Fenix,2024-08-18,1,0,F,L,2024,8
+River Plate,Nacional,2024-08-18,3,3,F,E,2024,8
+Defensor Sporting,Rampla Juniors Futbol Club,2024-08-19,1,2,F,V,2024,8
+CA Cerro,Defensor Sporting,2024-09-07,1,1,F,E,2024,9
+Miramar Misiones,CA Penarol,2024-09-07,1,2,F,V,2024,9
+Racing Club,Montevideo Wanderers,2024-09-07,0,1,F,V,2024,9
+CA Fenix,Cerro Largo FC,2024-09-08,1,0,F,L,2024,9
+Danubio,Boston River,2024-09-08,2,0,F,L,2024,9
+Deportivo Maldonado,River Plate,2024-09-08,0,1,F,V,2024,9
+Nacional,Liverpool,2024-09-08,1,0,F,L,2024,9
+Rampla Juniors Futbol Club,CA Progreso,2024-09-08,2,0,F,L,2024,9
+CA Progreso,CA Cerro,2024-09-14,0,1,F,V,2024,9
+Cerro Largo FC,Miramar Misiones,2024-09-14,1,2,F,V,2024,9
+Defensor Sporting,Racing Club,2024-09-14,1,2,F,V,2024,9
+CA Penarol,Rampla Juniors Futbol Club,2024-09-15,4,0,F,L,2024,9
+Danubio,River Plate,2024-09-15,3,0,F,L,2024,9
+Deportivo Maldonado,Liverpool,2024-09-15,0,1,F,V,2024,9
+Montevideo Wanderers,Nacional,2024-09-16,0,2,F,V,2024,9
+Boston River,CA Fenix,2024-09-17,2,0,F,L,2024,9
+Deportivo Maldonado,Montevideo Wanderers,2024-09-21,1,3,F,V,2024,9
+Racing Club,CA Progreso,2024-09-21,1,0,F,L,2024,9
+Rampla Juniors Futbol Club,Cerro Largo FC,2024-09-21,2,0,F,L,2024,9
+Boston River,River Plate,2024-09-22,3,1,F,L,2024,9
+CA Fenix,Miramar Misiones,2024-09-22,0,0,F,E,2024,9
+Danubio,Liverpool,2024-09-22,1,0,F,L,2024,9
+Nacional,Defensor Sporting,2024-09-22,1,1,F,E,2024,9
+CA Cerro,CA Penarol,2024-09-23,0,5,F,V,2024,9
+Cerro Largo FC,CA Cerro,2024-09-28,3,1,F,L,2024,9
+Miramar Misiones,Rampla Juniors Futbol Club,2024-09-28,0,0,F,E,2024,9
+Defensor Sporting,Deportivo Maldonado,2024-09-29,3,1,F,L,2024,9
+Liverpool,Boston River,2024-09-29,1,1,F,E,2024,9
+Montevideo Wanderers,Danubio,2024-09-29,2,2,F,E,2024,9
+River Plate,CA Fenix,2024-09-29,4,3,F,L,2024,9
+CA Progreso,Nacional,2024-09-30,0,3,F,V,2024,9
+CA Penarol,Racing Club,2024-10-01,0,0,F,E,2024,10
+River Plate,Liverpool,2024-10-04,1,1,F,E,2024,10
+Boston River,Montevideo Wanderers,2024-10-05,3,2,F,L,2024,10
+CA Cerro,Miramar Misiones,2024-10-05,0,1,F,V,2024,10
+Danubio,Defensor Sporting,2024-10-05,1,1,F,E,2024,10
+Racing Club,Cerro Largo FC,2024-10-05,0,0,F,E,2024,10
+CA Fenix,Rampla Juniors Futbol Club,2024-10-06,1,0,F,L,2024,10
+Deportivo Maldonado,CA Progreso,2024-10-06,2,2,F,E,2024,10
+Nacional,CA Penarol,2024-10-06,2,1,F,L,2024,10
+Liverpool,CA Fenix,2024-10-11,1,2,F,V,2024,10
+CA Penarol,Deportivo Maldonado,2024-10-12,2,0,F,L,2024,10
+CA Progreso,Danubio,2024-10-12,0,0,F,E,2024,10
+Defensor Sporting,Boston River,2024-10-12,1,2,F,V,2024,10
+Rampla Juniors Futbol Club,CA Cerro,2024-10-12,1,1,F,E,2024,10
+Cerro Largo FC,Nacional,2024-10-13,0,1,F,V,2024,10
+Miramar Misiones,Racing Club,2024-10-13,2,2,F,E,2024,10
+Montevideo Wanderers,River Plate,2024-10-13,0,1,F,V,2024,10
+Liverpool,Montevideo Wanderers,2024-10-15,1,1,F,E,2024,10
+Boston River,CA Progreso,2024-10-16,1,0,F,L,2024,10
+Danubio,CA Penarol,2024-10-16,0,1,F,V,2024,10
+Racing Club,Rampla Juniors Futbol Club,2024-10-16,2,1,F,L,2024,10
+CA Fenix,CA Cerro,2024-10-17,1,3,F,V,2024,10
+Cerro Largo FC,Deportivo Maldonado,2024-10-17,1,0,F,L,2024,10
+River Plate,Defensor Sporting,2024-10-17,0,1,F,V,2024,10
+Nacional,Miramar Misiones,2024-10-18,5,1,F,L,2024,10
+CA Progreso,River Plate,2024-10-19,2,0,F,L,2024,10
+CA Cerro,Racing Club,2024-10-20,1,1,F,E,2024,10
+CA Penarol,Boston River,2024-10-20,2,0,F,L,2024,10
+Cerro Largo FC,Danubio,2024-10-20,0,0,F,E,2024,10
+Rampla Juniors Futbol Club,Nacional,2024-10-20,2,1,F,L,2024,10
+Miramar Misiones,Deportivo Maldonado,2024-10-21,1,0,F,L,2024,10
+Montevideo Wanderers,CA Fenix,2024-10-21,1,2,F,V,2024,10
+Defensor Sporting,Liverpool,2024-10-22,2,1,F,L,2024,10
+Deportivo Maldonado,Rampla Juniors Futbol Club,2024-11-01,1,1,F,E,2024,11
+Danubio,Miramar Misiones,2024-11-02,1,0,F,L,2024,11
+Nacional,CA Cerro,2024-11-02,2,0,F,L,2024,11
+Boston River,Cerro Largo FC,2024-11-03,3,0,F,L,2024,11
+CA Fenix,Racing Club,2024-11-03,0,2,F,V,2024,11
+Liverpool,CA Progreso,2024-11-03,2,1,F,L,2024,11
+River Plate,CA Penarol,2024-11-03,0,1,F,V,2024,11
+Montevideo Wanderers,Defensor Sporting,2024-11-04,1,1,F,E,2024,11
+CA Cerro,Deportivo Maldonado,2024-11-08,0,0,F,E,2024,11
+CA Penarol,Liverpool,2024-11-09,2,0,F,L,2024,11
+Cerro Largo FC,River Plate,2024-11-09,1,0,F,L,2024,11
+Racing Club,Nacional,2024-11-09,0,2,F,V,2024,11
+Rampla Juniors Futbol Club,Danubio,2024-11-09,0,2,F,V,2024,11
+CA Progreso,Montevideo Wanderers,2024-11-10,0,0,F,E,2024,11
+Defensor Sporting,CA Fenix,2024-11-10,1,0,F,L,2024,11
+Miramar Misiones,Boston River,2024-11-10,1,0,F,L,2024,11
+Deportivo Maldonado,Racing Club,2024-11-12,0,1,F,V,2024,11
+CA Fenix,Nacional,2024-11-13,0,6,F,V,2024,11
+Cerro Largo FC,Liverpool,2024-11-13,0,0,F,E,2024,11
+River Plate,Miramar Misiones,2024-11-13,0,0,F,E,2024,11
+Boston River,Rampla Juniors Futbol Club,2024-11-14,1,0,F,L,2024,11
+Danubio,CA Cerro,2024-11-14,0,0,F,E,2024,11
+Defensor Sporting,CA Progreso,2024-11-14,3,0,F,L,2024,11
+Montevideo Wanderers,CA Penarol,2024-11-14,0,2,F,V,2024,11
+Nacional,Deportivo Maldonado,2024-11-16,5,2,F,L,2024,11
+CA Penarol,Defensor Sporting,2024-11-17,2,0,F,L,2024,11
+Miramar Misiones,Liverpool,2024-11-17,2,2,F,E,2024,11
+Racing Club,Danubio,2024-11-17,0,0,F,E,2024,11
+CA Cerro,Boston River,2024-11-18,0,0,F,E,2024,11
+CA Progreso,CA Fenix,2024-11-18,2,2,F,E,2024,11
+Cerro Largo FC,Montevideo Wanderers,2024-11-19,4,0,F,L,2024,11
+Rampla Juniors Futbol Club,River Plate,2024-11-19,0,3,F,V,2024,11
+Montevideo Wanderers,Miramar Misiones,2024-11-26,2,0,F,L,2024,11
+Rampla Juniors Futbol Club,Liverpool,2024-11-26,0,1,F,V,2024,11
+River Plate,CA Cerro,2024-11-26,1,0,F,L,2024,11
+Boston River,Racing Club,2024-11-27,1,2,F,V,2024,11
+CA Fenix,Deportivo Maldonado,2024-11-27,1,2,F,V,2024,11
+CA Progreso,CA Penarol,2024-11-27,1,5,F,V,2024,11
+Cerro Largo FC,Defensor Sporting,2024-11-27,3,0,F,L,2024,11
+Danubio,Nacional,2024-11-28,0,0,F,E,2024,11
+CA Cerro,Liverpool,2024-11-30,1,3,F,V,2024,11
+Cerro Largo FC,CA Progreso,2024-11-30,2,1,F,L,2024,11
+Miramar Misiones,Defensor Sporting,2024-11-30,0,0,F,E,2024,11
+Rampla Juniors Futbol Club,Montevideo Wanderers,2024-11-30,1,1,F,E,2024,11
+CA Penarol,CA Fenix,2024-12-01,3,1,F,L,2024,12
+Nacional,Boston River,2024-12-01,3,1,F,L,2024,12
+Racing Club,River Plate,2024-12-01,2,0,F,L,2024,12
+Deportivo Maldonado,Danubio,2024-12-02,3,1,F,L,2024,12
+Cerro Largo FC,CA Juventud,2025-01-31,1,1,F,E,2025,1
+Danubio,Liverpool,2025-02-01,1,1,F,E,2025,2
+Defensor Sporting,Boston River,2025-02-01,2,0,F,L,2025,2
+CA Progreso,CA Penarol,2025-02-02,1,3,F,V,2025,2
+Miramar Misiones,Plaza Colonia,2025-02-02,0,1,F,V,2025,2
+Torque FC,Nacional,2025-02-02,1,0,F,L,2025,2
+CA Cerro,River Plate,2025-02-03,1,1,F,E,2025,2
+Montevideo Wanderers,Racing Club,2025-02-03,0,0,F,E,2025,2
+Cerro Largo FC,CA Progreso,2025-02-07,4,1,F,L,2025,2
+Liverpool,Miramar Misiones,2025-02-08,2,1,F,L,2025,2
+Plaza Colonia,Montevideo Wanderers,2025-02-08,2,0,F,L,2025,2
+Racing Club,CA Cerro,2025-02-08,0,1,F,V,2025,2
+River Plate,Defensor Sporting,2025-02-08,0,1,F,V,2025,2
+Boston River,Torque FC,2025-02-09,0,0,F,E,2025,2
+CA Juventud,Danubio,2025-02-09,2,2,F,E,2025,2
+Nacional,CA Penarol,2025-02-09,1,1,F,E,2025,2
+CA Cerro,Plaza Colonia,2025-02-14,0,1,F,V,2025,2
+CA Penarol,Boston River,2025-02-15,1,1,F,E,2025,2
+Danubio,Cerro Largo FC,2025-02-15,0,0,F,E,2025,2
+Montevideo Wanderers,Liverpool,2025-02-15,1,1,F,E,2025,2
+CA Progreso,Nacional,2025-02-16,1,5,F,V,2025,2
+Defensor Sporting,Racing Club,2025-02-16,2,0,F,L,2025,2
+Miramar Misiones,CA Juventud,2025-02-16,1,2,F,V,2025,2
+Torque FC,River Plate,2025-02-17,2,1,F,L,2025,2
+Racing Club,Torque FC,2025-02-21,3,1,F,L,2025,2
+Boston River,Nacional,2025-02-22,2,3,F,V,2025,2
+Cerro Largo FC,Miramar Misiones,2025-02-22,3,2,F,L,2025,2
+Liverpool,CA Cerro,2025-02-22,2,1,F,L,2025,2
+CA Juventud,Montevideo Wanderers,2025-02-23,1,0,F,L,2025,2
+Danubio,CA Progreso,2025-02-23,1,1,F,E,2025,2
+Plaza Colonia,Defensor Sporting,2025-02-23,1,2,F,V,2025,2
+River Plate,CA Penarol,2025-02-24,1,1,F,E,2025,2
+Defensor Sporting,Liverpool,2025-03-07,0,1,F,V,2025,3
+Torque FC,Plaza Colonia,2025-03-07,1,1,F,E,2025,3
+CA Cerro,CA Juventud,2025-03-08,2,1,F,L,2025,3
+CA Penarol,Racing Club,2025-03-09,0,2,F,V,2025,3
+CA Progreso,Boston River,2025-03-09,2,2,F,E,2025,3
+Nacional,River Plate,2025-03-09,3,3,F,E,2025,3
+Miramar Misiones,Danubio,2025-03-10,1,0,F,L,2025,3
+Montevideo Wanderers,Cerro Largo FC,2025-03-11,3,0,F,L,2025,3
+Liverpool,Torque FC,2025-03-15,4,1,F,L,2025,3
+Plaza Colonia,CA Penarol,2025-03-15,1,0,F,L,2025,3
+CA Juventud,Defensor Sporting,2025-03-16,2,1,F,L,2025,3
+Danubio,Montevideo Wanderers,2025-03-16,2,2,F,E,2025,3
+Miramar Misiones,CA Progreso,2025-03-16,1,1,F,E,2025,3
+Racing Club,Nacional,2025-03-16,0,1,F,V,2025,3
+Cerro Largo FC,CA Cerro,2025-03-17,0,0,F,E,2025,3
+River Plate,Boston River,2025-03-18,0,2,F,V,2025,3
+Torque FC,CA Juventud,2025-03-20,2,4,F,V,2025,3
+CA Penarol,Liverpool,2025-03-21,0,3,F,V,2025,3
+Boston River,Racing Club,2025-03-22,1,3,F,V,2025,3
+Nacional,Plaza Colonia,2025-03-22,1,1,F,E,2025,3
+CA Cerro,Danubio,2025-03-23,1,1,F,E,2025,3
+CA Progreso,River Plate,2025-03-23,2,1,F,L,2025,3
+Defensor Sporting,Cerro Largo FC,2025-03-23,0,0,F,E,2025,3
+Montevideo Wanderers,Miramar Misiones,2025-03-24,1,2,F,V,2025,3
+Cerro Largo FC,Torque FC,2025-03-26,1,1,F,E,2025,3
+Liverpool,Nacional,2025-03-26,2,2,F,E,2025,3
+Plaza Colonia,Boston River,2025-03-26,0,1,F,V,2025,3
+Racing Club,River Plate,2025-03-26,1,0,F,L,2025,3
+CA Juventud,CA Penarol,2025-03-27,0,2,F,V,2025,3
+Danubio,Defensor Sporting,2025-03-27,1,1,F,E,2025,3
+Montevideo Wanderers,CA Progreso,2025-03-27,1,1,F,E,2025,3
+Miramar Misiones,CA Cerro,2025-03-28,1,1,F,E,2025,3
+Boston River,Liverpool,2025-03-29,0,1,F,V,2025,3
+River Plate,Plaza Colonia,2025-03-29,1,2,F,V,2025,3
+CA Progreso,Racing Club,2025-03-30,0,1,F,V,2025,3
+Nacional,CA Juventud,2025-03-30,1,2,F,V,2025,3
+Torque FC,Danubio,2025-03-30,1,1,F,E,2025,3
+CA Penarol,Cerro Largo FC,2025-03-31,0,2,F,V,2025,3
+CA Cerro,Montevideo Wanderers,2025-04-01,2,1,F,L,2025,4
+Defensor Sporting,Miramar Misiones,2025-04-01,2,0,F,L,2025,4
+CA Juventud,Boston River,2025-04-05,4,1,F,L,2025,4
+Danubio,CA Penarol,2025-04-05,0,1,F,V,2025,4
+Plaza Colonia,Racing Club,2025-04-05,0,1,F,V,2025,4
+CA Cerro,CA Progreso,2025-04-06,0,0,F,E,2025,4
+Cerro Largo FC,Nacional,2025-04-06,0,4,F,V,2025,4
+Liverpool,River Plate,2025-04-06,0,0,F,E,2025,4
+Miramar Misiones,Torque FC,2025-04-07,0,1,F,V,2025,4
+Montevideo Wanderers,Defensor Sporting,2025-04-07,0,0,F,E,2025,4
+CA Penarol,Miramar Misiones,2025-04-12,4,2,F,L,2025,4
+CA Progreso,Plaza Colonia,2025-04-12,1,1,F,E,2025,4
+Montevideo Wanderers,Torque FC,2025-04-12,0,0,F,E,2025,4
+Boston River,Cerro Largo FC,2025-04-13,1,0,F,L,2025,4
+Nacional,Danubio,2025-04-13,2,0,F,L,2025,4
+Defensor Sporting,CA Cerro,2025-04-14,3,2,F,L,2025,4
+Racing Club,Liverpool,2025-04-14,1,1,F,E,2025,4
+River Plate,CA Juventud,2025-04-14,1,0,F,L,2025,4
+Cerro Largo FC,River Plate,2025-04-18,1,0,F,L,2025,4
+Danubio,Boston River,2025-04-18,1,2,F,V,2025,4
+Miramar Misiones,Nacional,2025-04-18,1,3,F,V,2025,4
+CA Juventud,Racing Club,2025-04-19,1,0,F,L,2025,4
+Montevideo Wanderers,CA Penarol,2025-04-19,1,2,F,V,2025,4
+CA Cerro,Torque FC,2025-04-20,1,2,F,V,2025,4
+Liverpool,Plaza Colonia,2025-04-20,1,0,F,L,2025,4
+Defensor Sporting,CA Progreso,2025-04-21,1,2,F,V,2025,4
+Plaza Colonia,CA Juventud,2025-04-26,0,0,F,E,2025,4
+River Plate,Danubio,2025-04-26,1,0,F,L,2025,4
+Boston River,Miramar Misiones,2025-04-27,2,0,F,L,2025,4
+CA Penarol,CA Cerro,2025-04-27,3,1,F,L,2025,4
+CA Progreso,Liverpool,2025-04-27,0,2,F,V,2025,4
+Nacional,Montevideo Wanderers,2025-04-27,3,1,F,L,2025,4
+Torque FC,Defensor Sporting,2025-04-27,0,1,F,V,2025,4
+Racing Club,Cerro Largo FC,2025-04-28,1,1,F,E,2025,4
+Boston River,Montevideo Wanderers,2025-05-03,1,0,F,L,2025,5
+Danubio,Racing Club,2025-05-03,0,0,F,E,2025,5
+Defensor Sporting,CA Penarol,2025-05-03,0,1,F,V,2025,5
+Nacional,CA Cerro,2025-05-03,4,0,F,L,2025,5
+CA Juventud,Liverpool,2025-05-04,1,0,F,L,2025,5
+Cerro Largo FC,Plaza Colonia,2025-05-04,2,1,F,L,2025,5
+Torque FC,CA Progreso,2025-05-04,2,3,F,V,2025,5
+Miramar Misiones,River Plate,2025-05-05,3,0,F,L,2025,5
+River Plate,Montevideo Wanderers,2025-05-17,0,1,F,V,2025,5
+CA Penarol,Torque FC,2025-05-18,2,1,F,L,2025,5
+CA Progreso,CA Juventud,2025-05-18,1,2,F,V,2025,5
+Liverpool,Cerro Largo FC,2025-05-18,1,0,F,L,2025,5
+Nacional,Defensor Sporting,2025-05-18,2,1,F,L,2025,5
+Plaza Colonia,Danubio,2025-05-19,1,2,F,V,2025,5
+Racing Club,Miramar Misiones,2025-05-19,1,1,F,E,2025,5
+Boston River,CA Cerro,2025-05-20,0,0,F,E,2025,5
+Racing Club,Boston River,2025-05-23,2,0,F,L,2025,5
+CA Juventud,Torque FC,2025-05-24,3,2,F,L,2025,5
+CA Penarol,Plaza Colonia,2025-05-24,2,0,F,L,2025,5
+Nacional,CA Progreso,2025-05-24,1,0,F,L,2025,5
+Danubio,Miramar Misiones,2025-05-25,2,0,F,L,2025,5
+Defensor Sporting,Cerro Largo FC,2025-05-25,3,2,F,L,2025,5
+Liverpool,CA Cerro,2025-05-25,0,0,F,E,2025,5
+Montevideo Wanderers,River Plate,2025-05-25,1,0,F,L,2025,5
+CA Progreso,Danubio,2025-05-31,0,1,F,V,2025,5
+Plaza Colonia,Liverpool,2025-05-31,1,1,F,E,2025,5
+CA Cerro,Montevideo Wanderers,2025-06-01,1,2,F,V,2025,6
+Cerro Largo FC,CA Penarol,2025-06-01,1,1,F,E,2025,6
+River Plate,Defensor Sporting,2025-06-01,1,2,F,V,2025,6
+Torque FC,Nacional,2025-06-01,1,2,F,V,2025,6
+Boston River,CA Juventud,2025-06-02,3,2,F,L,2025,6
+CA Cerro,River Plate,2025-06-06,1,0,F,L,2025,6
+CA Penarol,Defensor Sporting,2025-06-07,3,0,F,L,2025,6
+Danubio,Torque FC,2025-06-07,3,2,F,L,2025,6
+Liverpool,Cerro Largo FC,2025-06-07,2,1,F,L,2025,6
+Montevideo Wanderers,Plaza Colonia,2025-06-07,1,1,F,E,2025,6
+CA Juventud,Racing Club,2025-06-08,2,1,F,L,2025,6
+CA Progreso,Miramar Misiones,2025-06-08,1,0,F,L,2025,6
+Nacional,Boston River,2025-06-08,2,1,F,L,2025,6
+Cerro Largo FC,Montevideo Wanderers,2025-06-12,0,0,F,E,2025,6
+Plaza Colonia,CA Cerro,2025-06-13,2,2,F,E,2025,6
+Torque FC,CA Progreso,2025-06-13,3,1,F,L,2025,6
+Boston River,Danubio,2025-06-14,1,1,F,E,2025,6
+Defensor Sporting,Liverpool,2025-06-14,4,2,F,L,2025,6
+Miramar Misiones,CA Juventud,2025-06-14,0,1,F,V,2025,6
+Racing Club,Nacional,2025-06-14,1,2,F,V,2025,6
+River Plate,CA Penarol,2025-06-15,1,3,F,V,2025,6
+Montevideo Wanderers,Defensor Sporting,2025-06-17,0,0,F,E,2025,6
+Danubio,Racing Club,2025-06-18,1,2,F,V,2025,6
+Nacional,CA Juventud,2025-06-18,4,1,F,L,2025,6
+Torque FC,Miramar Misiones,2025-06-18,0,0,F,E,2025,6
+CA Cerro,Cerro Largo FC,2025-06-19,2,1,F,L,2025,6
+CA Progreso,Boston River,2025-06-19,2,0,F,L,2025,6
+Liverpool,CA Penarol,2025-06-19,3,2,F,L,2025,6
+Plaza Colonia,River Plate,2025-06-19,0,0,F,E,2025,6
+CA Juventud,Danubio,2025-06-21,3,1,F,L,2025,6
+Miramar Misiones,Nacional,2025-06-21,0,2,F,V,2025,6
+CA Penarol,Montevideo Wanderers,2025-06-22,2,0,F,L,2025,6
+Defensor Sporting,CA Cerro,2025-06-22,2,1,F,L,2025,6
+Racing Club,CA Progreso,2025-06-22,3,0,F,L,2025,6
+River Plate,Liverpool,2025-06-22,2,1,F,L,2025,6
+Boston River,Torque FC,2025-06-23,2,1,F,L,2025,6
+Cerro Largo FC,Plaza Colonia,2025-06-23,0,1,F,V,2025,6
+Boston River,Miramar Misiones,2025-06-28,1,2,F,V,2025,6
+CA Penarol,CA Cerro,2025-06-28,2,0,F,L,2025,6
+Defensor Sporting,Plaza Colonia,2025-06-28,1,1,F,E,2025,6
+Liverpool,Montevideo Wanderers,2025-06-28,1,2,F,V,2025,6
+CA Juventud,CA Progreso,2025-06-29,2,0,F,L,2025,6
+Nacional,Danubio,2025-06-29,3,2,F,L,2025,6
+Racing Club,Torque FC,2025-06-29,1,1,F,E,2025,6
+Cerro Largo FC,River Plate,2025-06-30,2,2,F,E,2025,6

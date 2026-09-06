@@ -14,8 +14,8 @@ def test_ten_year_baseline_picks_team_with_higher_rate() -> None:
     X_train = pd.DataFrame(
         {
             "date": pd.to_datetime(["2020-01-01", "2020-02-01", "2020-03-01"]),
-            "home_ident": ["A", "A", "B"],
-            "away_ident": ["B", "C", "C"],
+            "home": ["A", "A", "B"],
+            "away": ["B", "C", "C"],
         }
     )
     y_train = np.array(["L", "L", "V"])
@@ -23,8 +23,8 @@ def test_ten_year_baseline_picks_team_with_higher_rate() -> None:
     future = pd.DataFrame(
         {
             "date": pd.to_datetime(["2021-01-01", "2021-01-01"]),
-            "home_ident": ["A", "B"],
-            "away_ident": ["B", "A"],
+            "home": ["A", "B"],
+            "away": ["B", "A"],
         }
     )
 

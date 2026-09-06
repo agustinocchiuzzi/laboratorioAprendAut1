@@ -28,8 +28,8 @@ def test_baseline_supports_temporal_cross_validation() -> None:
     X = pd.DataFrame(
         {
             "date": pd.date_range("2020-01-01", periods=9, freq="D"),
-            "home_ident": ["A", "B", "C"] * 3,
-            "away_ident": ["B", "C", "A"] * 3,
+            "home": ["A", "B", "C"] * 3,
+            "away": ["B", "C", "A"] * 3,
         }
     )
     y = np.asarray(["L", "V", "E"] * 3)
