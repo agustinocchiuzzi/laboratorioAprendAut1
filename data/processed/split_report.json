@@ -12,11 +12,6 @@
       "E": 4041,
       "L": 6555,
       "V": 4138
-    },
-    "target_percentages": {
-      "E": 27.43,
-      "L": 44.49,
-      "V": 28.08
     }
   },
   "test": {
@@ -29,11 +24,6 @@
       "E": 131,
       "L": 190,
       "V": 151
-    },
-    "target_percentages": {
-      "E": 27.75,
-      "L": 40.25,
-      "V": 31.99
     }
   },
   "numeric_features": [
@@ -43,24 +33,5 @@
     "away_win_rate_season",
     "home_win_rate_as_home_all",
     "home_win_rate_h2h_as_home"
-  ],
-  "discretization": {
-    "n_bins": 3,
-    "fixed_cuts_last_5": {
-      "home_win_rate_last_5": [
-        0.3,
-        0.6
-      ],
-      "away_win_rate_last_5": [
-        0.3,
-        0.6
-      ]
-    },
-    "others": "quantiles fit solo con train",
-    "labels": [
-      "baja",
-      "media",
-      "alta"
-    ]
-  }
+  ]
 }
