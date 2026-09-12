@@ -1,23 +1,66 @@
 {
-  "source": "data/raw/futbol_uruguayo.zip",
-  "total_clean_rows": 15206,
-  "exact_duplicates_removed": 0,
-  "training": {
-    "file": "data/processed/futbol_uruguayo_hasta_2023.csv",
-    "rows": 14734,
-    "date_range": [
-      "1932-03-05",
-      "2023-12-16"
-    ],
-    "rule": "year <= 2023"
+  "split": {
+    "rule": "year <= 2023 -> train; year in [2024, 2025] -> test"
   },
-  "evaluation": {
-    "file": "data/processed/futbol_uruguayo_2024_2025.csv",
+  "train": {
+    "rows": 14734,
+    "date_range": {
+      "min": "1932-03-05",
+      "max": "2023-12-16"
+    },
+    "target_counts": {
+      "E": 4041,
+      "L": 6555,
+      "V": 4138
+    },
+    "target_percentages": {
+      "E": 27.43,
+      "L": 44.49,
+      "V": 28.08
+    }
+  },
+  "test": {
     "rows": 472,
-    "date_range": [
-      "2024-02-17",
-      "2025-06-30"
-    ],
-    "rule": "2024 <= year <= 2025"
+    "date_range": {
+      "min": "2024-02-17",
+      "max": "2025-06-30"
+    },
+    "target_counts": {
+      "E": 131,
+      "L": 190,
+      "V": 151
+    },
+    "target_percentages": {
+      "E": 27.75,
+      "L": 40.25,
+      "V": 31.99
+    }
+  },
+  "numeric_features": [
+    "home_win_rate_last_5",
+    "away_win_rate_last_5",
+    "home_win_rate_season",
+    "away_win_rate_season",
+    "home_win_rate_as_home_all",
+    "home_win_rate_h2h_as_home"
+  ],
+  "discretization": {
+    "n_bins": 3,
+    "fixed_cuts_last_5": {
+      "home_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "away_win_rate_last_5": [
+        0.3,
+        0.6
+      ]
+    },
+    "others": "quantiles fit solo con train",
+    "labels": [
+      "baja",
+      "media",
+      "alta"
+    ]
   }
 }

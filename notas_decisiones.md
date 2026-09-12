@@ -26,12 +26,46 @@ La corrida representa predicciones sucesivas: un partido puede usar resultados d
 fechas anteriores, incluso si esas fechas pertenecen a 2024-2025. El modelo no se
 reentrena durante test. Partidos del mismo dia no se actualizan entre si.
 
-Los porcentajes sin partidos previos se codifican como `0.0`. Se incorporan las
+Los casos sin historial previo (denominador = 0: debut del equipo, sin partidos
+en la ventana, primer partido del ano, primer head-to-head) se imputan con un
+valor neutro constante, distinto de una tasa real `0.0`:
+
+- `NEUTRAL_WIN_RATE = 0.5` para toda proporcion de victorias;
+- `NEUTRAL_POINTS_PER_MATCH = 4/3` (puntos esperados por partido con prior
+  uniforme sobre `L`/`E`/`V`) para puntos por partido;
+- `NEUTRAL_GOAL_DIFF_PER_MATCH = 0.0` para diferencia de gol por partido.
+
+Asi, "perdio todos los partidos con historial" queda en `0.0` real mientras que
+"no hay historial" queda en el neutro, y el modelo no confunde falta de dato con
+mala forma. El caso `denominador = 0` se resuelve explicitamente en
+`src/features.py`; nunca cae en un `0/0` silencioso. Se incorporan las
 siguientes tasas, siempre calculadas antes de la fecha del partido: victorias en
 los últimos cinco partidos de cada equipo, victorias de cada equipo dentro del
 año calendario, victorias históricas del local actuando de local y victorias del
 local frente a ese visitante con la misma localía. El último atributo es
 head-to-head orientado: no mezcla partidos con la localía invertida.
+
+## Atributos del modelo
+
+No se usan nombres de equipos ni el mes como atributos. El modelo se entrena solo
+con seis tasas de victoria: `win_rate_last_5` (local y visitante), `win_rate_season`
+(local y visitante), `win_rate_as_home_all` (local) y `win_rate_h2h_as_home`
+(local). Las columnas restantes calculadas por `build_causal_match_features`
+quedan para auditoria y para los datasets procesados.
+
+## Discretizacion
+
+Cada tasa se convierte en tres categorias (`baja`, `media`, `alta`):
+
+- `win_rate_last_5` (valores casi discretos: 0, 0.2, 0.4, 0.6, 0.8, 1.0): cortes
+  fijos `[0.3, 0.6]`, es decir 0-1 triunfos de 5 = baja, 2 = media, 3+ = alta.
+  Al ser fijos no dependen de los datos y no requieren ajuste con train (sin
+  riesgo de leakage).
+- `win_rate_season`, `win_rate_as_home_all` y `win_rate_h2h_as_home`: cuantiles
+  (equal-frequency) con tres bines, calculados **solo con train** dentro de cada
+  fold y reutilizados en validacion/test. Se prefiere esta opcion porque
+  `win_rate_as_home_all` concentra ~44% de las filas en `[0.4, 0.5)` y los cortes
+  de ancho igual dejarian una categoria enorme y las otras casi vacias.
 
 Comparacion opcional para el informe: congelar todos los historiales al 31/12/2023
 y medir cuanto cambia el resultado. No mezclar ambas politicas en una misma tabla.
@@ -51,8 +85,9 @@ si el equipo docente espera otro desempate.
 
 ## Naive Bayes propio
 
-Los atributos numericos se discretizan por cuantiles dentro de cada fold. Los
-categoricos se codifican reservando cero para valores desconocidos.
+Los atributos se discretizan con `MixedTypeDiscretizer` dentro de cada fold:
+`win_rate_last_5` con cortes fijos, el resto con cuantiles fit-en-train (ver
+[Discretizacion](#discretizacion)). No quedan atributos categoricos.
 
 ```text
 P(X_j=v | Y=c) = (n_jvc + m * p_jv) / (n_c + m)
@@ -81,7 +116,7 @@ umbrales numericos.
 - principal para seleccion: macro-F1;
 - finales: accuracy, macro-F1, precision/recall/F1 por clase;
 - matriz de confusion con orden `E`, `L`, `V`;
-- analisis cualitativo a partir de `results/test_predictions.csv`.
+- analisis cualitativo a partir de las predicciones sobre test del notebook.
 
 ## Comparadores de scikit-learn
 

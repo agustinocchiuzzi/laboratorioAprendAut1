@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -11,10 +11,15 @@ from sklearn.utils.validation import check_is_fitted
 
 
 class MixedTypeDiscretizer(TransformerMixin, BaseEstimator):
-    """Encode strings and quantile-bin numbers as non-negative integers.
+    """Encode strings and bin numbers as non-negative integers.
 
-    Value zero is reserved for unseen or missing values. Fitting this transformer
-    inside a Pipeline prevents category and quantile leakage across temporal folds.
+    Numeric columns not listed in ``fixed_cuts`` are split into equal-frequency
+    bins using quantile edges fit on the training data (no leakage). Numeric
+    columns listed in ``fixed_cuts`` use user-provided constant edges that do
+    not depend on the data, so they introduce no leakage and need no refitting.
+    Value zero is reserved for unseen or missing values. Fitting this
+    transformer inside a Pipeline prevents category and quantile leakage across
+    temporal folds.
     """
 
     def __init__(
@@ -22,10 +27,12 @@ class MixedTypeDiscretizer(TransformerMixin, BaseEstimator):
         categorical_features: Sequence[str],
         numeric_features: Sequence[str],
         n_bins: int = 5,
+        fixed_cuts: Mapping[str, Sequence[float]] | None = None,
     ) -> None:
         self.categorical_features = categorical_features
         self.numeric_features = numeric_features
         self.n_bins = n_bins
+        self.fixed_cuts = fixed_cuts
 
     def fit(self, X: pd.DataFrame, y=None):
         if not isinstance(X, pd.DataFrame):
@@ -55,11 +62,19 @@ class MixedTypeDiscretizer(TransformerMixin, BaseEstimator):
             finite = values[np.isfinite(values)]
             median = float(np.median(finite)) if finite.size else 0.0
             self.numeric_medians_[column] = median
-            self.numeric_edges_[column] = (
-                np.unique(np.quantile(finite, quantiles))
-                if finite.size
-                else np.asarray([], dtype=float)
-            )
+            if self.fixed_cuts and column in self.fixed_cuts:
+                edges = np.asarray(self.fixed_cuts[column], dtype=float)
+                if edges.ndim != 1 or edges.size < 1 or np.any(np.diff(edges) <= 0):
+                    raise ValueError(
+                        f"fixed_cuts[{column}] debe ser ascendente y no vacio."
+                    )
+                self.numeric_edges_[column] = edges
+            else:
+                self.numeric_edges_[column] = (
+                    np.unique(np.quantile(finite, quantiles))
+                    if finite.size
+                    else np.asarray([], dtype=float)
+                )
         return self
 
     def transform(self, X: pd.DataFrame) -> np.ndarray:

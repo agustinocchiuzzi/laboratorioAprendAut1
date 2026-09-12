@@ -1,0 +1,12 @@
+# Dependencias de la Tarea 1. Instalar con:
+#   python -m pip install -r requirements.txt
+#
+# Requiere Python 3.12 o 3.13.
+joblib>=1.4,<2
+matplotlib>=3.9,<4
+numpy>=2.0,<3
+pandas>=2.2,<3
+scikit-learn==1.9.*
+
+# Para ejecutar notebook.ipynb
+ipykernel>=6.29,<7
