@@ -1,183 +1,204 @@
-"""A compact categorical ID3 decision tree with minimum information gain."""
+"""Arbol de decision ID3, implementado para la materia.
 
-from __future__ import annotations
+Sigue el algoritmo de las notas del curso:
 
-from dataclasses import dataclass, field
+- Para elegir el atributo se usa la entropia de Shannon y la ganancia de
+  informacion:
+
+      Entropy(S) = - sum_c P(c) * log2(P(c))                      (clase c)
+      Gain(S, A) = Entropy(S) - sum_v (|S_v| / |S|) * Entropy(S_v) (valor v)
+
+- El arbol es "multiway": de cada nodo sale una rama por cada valor posible
+  del atributo elegido.
+- Un atributo se usa a lo sumo una vez en cada rama.
+- Reglas de parada (igual que el pseudocodigo del curso):
+    1) todos los ejemplos tienen la misma clase  ->  hoja con esa clase;
+    2) no quedan atributos                        ->  hoja con la clase mas comun;
+    3) una rama queda sin ejemplos                ->  hoja con la clase mas comun
+       del nodo padre;
+    4) (adicional) mejor ganancia no supera min_info_gain o se llego al limite
+       de profundidad -> hoja. Esto evita el sobreajuste.
+"""
 
 import numpy as np
-from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.utils.validation import check_is_fitted
 
 
-@dataclass
-class _Node:
-    prediction_index: int
-    class_counts: np.ndarray
-    feature: int | None = None
-    gain: float = 0.0
-    children: dict[int, _Node] = field(default_factory=dict)
+class Nodo:
+    """Un nodo del arbol.
 
-    @property
-    def is_leaf(self) -> bool:
-        return self.feature is None
-
-
-class CategoricalDecisionTreeClassifier(ClassifierMixin, BaseEstimator):
-    """ID3-style multiway tree for discrete non-negative attributes.
-
-    A node is expanded only when its best information gain is strictly greater
-    than ``min_info_gain``. An attribute is used at most once along a branch.
-    Unknown values fall back to the majority distribution stored at that node.
+    Atributos:
+        clase (str): clase mayoritaria de los ejemplos de este nodo. Es lo que
+            predice la hoja cuando no se puede seguir bajando.
+        conteos (dict): {clase: cantidad de ejemplos} de este nodo.
+        atributo (int | None): indice del atributo por el que se parte. Si es
+            None, el nodo es una hoja.
+        ramas (dict): {valor del atributo: nodo hijo}.
     """
 
-    def __init__(
-        self,
-        min_info_gain: float = 0.0,
-        max_depth: int | None = 8,
-        min_samples_split: int = 2,
-    ) -> None:
-        self.min_info_gain = min_info_gain
-        self.max_depth = max_depth
-        self.min_samples_split = min_samples_split
+    def __init__(self, clase, conteos):
+        self.clase = clase
+        self.conteos = conteos
+        self.atributo = None
+        self.ramas = {}
 
-    @staticmethod
-    def _validate_X(X) -> np.ndarray:
-        values = np.asarray(X)
-        if values.ndim != 2:
-            raise ValueError("X debe ser una matriz bidimensional.")
-        if not np.issubdtype(values.dtype, np.number):
-            raise TypeError("X debe estar discretizada como valores enteros.")
-        if not np.isfinite(values).all() or (values < 0).any():
-            raise ValueError("X debe contener enteros no negativos y finitos.")
-        if not np.equal(values, np.floor(values)).all():
-            raise ValueError("X debe contener valores enteros discretos.")
-        return values.astype(np.int64, copy=False)
 
-    @staticmethod
-    def _entropy(encoded_y: np.ndarray, n_classes: int) -> float:
-        counts = np.bincount(encoded_y, minlength=n_classes)
-        probabilities = counts[counts > 0] / len(encoded_y)
-        return float(-(probabilities * np.log2(probabilities)).sum())
+class ID3:
+    """Clasificador ID3 que recibe una matriz de atributos discretos.
 
-    def _information_gain(
-        self, values: np.ndarray, encoded_y: np.ndarray, feature: int
-    ) -> float:
-        parent_entropy = self._entropy(encoded_y, len(self.classes_))
-        conditional_entropy = 0.0
-        for value in np.unique(values[:, feature]):
-            mask = values[:, feature] == value
-            conditional_entropy += mask.mean() * self._entropy(
-                encoded_y[mask], len(self.classes_)
-            )
-        return parent_entropy - conditional_entropy
+    X: matriz de enteros, una fila por ejemplo y una columna por atributo.
+    y: clases (por ejemplo: "E", "L", "V").
+    """
 
-    def _build(
-        self,
-        values: np.ndarray,
-        encoded_y: np.ndarray,
-        available_features: tuple[int, ...],
-        depth: int,
-    ) -> _Node:
-        counts = np.bincount(encoded_y, minlength=len(self.classes_))
-        node = _Node(prediction_index=int(np.argmax(counts)), class_counts=counts)
-        reached_max_depth = self.max_depth is not None and depth >= self.max_depth
-        if (
-            np.count_nonzero(counts) == 1
-            or len(encoded_y) < self.min_samples_split
-            or not available_features
-            or reached_max_depth
-        ):
-            return node
+    def __init__(self, min_info_gain=0.0, max_depth=8):
+        self.min_info_gain = min_info_gain  # minimo de ganancia para seguir cortando
+        self.max_depth = max_depth          # profundidad maxima del arbol (None = sin tope)
 
-        gains = [
-            (self._information_gain(values, encoded_y, feature), feature)
-            for feature in available_features
-        ]
-        best_gain, best_feature = max(gains, key=lambda item: (item[0], -item[1]))
-        if best_gain <= self.min_info_gain:
-            return node
-
-        node.feature = best_feature
-        node.gain = best_gain
-        self._feature_gain_totals[best_feature] += best_gain * len(encoded_y)
-        remaining = tuple(
-            feature for feature in available_features if feature != best_feature
-        )
-        for value in np.unique(values[:, best_feature]):
-            mask = values[:, best_feature] == value
-            node.children[int(value)] = self._build(
-                values[mask], encoded_y[mask], remaining, depth + 1
-            )
-        return node
+    # ------------------------------------------------------------------
+    # Entrenamiento
+    # ------------------------------------------------------------------
 
     def fit(self, X, y):
-        if self.min_info_gain < 0:
-            raise ValueError("min_info_gain no puede ser negativo.")
-        if self.max_depth is not None and self.max_depth < 1:
-            raise ValueError("max_depth debe ser al menos 1 o None.")
-        if self.min_samples_split < 2:
-            raise ValueError("min_samples_split debe ser al menos 2.")
+        """Construye el arbol con los datos de entrenamiento."""
+        X = np.asarray(X)
+        y = np.asarray(y)
+        self.clases_ = np.unique(y)                   # valores posibles de la clase
+        self.ganancia_total_ = np.zeros(X.shape[1])   # suma de ganancia por atributo
+        self.raiz_ = self._construir(X, y, list(range(X.shape[1])), 0)
 
-        values = self._validate_X(X)
-        target = np.asarray(y)
-        if len(values) != len(target):
-            raise ValueError("X e y deben tener la misma cantidad de filas.")
-        self.classes_, encoded_y = np.unique(target, return_inverse=True)
-        self.n_features_in_ = values.shape[1]
-        self._feature_gain_totals = np.zeros(self.n_features_in_, dtype=float)
-        self.tree_ = self._build(
-            values, encoded_y, tuple(range(self.n_features_in_)), depth=0
-        )
-        total_gain = self._feature_gain_totals.sum()
+        # Importancia = ganancia acumulada de cada atributo, normalizada a [0,1].
+        total = self.ganancia_total_.sum()
         self.feature_importances_ = (
-            self._feature_gain_totals / total_gain
-            if total_gain > 0
-            else self._feature_gain_totals.copy()
+            self.ganancia_total_ / total if total > 0 else self.ganancia_total_.copy()
         )
         return self
 
-    def _leaf_for_row(self, row: np.ndarray) -> _Node:
-        node = self.tree_
-        while not node.is_leaf:
-            child = node.children.get(int(row[node.feature]))
-            if child is None:
+    def _construir(self, X, y, atributos, profundidad):
+        """Crea y devuelve el nodo que representa a estos ejemplos."""
+        # Cuenta cuantas veces aparece cada clase entre estos ejemplos.
+        conteos = {clase: int(np.sum(y == clase)) for clase in self.clases_}
+        clase_mas_comun = max(conteos, key=conteos.get)
+
+        # El nodo nace como hoja; solo se convierte en nodo interno si
+        # encontramos un atributo que aporte suficiente informacion.
+        nodo = Nodo(clase_mas_comun, conteos)
+
+        # Regla 1: todos los ejemplos con la misma clase -> hoja.
+        if len(np.unique(y)) == 1:
+            return nodo
+
+        # Regla 2: no quedan atributos -> hoja con la clase mas comun.
+        if not atributos:
+            return nodo
+
+        # No seguir creciendo si se alcanzo la profundidad maxima.
+        if self.max_depth is not None and profundidad >= self.max_depth:
+            return nodo
+
+        # Se calcula la ganancia de cada atributo disponible y se elige el mejor.
+        entropia_de_s = self._entropia(y)
+        mejor_atributo = None
+        mejor_ganancia = -1.0
+        for atributo in atributos:
+            ganancia = self._ganancia(X, y, atributo, entropia_de_s)
+            if ganancia > mejor_ganancia:
+                mejor_ganancia = ganancia
+                mejor_atributo = atributo
+
+        # Regla 4: ninguna ganancia supera el minimo -> hoja (poda por ganancia).
+        if mejor_atributo is None or mejor_ganancia <= self.min_info_gain:
+            return nodo
+
+        # Se parte el nodo y el atributo elegido deja de usarse en esta rama.
+        nodo.atributo = mejor_atributo
+        self.ganancia_total_[mejor_atributo] += mejor_ganancia * len(y)
+
+        atributos_restantes = [a for a in atributos if a != mejor_atributo]
+        for valor in np.unique(X[:, mejor_atributo]):
+            ejemplos_en_rama = X[:, mejor_atributo] == valor
+            sub_X, sub_y = X[ejemplos_en_rama], y[ejemplos_en_rama]
+
+            # Regla 3: rama sin ejemplos -> hoja con la clase mas comun del nodo.
+            if len(sub_y) == 0:
+                nodo.ramas[int(valor)] = Nodo(clase_mas_comun, conteos)
+            else:
+                nodo.ramas[int(valor)] = self._construir(
+                    sub_X, sub_y, atributos_restantes, profundidad + 1
+                )
+        return nodo
+
+    # ------------------------------------------------------------------
+    # Medidas de informacion (entropia y ganancia)
+    # ------------------------------------------------------------------
+
+    def _entropia(self, y):
+        """Entropia de Shannon de un conjunto de ejemplos.
+
+        Entropy(S) = - sum_c P(c) * log2(P(c))
+        Mide la "mezcla" de clases: 0 si todas son iguales, maximo si estan
+        todas igual de distribuidas.
+        """
+        total = len(y)
+        entropia = 0.0
+        for clase in self.clases_:
+            proporcion = np.sum(y == clase) / total
+            if proporcion > 0:
+                entropia -= proporcion * np.log2(proporcion)
+        return entropia
+
+    def _ganancia(self, X, y, atributo, entropia_de_s):
+        """Ganancia de informacion de un atributo A sobre S.
+
+        Gain(S, A) = Entropy(S) - sum_v (|S_v| / |S|) * Entropy(S_v)
+        Bits que se "ahorran" al conocer el valor del atributo. Cuanto mayor,
+        mejor separa el atributo las clases.
+        """
+        total = len(y)
+        entropia_condicional = 0.0
+        for valor in np.unique(X[:, atributo]):
+            ejemplos_en_rama = X[:, atributo] == valor
+            proporcion = np.sum(ejemplos_en_rama) / total
+            entropia_condicional += proporcion * self._entropia(y[ejemplos_en_rama])
+        return entropia_de_s - entropia_condicional
+
+    # ------------------------------------------------------------------
+    # Clasificacion
+    # ------------------------------------------------------------------
+
+    def predict(self, X):
+        """Clasifica cada fila recorriendo el arbol desde la raiz hasta una hoja."""
+        X = np.asarray(X)
+        return np.array([self._clasificar(fila) for fila in X])
+
+    def _clasificar(self, fila):
+        nodo = self.raiz_
+        while nodo.atributo is not None:
+            valor = int(fila[nodo.atributo])
+            hijo = nodo.ramas.get(valor)
+            if hijo is None:
+                # Valor que no aparecio en train: queda la clase mayoritaria
+                # de este nodo (misma idea que la regla 3 del pseudocodigo).
                 break
-            node = child
-        return node
+            nodo = hijo
+        return nodo.clase
 
-    def predict(self, X) -> np.ndarray:
-        check_is_fitted(self, "tree_")
-        values = self._validate_X(X)
-        if values.shape[1] != self.n_features_in_:
-            raise ValueError("X tiene una cantidad de atributos inesperada.")
-        indices = [self._leaf_for_row(row).prediction_index for row in values]
-        return self.classes_[indices]
+    # ------------------------------------------------------------------
+    # Informacion sobre el arbol entrenado
+    # ------------------------------------------------------------------
 
-    def predict_proba(self, X) -> np.ndarray:
-        check_is_fitted(self, "tree_")
-        values = self._validate_X(X)
-        probabilities = []
-        for row in values:
-            counts = self._leaf_for_row(row).class_counts.astype(float)
-            probabilities.append(counts / counts.sum())
-        return np.asarray(probabilities)
+    def get_depth(self):
+        """Profundidad maxima: cantidad de niveles hasta la hoja mas lejana."""
+        return self._profundidad(self.raiz_)
 
-    def get_depth(self) -> int:
-        check_is_fitted(self, "tree_")
+    def _profundidad(self, nodo):
+        if not nodo.ramas:
+            return 0
+        return 1 + max(self._profundidad(hijo) for hijo in nodo.ramas.values())
 
-        def depth(node: _Node) -> int:
-            return (
-                0
-                if node.is_leaf
-                else 1 + max(depth(child) for child in node.children.values())
-            )
+    def get_n_leaves(self):
+        """Cantidad de hojas (clasificaciones posibles) del arbol."""
+        return self._cantidad_de_hojas(self.raiz_)
 
-        return depth(self.tree_)
-
-    def get_n_leaves(self) -> int:
-        check_is_fitted(self, "tree_")
-
-        def leaves(node: _Node) -> int:
-            return 1 if node.is_leaf else sum(leaves(c) for c in node.children.values())
-
-        return leaves(self.tree_)
+    def _cantidad_de_hojas(self, nodo):
+        if not nodo.ramas:
+            return 1
+        return sum(self._cantidad_de_hojas(hijo) for hijo in nodo.ramas.values())
