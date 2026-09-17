@@ -11,6 +11,11 @@ Sigue el algoritmo de las notas del curso:
 - El arbol es "multiway": de cada nodo sale una rama por cada valor posible
   del atributo elegido.
 - Un atributo se usa a lo sumo una vez en cada rama.
+- Como se arma: fit() llama a _construir en la raiz; cada llamada representa
+  un subconjunto de ejemplos y devuelve el SUBARBOL de ese subconjunto.
+  Las llamadas bajan en profundidad (hasta las hojas), pero el arbol se
+  "ensambla" de abajo hacia arriba: cada subarbol devuelto se cuelga del
+  padre en el diccionario nodo.ramas.
 - Reglas de parada (igual que el pseudocodigo del curso):
     1) todos los ejemplos tienen la misma clase  ->  hoja con esa clase;
     2) no quedan atributos                        ->  hoja con la clase mas comun;
@@ -26,13 +31,23 @@ import numpy as np
 class Nodo:
     """Un nodo del arbol.
 
+    Un nodo "nace" como hoja (atributo = None) y solo se transforma en
+    pregunta si _construir encuentra un atributo con suficiente ganancia.
+
     Atributos:
-        clase (str): clase mayoritaria de los ejemplos de este nodo. Es lo que
-            predice la hoja cuando no se puede seguir bajando.
+        clase (str): clase mayoritaria de los ejemplos de este nodo. Es el
+            RESPALDO del nodo: se calcula siempre, "por las dudas". Sirve
+            para 3 cosas:
+            1) como prediccion si este nodo queda como hoja;
+            2) como prediccion de una rama que quedo sin ejemplos;
+            3) en _clasificar si un valor nunca se vio en train.
         conteos (dict): {clase: cantidad de ejemplos} de este nodo.
-        atributo (int | None): indice del atributo por el que se parte. Si es
-            None, el nodo es una hoja.
-        ramas (dict): {valor del atributo: nodo hijo}.
+        atributo (int | None): indice del atributo por el que pregunta este
+            nodo (la columna de X que se mira). Si es None, es una hoja:
+            no tiene pregunta y su clase es la prediccion final.
+        ramas (dict): {valor del atributo: nodo hijo}. Es el "menu de
+            respuestas" de la pregunta: por cada valor posible del atributo
+            hay un subarbol (otro Nodo). Una hoja tiene ramas = {} vacio.
     """
 
     def __init__(self, clase, conteos):
@@ -73,9 +88,31 @@ class ID3:
         return self
 
     def _construir(self, X, y, atributos, profundidad):
-        """Crea y devuelve el nodo que representa a estos ejemplos."""
+        """Crea y devuelve el nodo que representa a estos ejemplos.
+
+        Pasos, siempre los mismos en cada nodo:
+            1) contar las clases de estos ejemplos y la clase mas comun
+               (ese mayoritario queda como respaldo en nodo.clase);
+            2) aplicar las reglas de parada: si toca, devolver una HOJA;
+            3) calcular la entropia de este conjunto (cuanta "mezcla" hay);
+            4) calcular la ganancia de cada atributo disponible y elegir
+               el de mayor ganancia;
+            5) si vale la pena, dividir: por cada valor distinto del
+               atributo (np.unique), llamarse a si mismo con esa particion
+               y colgar el resultado en nodo.ramas.
+
+        Ojo con la recursion: las llamadas bajan en profundidad hasta las
+        hojas, pero el arbol se ENSAMBLA de abajo hacia arriba. Cada
+        llamada devuelve su subarbol y el padre lo engancha con
+        "nodo.ramas[valor] = subarbol". Por eso la raiz se "completa"
+        recien cuando terminaron todos sus descendientes.
+        """
         # Cuenta cuantas veces aparece cada clase entre estos ejemplos.
         conteos = {clase: int(np.sum(y == clase)) for clase in self.clases_}
+        # Respaldo: si este nodo no puede decidir con mas informacion,
+        # predice esto. En empate gana la primera clase en orden alfabetico
+        # (self.clases_ = np.unique(y) viene ordenado): criterio fijo, sin
+        # azar, para que el resultado sea reproducible.
         clase_mas_comun = max(conteos, key=conteos.get)
 
         # El nodo nace como hoja; solo se convierte en nodo interno si
@@ -108,19 +145,28 @@ class ID3:
         if mejor_atributo is None or mejor_ganancia <= self.min_info_gain:
             return nodo
 
-        # Se parte el nodo y el atributo elegido deja de usarse en esta rama.
+        # El nodo pasa a tener pregunta y el atributo deja de usarse en esta rama.
         nodo.atributo = mejor_atributo
         self.ganancia_total_[mejor_atributo] += mejor_ganancia * len(y)
 
         atributos_restantes = [a for a in atributos if a != mejor_atributo]
+        # np.unique(...) devuelve los VALORES DISTINTOS de esa columna
+        # (p.ej. [1 2 3] cuando el atributo es baja/media/alta): por cada
+        # valor posible creamos una rama (multiway).
         for valor in np.unique(X[:, mejor_atributo]):
             ejemplos_en_rama = X[:, mejor_atributo] == valor
             sub_X, sub_y = X[ejemplos_en_rama], y[ejemplos_en_rama]
+
+            # La rama guarda la llave como 'int(valor)' (np.int64 -> int de
+            # Python) para que SIEMPRE coincida con la llave que busca
+            # _clasificar al predecir.
 
             # Regla 3: rama sin ejemplos -> hoja con la clase mas comun del nodo.
             if len(sub_y) == 0:
                 nodo.ramas[int(valor)] = Nodo(clase_mas_comun, conteos)
             else:
+                # Aqui se ve el ensamblaje: la llamada hija devuelve el
+                # subarbol y el padre lo cuelga como rama.
                 nodo.ramas[int(valor)] = self._construir(
                     sub_X, sub_y, atributos_restantes, profundidad + 1
                 )
@@ -154,6 +200,8 @@ class ID3:
         """
         total = len(y)
         entropia_condicional = 0.0
+        # Igual que en _construir: np.unique nos da los valores distintos
+        # de la columna, y por cada valor medimos la entropia de esa parte.
         for valor in np.unique(X[:, atributo]):
             ejemplos_en_rama = X[:, atributo] == valor
             proporcion = np.sum(ejemplos_en_rama) / total
@@ -165,7 +213,13 @@ class ID3:
     # ------------------------------------------------------------------
 
     def predict(self, X):
-        """Clasifica cada fila recorriendo el arbol desde la raiz hasta una hoja."""
+        """Clasifica cada fila recorriendo el arbol desde la raiz hasta una hoja.
+
+        Cada fila baja por las ramas que indican sus valores de atributo.
+        Ojo: la etiqueta real NO se usa aca. Despues, en la evaluacion, se
+        comparan estas predicciones contra el winner real (test) para
+        calcular accuracy / F1 / etc.
+        """
         X = np.asarray(X)
         return np.array([self._clasificar(fila) for fila in X])
 
@@ -175,8 +229,10 @@ class ID3:
             valor = int(fila[nodo.atributo])
             hijo = nodo.ramas.get(valor)
             if hijo is None:
-                # Valor que no aparecio en train: queda la clase mayoritaria
-                # de este nodo (misma idea que la regla 3 del pseudocodigo).
+                # Valor que no aparecio en train: no hay rama por donde
+                # bajar. Quedamos con el respaldo del nodo (nodo.clase,
+                # el mayoritario "por las dudas"). Misma idea que la
+                # regla 3 del pseudocodigo del curso.
                 break
             nodo = hijo
         return nodo.clase
