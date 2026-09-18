@@ -21,3 +21,9 @@ data/legacy/*.csv
 # Local editor files
 .idea/
 .vscode/
+
+# Reviewed validation-only comparisons (no final-test predictions).
+!results/validation/
+!results/validation/**
+!results/feature_experiments/
+!results/feature_experiments/**

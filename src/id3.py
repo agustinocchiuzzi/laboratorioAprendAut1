@@ -26,6 +26,7 @@ Sigue el algoritmo de las notas del curso:
 """
 
 import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
 
 
 class Nodo:
@@ -57,7 +58,7 @@ class Nodo:
         self.ramas = {}
 
 
-class ID3:
+class ID3(ClassifierMixin, BaseEstimator):
     """Clasificador ID3 que recibe una matriz de atributos discretos.
 
     X: matriz de enteros, una fila por ejemplo y una columna por atributo.
@@ -76,7 +77,9 @@ class ID3:
         """Construye el arbol con los datos de entrenamiento."""
         X = np.asarray(X)
         y = np.asarray(y)
-        self.clases_ = np.unique(y)                   # valores posibles de la clase
+        self.classes_ = np.unique(y)
+        self.n_features_in_ = X.shape[1]
+        self.clases_ = self.classes_                   # valores posibles de la clase
         self.ganancia_total_ = np.zeros(X.shape[1])   # suma de ganancia por atributo
         self.raiz_ = self._construir(X, y, list(range(X.shape[1])), 0)
 

@@ -1,0 +1,788 @@
+{
+  "python": "3.12.14",
+  "scikit_learn": "1.9.1",
+  "numpy": "2.5.3",
+  "pandas": "2.3.3",
+  "seed": 42,
+  "source_sha256": "1eab655a3e3985f26362fefce7bd2bb43d2a109f6db4ac327327b6fd7bcf1280",
+  "implementation_sha256": {
+    "src/baseline.py": "0131a9ea2802c108f8a3368dcb55a01da82d53614a8695e5614e3091de7a728c",
+    "src/evaluation.py": "1088eac2971e8b0f949a529614ccab7b00d26e0b9cd8d86d12c23e719c6ba723",
+    "src/features.py": "5b0118707f8b6e78d56ef51e713da107bfef8eaa975fcb2f2b5d02f41046b360",
+    "src/id3.py": "7deda030d373036bb8152da11be6c9a23aa8c070205a9a1495cbb6f82b5d7063",
+    "src/id3_nuestro.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/model_selection.py": "ae10702f46212caf67b19655cc85193d6829a1e82c1a8afa1e0bfa231ed73fb7",
+    "src/naive_bayes.py": "4d87fe268c9935f765ea0280fd783e809d14b340dcb87c3064e78a55ff5d7b18",
+    "src/preprocessing.py": "ffb46311471d3af8b385bf54c08a1c45bcafc6e5359e341673ac24611f881afe",
+    "scripts/run_validation.py": "c34d2e35922413f1aece1c3a01d99ec57251eed9fb620114bad7e84ca149bc31",
+    "requirements.txt": "ef9b2fbca9f93f86ff53c13bfb5c62569d26a63ee8704d98b26d447a91acc29b"
+  },
+  "rows": 14705,
+  "latest_date": "2023-12-16",
+  "features": [
+    "home_win_rate_last_5",
+    "away_win_rate_last_5",
+    "home_win_rate_season",
+    "away_win_rate_season",
+    "home_win_rate_as_home_all",
+    "home_win_rate_h2h_as_home"
+  ],
+  "folds": [
+    {
+      "validation_year": 2021,
+      "train_start": "1932-03-05",
+      "train_end": "2020-12-19",
+      "validation_start": "2021-01-13",
+      "validation_end": "2021-12-06",
+      "n_train": 13744,
+      "n_validation": 364,
+      "training_category_cardinalities_including_zero": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      }
+    },
+    {
+      "validation_year": 2022,
+      "train_start": "1932-03-05",
+      "train_end": "2021-12-06",
+      "validation_start": "2022-02-05",
+      "validation_end": "2022-10-24",
+      "n_train": 14108,
+      "n_validation": 297,
+      "training_category_cardinalities_including_zero": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      }
+    },
+    {
+      "validation_year": 2023,
+      "train_start": "1932-03-05",
+      "train_end": "2022-10-24",
+      "validation_start": "2023-02-04",
+      "validation_end": "2023-12-16",
+      "n_train": 14405,
+      "n_validation": 300,
+      "training_category_cardinalities_including_zero": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ]
+      }
+    }
+  ],
+  "selection_metric": "mean annual validation macro-F1; E,L,V; zero_division=0",
+  "error_metric": "1 - accuracy",
+  "std": "population SD across annual folds, ddof=0",
+  "tie_policy": "exact unrounded tie: smaller gain/m/alpha; RF shallower depth then larger leaf",
+  "test_evaluated": false,
+  "final_refit_performed": false,
+  "candidates": [
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.0
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.0
+      },
+      "representation": "discrete",
+      "tie_rank": 0
+    },
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.001
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.001
+      },
+      "representation": "discrete",
+      "tie_rank": 1
+    },
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.005
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.005
+      },
+      "representation": "discrete",
+      "tie_rank": 2
+    },
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.01
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.01
+      },
+      "representation": "discrete",
+      "tie_rank": 3
+    },
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.02
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.02
+      },
+      "representation": "discrete",
+      "tie_rank": 4
+    },
+    {
+      "model": "ID3",
+      "parameters": {
+        "min_info_gain": 0.05
+      },
+      "estimator_parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.05
+      },
+      "representation": "discrete",
+      "tie_rank": 5
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 0.1
+      },
+      "estimator_parameters": {
+        "m": 0.1
+      },
+      "representation": "discrete",
+      "tie_rank": 0
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 1.0
+      },
+      "estimator_parameters": {
+        "m": 1.0
+      },
+      "representation": "discrete",
+      "tie_rank": 1
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 10.0
+      },
+      "estimator_parameters": {
+        "m": 10.0
+      },
+      "representation": "discrete",
+      "tie_rank": 2
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 100.0
+      },
+      "estimator_parameters": {
+        "m": 100.0
+      },
+      "representation": "discrete",
+      "tie_rank": 3
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 1000.0
+      },
+      "estimator_parameters": {
+        "m": 1000.0
+      },
+      "representation": "discrete",
+      "tie_rank": 4
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 0.025
+      },
+      "estimator_parameters": {
+        "alpha": 0.025,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete",
+      "tie_rank": 0
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 0.25
+      },
+      "estimator_parameters": {
+        "alpha": 0.25,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete",
+      "tie_rank": 1
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 2.5
+      },
+      "estimator_parameters": {
+        "alpha": 2.5,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete",
+      "tie_rank": 2
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 25.0
+      },
+      "estimator_parameters": {
+        "alpha": 25.0,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete",
+      "tie_rank": 3
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 250.0
+      },
+      "estimator_parameters": {
+        "alpha": 250.0,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete",
+      "tie_rank": 4
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 4,
+        "min_samples_leaf": 50
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 4,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 50,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 0
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 4,
+        "min_samples_leaf": 20
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 4,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 20,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 1
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 4,
+        "min_samples_leaf": 5
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 4,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 5,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 2
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 4,
+        "min_samples_leaf": 1
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 4,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 3
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 8,
+        "min_samples_leaf": 50
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 50,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 4
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 8,
+        "min_samples_leaf": 20
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 20,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 5
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 8,
+        "min_samples_leaf": 5
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 5,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 6
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": 8,
+        "min_samples_leaf": 1
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": 8,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 7
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": null,
+        "min_samples_leaf": 50
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 50,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 8
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": null,
+        "min_samples_leaf": 20
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 20,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 9
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": null,
+        "min_samples_leaf": 5
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 5,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 10
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "max_depth": null,
+        "min_samples_leaf": 1
+      },
+      "estimator_parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous",
+      "tie_rank": 11
+    },
+    {
+      "model": "sklearn DT (códigos)",
+      "parameters": {},
+      "estimator_parameters": {
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "entropy",
+        "max_depth": null,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "random_state": 42,
+        "splitter": "best"
+      },
+      "representation": "discrete",
+      "tie_rank": 0
+    },
+    {
+      "model": "sklearn DT (tasas)",
+      "parameters": {},
+      "estimator_parameters": {
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "entropy",
+        "max_depth": null,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "random_state": 42,
+        "splitter": "best"
+      },
+      "representation": "continuous",
+      "tie_rank": 0
+    },
+    {
+      "model": "Base 10 años",
+      "parameters": {},
+      "estimator_parameters": {
+        "tie_break": "home"
+      },
+      "representation": "baseline",
+      "tie_rank": 0
+    }
+  ],
+  "figures": [
+    "results/validation/figures/id3.png",
+    "results/validation/figures/nb_propio.png",
+    "results/validation/figures/categorical_nb.png",
+    "results/validation/figures/random_forest.png"
+  ]
+}

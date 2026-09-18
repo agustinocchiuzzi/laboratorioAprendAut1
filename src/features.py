@@ -4,7 +4,7 @@ Cuando el denominador es 0 (sin historial previo: debut del equipo, sin partidos
 en la ventana, primer partido del ano, primer head-to-head) se imputa un valor
 neutro constante distinto de ``0.0`` (ver ``NEUTRAL_WIN_RATE``,
 ``NEUTRAL_POINTS_PER_MATCH`` y ``NEUTRAL_GOAL_DIFF_PER_MATCH``). Un ``0.0`` real
-solo aparece cuando hubo partidos con historial y todos se perdieron.
+solo aparece cuando hubo partidos con historial y ninguna victoria (puede haber empates).
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-_REQUIRED_COLUMNS = {"home", "away", "date", "gh", "ga"}
+_REQUIRED_COLUMNS = {"home", "away", "date", "gh", "ga", "full_time"}
 
 _UNUSED_COLUMNS = {
     "competition",
@@ -34,8 +34,8 @@ _UNUSED_COLUMNS = {
 }
 
 
-def load_clean_matches(source: str | Path) -> pd.DataFrame:
-    """Read the original ZIP (one CSV) and return a cleaned matches frame.
+def load_raw_matches(source: str | Path) -> pd.DataFrame:
+    """Read the original ZIP (one CSV) without modifying source records.
 
     ``gh``/``ga``/``winner`` are kept only for target construction and auditing;
     they must never enter a model as input attributes.
@@ -54,11 +54,16 @@ def load_clean_matches(source: str | Path) -> pd.DataFrame:
             )
         with archive.open(csv_members[0]) as stream:
             raw = pd.read_csv(stream, encoding="utf-8-sig")
-    return _clean_matches(raw)
+    return raw
 
 
-def _clean_matches(raw: pd.DataFrame) -> pd.DataFrame:
-    frame = raw.copy()
+def load_clean_matches(source: str | Path) -> pd.DataFrame:
+    """Apply the audited policy before building targets or any team history."""
+    return _clean_matches(load_raw_matches(source))
+
+
+def _normalize_matches(raw: pd.DataFrame) -> pd.DataFrame:
+    frame = raw.copy().reset_index(drop=True)
     frame.columns = [str(column).strip() for column in frame.columns]
     missing_columns = _REQUIRED_COLUMNS.difference(frame.columns)
     if missing_columns:
@@ -79,7 +84,60 @@ def _clean_matches(raw: pd.DataFrame) -> pd.DataFrame:
             )
         frame[column] = numeric.astype("int64")
 
-    frame = frame.drop_duplicates(keep="first").reset_index(drop=True)
+    for column in ("date", "home", "away", "full_time"):
+        if frame[column].isna().any():
+            raise ValueError(f"{column} no puede contener faltantes.")
+    if frame[["home", "away"]].eq("").any().any():
+        raise ValueError("Los equipos no pueden tener nombres vacios.")
+    if frame["home"].eq(frame["away"]).any():
+        raise ValueError("Un equipo no puede jugar contra si mismo.")
+    if not frame["full_time"].isin(["F", "E", "P"]).all():
+        raise ValueError("full_time debe ser F, E o P; revisar etiquetas nuevas.")
+    return frame
+
+
+def audit_match_records(raw: pd.DataFrame) -> pd.DataFrame:
+    """One audit row per source record (CSV line includes the header).
+
+    Keep source order and recorded scores. Quarantine every distinct record of
+    an ambiguous date/unordered-team pair, not just the second occurrence.
+    Repeated team/date with different opponents is a warning, not an inferred
+    duplicate: the original date remains unchanged.
+    """
+    frame = _normalize_matches(raw)
+    exact_duplicate = frame.duplicated(keep="first")
+    unique = frame.loc[~exact_duplicate].copy()
+    pair = np.sort(unique[["home", "away"]].to_numpy(dtype=str), axis=1)
+    keys = pd.DataFrame({"date": unique["date"], "team_a": pair[:, 0],
+                         "team_b": pair[:, 1]}, index=unique.index)
+    ambiguous = keys.duplicated(keep=False)
+    events = unique[["date", "home", "away"]].reset_index(names="source_index").melt(
+        id_vars=["source_index", "date"], value_vars=["home", "away"],
+        value_name="team",
+    )
+    repeated = events.duplicated(["date", "team"], keep=False)
+    warnings = set(events.loc[repeated, "source_index"])
+    audit = frame[["date", "home", "away", "gh", "ga", "full_time"]].copy()
+    audit.insert(0, "source_line", frame.index + 2)
+    audit["exact_duplicate"] = exact_duplicate
+    audit["ambiguous_fixture"] = frame.index.isin(unique.index[ambiguous])
+    audit["extra_time_or_penalties"] = frame["full_time"].isin(["E", "P"])
+    audit["team_date_warning"] = frame.index.isin(warnings)
+    audit["included"] = ~audit[["exact_duplicate", "ambiguous_fixture",
+                                "extra_time_or_penalties"]].any(axis=1)
+    audit["reason"] = [
+        ";".join(name for name in ("exact_duplicate", "ambiguous_fixture",
+                                  "extra_time_or_penalties") if row[name])
+        or "included"
+        for _, row in audit.iterrows()
+    ]
+    return audit
+
+
+def _clean_matches(raw: pd.DataFrame) -> pd.DataFrame:
+    frame = _normalize_matches(raw)
+    audit = audit_match_records(raw)
+    frame = frame.loc[audit["included"]].copy()
     frame["winner"] = np.select(
         [frame["gh"] > frame["ga"], frame["gh"] < frame["ga"]],
         ["L", "V"],
@@ -133,7 +191,8 @@ NUMERIC_FEATURES = [
 MODEL_FEATURES = CATEGORICAL_FEATURES + NUMERIC_FEATURES
 
 # Imputacion para denominador = 0 (sin historial disponible). Un valor neutro
-# distinto de 0.0 evita que el modelo confunda "nunca jugo" con "siempre perdio".
+# distinto de 0.0 separa falta de historial de cero victorias, pero coincide
+# con tasas observadas de 0.5: no es un indicador exclusivo de ausencia.
 NEUTRAL_WIN_RATE = 0.5
 NEUTRAL_POINTS_PER_MATCH = 4.0 / 3.0
 NEUTRAL_GOAL_DIFF_PER_MATCH = 0.0

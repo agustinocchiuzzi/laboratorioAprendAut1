@@ -1,0 +1,206 @@
+source_line,date,home,away,gh,ga,full_time,exact_duplicate,ambiguous_fixture,extra_time_or_penalties,team_date_warning,included,reason
+897,1939-09-02,Montevideo Wanderers,Nacional,0,1,F,False,False,False,True,True,included
+900,1939-09-02,Nacional,CA Penarol,3,2,F,False,False,False,True,True,included
+1513,1946-04-13,Liverpool,Defensor Sporting,2,1,F,False,False,False,True,True,included
+1516,1946-04-13,CA Penarol,Liverpool,3,1,F,False,False,False,True,True,included
+1523,1946-04-27,Rampla Juniors Futbol Club,Central Espanol,0,0,F,False,False,False,True,True,included
+1525,1946-04-27,Central Espanol,Montevideo Wanderers,1,0,F,False,False,False,True,True,included
+1558,1946-06-15,Defensor Sporting,Liverpool,3,1,F,False,False,False,True,True,included
+1561,1946-06-15,Liverpool,CA Penarol,3,3,F,False,False,False,True,True,included
+1568,1946-06-29,Central Espanol,Rampla Juniors Futbol Club,1,2,F,False,False,False,True,True,included
+1570,1946-06-29,Montevideo Wanderers,Central Espanol,4,3,F,False,False,False,True,True,included
+1603,1947-04-12,Montevideo Wanderers,Nacional,1,0,F,False,False,False,True,True,included
+1606,1947-04-12,Montevideo Wanderers,CA Cerro,2,2,F,False,False,False,True,True,included
+1613,1947-04-26,Liverpool,CA Penarol,1,0,F,False,False,False,True,True,included
+1617,1947-04-26,Rampla Juniors Futbol Club,Liverpool,2,1,F,False,False,False,True,True,included
+1648,1947-06-14,Nacional,Montevideo Wanderers,4,1,F,False,False,False,True,True,included
+1651,1947-06-14,CA Cerro,Montevideo Wanderers,1,0,F,False,False,False,True,True,included
+1658,1947-06-28,CA Penarol,Liverpool,3,2,F,False,False,False,True,True,included
+1662,1947-06-28,Liverpool,Rampla Juniors Futbol Club,3,2,F,False,False,False,True,True,included
+4524,1976-03-13,River Plate,Rentistas,1,1,F,False,False,False,True,True,included
+4525,1976-03-13,River Plate,Institucion Atletica Sud America,1,1,F,False,False,False,True,True,included
+4570,1976-05-08,CA Fenix,Club Social Y Deportivo Huracan Buceo,2,0,F,False,False,False,True,True,included
+4573,1976-05-08,CA Cerro,Club Social Y Deportivo Huracan Buceo,1,1,F,False,False,False,True,True,included
+4590,1976-05-29,Rentistas,River Plate,2,2,F,False,False,False,True,True,included
+4591,1976-05-29,Institucion Atletica Sud America,River Plate,0,1,F,False,False,False,True,True,included
+4636,1976-08-28,Club Social Y Deportivo Huracan Buceo,CA Fenix,1,0,F,False,False,False,True,True,included
+4639,1976-08-28,Club Social Y Deportivo Huracan Buceo,CA Cerro,2,0,F,False,False,False,True,True,included
+5791,1983-10-01,Defensor Sporting,River Plate,1,1,F,False,False,False,True,True,included
+5794,1983-10-01,Danubio,Bella Vista,3,0,F,False,False,False,True,True,included
+5796,1983-10-01,Danubio,Defensor Sporting,2,1,F,False,False,False,True,True,included
+5953,1984-09-29,Danubio,Central Espanol,2,1,F,False,False,False,True,True,included
+5954,1984-09-29,Rampla Juniors Futbol Club,Bella Vista,2,0,F,False,False,False,True,True,included
+5955,1984-09-29,Danubio,Rampla Juniors Futbol Club,1,0,F,False,False,False,True,True,included
+6262,1986-09-20,Club Social Y Deportivo Huracan Buceo,Nacional,1,0,F,False,False,False,True,True,included
+6263,1986-09-20,Danubio,CA Penarol,0,1,F,False,False,False,True,True,included
+6268,1986-09-20,CA Penarol,Nacional,0,0,F,False,False,False,True,True,included
+6420,1987-09-26,Miramar Misiones,Danubio,0,3,F,False,False,False,True,True,included
+6425,1987-09-26,Rampla Juniors Futbol Club,Miramar Misiones,2,1,F,False,True,False,True,False,ambiguous_fixture
+6426,1987-09-26,Miramar Misiones,Rampla Juniors Futbol Club,1,0,F,False,True,False,True,False,ambiguous_fixture
+6427,1987-09-26,Rampla Juniors Futbol Club,Miramar Misiones,1,2,F,False,True,False,True,False,ambiguous_fixture
+7486,1994-10-01,Central Espanol,CA Penarol,1,3,F,False,False,False,True,True,included
+7490,1994-10-01,Nacional,Defensor Sporting,0,0,F,False,False,False,True,True,included
+7491,1994-10-01,CA Penarol,Defensor Sporting,1,1,F,False,True,False,True,False,ambiguous_fixture
+7492,1994-10-01,Defensor Sporting,CA Penarol,1,1,F,False,True,False,True,False,ambiguous_fixture
+7493,1994-10-01,CA Penarol,Defensor Sporting,2,1,F,False,True,False,True,False,ambiguous_fixture
+7494,1994-10-08,River Plate,Central Espanol,2,1,F,False,False,False,True,True,included
+7496,1994-10-08,CA Penarol,River Plate,4,2,F,False,False,False,True,True,included
+7498,1994-10-15,River Plate,Montevideo Wanderers,2,1,F,False,True,False,True,False,ambiguous_fixture
+7499,1994-10-15,Montevideo Wanderers,River Plate,0,3,F,False,True,False,True,False,ambiguous_fixture
+7500,1994-10-15,Institucion Atletica Sud America,CA Basanez,2,0,F,False,True,False,True,False,ambiguous_fixture
+7501,1994-10-15,CA Basanez,Institucion Atletica Sud America,1,1,F,False,True,False,True,False,ambiguous_fixture
+7503,1994-10-15,Defensor Sporting,River Plate,4,1,F,False,False,False,True,True,included
+7504,1994-10-15,Nacional,Institucion Atletica Sud America,0,0,F,False,False,False,True,True,included
+7505,1994-10-22,Institucion Atletica Sud America,River Plate,2,1,F,False,False,False,True,True,included
+7507,1994-10-22,River Plate,Nacional,0,3,F,False,False,False,True,True,included
+7508,1994-10-22,Institucion Atletica Sud America,CA Cerro,1,1,F,False,False,False,True,True,included
+7587,1995-05-27,Central Espanol,CA Progreso,2,1,F,False,False,False,True,True,included
+7593,1995-05-27,CA Progreso,Montevideo Wanderers,0,2,F,False,False,False,True,True,included
+7594,1995-06-03,CA Penarol,Liverpool,2,0,F,False,False,False,True,True,included
+7597,1995-06-03,Liverpool,River Plate,0,0,F,False,False,False,True,True,included
+7598,1995-06-03,CA Penarol,Nacional,1,0,F,False,False,False,True,True,included
+7670,1995-10-07,Nacional,CA Penarol,2,2,F,False,False,False,True,True,included
+7671,1995-10-07,Defensor Sporting,Nacional,2,0,F,False,False,False,True,True,included
+7674,1995-10-14,CA Penarol,Nacional,1,0,F,False,False,False,True,True,included
+7676,1995-10-14,CA Penarol,Liverpool,1,2,F,False,False,False,True,True,included
+7678,1995-10-21,Nacional,CA Penarol,2,1,F,False,False,False,True,True,included
+7679,1995-10-21,Nacional,Frontera Rivera Chico,8,1,F,False,False,False,True,True,included
+7680,1995-10-21,CA Penarol,Montevideo Wanderers,3,2,F,False,False,False,True,True,included
+7682,1995-10-28,CA Penarol,Nacional,3,1,F,False,False,False,True,True,included
+7684,1995-10-28,Nacional,River Plate,0,0,F,False,False,False,True,True,included
+7685,1995-10-28,CA Penarol,Frontera Rivera Chico,2,0,F,False,False,False,True,True,included
+7695,1996-03-02,CA Penarol,Institucion Atletica Sud America,4,1,F,False,False,False,True,True,included
+7696,1996-03-02,Central Espanol,Nacional,0,2,F,False,False,False,True,True,included
+7697,1996-03-02,CA Cerro,Liverpool,0,0,F,False,False,False,True,True,included
+7698,1996-03-02,Montevideo Wanderers,Danubio,0,2,F,False,False,False,True,True,included
+7699,1996-03-02,Defensor Sporting,River Plate,0,0,F,False,False,False,True,True,included
+7700,1996-03-02,Club Social Y Deportivo Huracan Buceo,Rampla Juniors Futbol Club,0,0,F,False,False,False,True,True,included
+7701,1996-03-02,Danubio,Club Social Y Deportivo Huracan Buceo,3,1,F,False,False,False,True,True,included
+7702,1996-03-02,Rampla Juniors Futbol Club,CA Penarol,1,2,F,False,False,False,True,True,included
+7703,1996-03-02,Liverpool,Defensor Sporting,1,0,F,False,False,False,True,True,included
+7704,1996-03-02,River Plate,Nacional,0,1,F,False,False,False,True,True,included
+7705,1996-03-09,Nacional,CA Cerro,2,2,F,False,False,False,True,True,included
+7706,1996-03-09,Liverpool,Central Espanol,1,1,F,False,False,False,True,True,included
+7707,1996-03-09,Danubio,Rampla Juniors Futbol Club,0,0,F,False,False,False,True,True,included
+7708,1996-03-09,River Plate,CA Penarol,0,0,F,False,False,False,True,True,included
+7709,1996-03-09,Defensor Sporting,Institucion Atletica Sud America,1,1,F,False,False,False,True,True,included
+7710,1996-03-09,Club Social Y Deportivo Huracan Buceo,Montevideo Wanderers,2,1,F,False,False,False,True,True,included
+7711,1996-03-09,Defensor Sporting,River Plate,2,1,F,False,False,False,True,True,included
+7712,1996-03-09,Danubio,CA Penarol,1,1,F,False,False,False,True,True,included
+7713,1996-03-09,Club Social Y Deportivo Huracan Buceo,Nacional,1,1,F,False,False,False,True,True,included
+7714,1996-03-09,Liverpool,Rampla Juniors Futbol Club,2,1,F,False,False,False,True,True,included
+7715,1996-03-16,Danubio,Nacional,0,4,F,False,True,False,True,False,ambiguous_fixture
+7716,1996-03-16,Rampla Juniors Futbol Club,Montevideo Wanderers,2,0,F,False,False,False,True,True,included
+7718,1996-03-16,Liverpool,River Plate,1,0,F,False,False,False,True,True,included
+7719,1996-03-16,Club Social Y Deportivo Huracan Buceo,Central Espanol,1,0,F,False,False,False,True,True,included
+7720,1996-03-16,CA Penarol,Defensor Sporting,2,0,F,False,False,False,True,True,included
+7721,1996-03-16,Liverpool,CA Penarol,2,5,F,False,False,False,True,True,included
+7722,1996-03-16,Danubio,Nacional,1,2,F,False,True,False,True,False,ambiguous_fixture
+7723,1996-03-16,Defensor Sporting,Rampla Juniors Futbol Club,3,0,F,False,False,False,True,True,included
+7724,1996-03-16,River Plate,Club Social Y Deportivo Huracan Buceo,0,0,F,False,False,False,True,True,included
+7725,1996-03-23,Nacional,River Plate,4,1,F,False,False,False,True,True,included
+7726,1996-03-23,Central Espanol,Rampla Juniors Futbol Club,1,2,F,False,False,False,True,True,included
+7728,1996-03-23,CA Cerro,CA Penarol,2,4,F,False,False,False,True,True,included
+7729,1996-03-23,Defensor Sporting,Club Social Y Deportivo Huracan Buceo,1,1,F,False,False,False,True,True,included
+7730,1996-03-23,Liverpool,Danubio,1,1,F,False,False,False,True,True,included
+7731,1996-03-23,Liverpool,Club Social Y Deportivo Huracan Buceo,1,0,F,False,False,False,True,True,included
+7732,1996-03-23,Rampla Juniors Futbol Club,Nacional,1,5,F,False,False,False,True,True,included
+7733,1996-03-23,River Plate,Danubio,2,0,F,False,False,False,True,True,included
+7734,1996-03-23,CA Penarol,Defensor Sporting,0,1,F,False,False,False,True,True,included
+7735,1996-03-30,Central Espanol,River Plate,1,1,F,False,False,False,True,True,included
+7736,1996-03-30,Institucion Atletica Sud America,Club Social Y Deportivo Huracan Buceo,0,0,F,False,False,False,True,True,included
+7737,1996-03-30,CA Penarol,Nacional,2,0,F,False,False,False,True,True,included
+7738,1996-03-30,Danubio,CA Cerro,0,0,F,False,False,False,True,True,included
+7739,1996-03-30,Montevideo Wanderers,Defensor Sporting,1,1,F,False,False,False,True,True,included
+7740,1996-03-30,Rampla Juniors Futbol Club,Liverpool,2,1,F,False,False,False,True,True,included
+7741,1996-03-30,Rampla Juniors Futbol Club,River Plate,1,4,F,False,False,False,True,True,included
+7742,1996-03-30,CA Penarol,Club Social Y Deportivo Huracan Buceo,0,0,F,False,False,False,True,True,included
+7743,1996-03-30,Danubio,Liverpool,3,1,F,False,False,False,True,True,included
+7744,1996-03-30,Nacional,Defensor Sporting,2,1,F,False,False,False,True,True,included
+7745,1996-04-06,Club Social Y Deportivo Huracan Buceo,CA Penarol,2,3,F,False,False,False,True,True,included
+7746,1996-04-06,Institucion Atletica Sud America,Rampla Juniors Futbol Club,0,0,F,False,False,False,True,True,included
+7748,1996-04-06,Danubio,River Plate,1,1,F,False,False,False,True,True,included
+7749,1996-04-06,Defensor Sporting,CA Cerro,4,1,F,False,False,False,True,True,included
+7750,1996-04-06,Liverpool,Nacional,0,3,F,False,False,False,True,True,included
+7751,1996-04-06,Nacional,CA Penarol,2,0,F,False,False,False,True,True,included
+7752,1996-04-06,Danubio,Rampla Juniors Futbol Club,3,0,F,False,False,False,True,True,included
+7753,1996-04-06,River Plate,Liverpool,2,2,F,False,False,False,True,True,included
+7754,1996-04-06,Club Social Y Deportivo Huracan Buceo,Defensor Sporting,0,4,F,False,False,False,True,True,included
+7756,1996-04-13,Nacional,Defensor Sporting,1,3,F,False,False,False,True,True,included
+7757,1996-04-13,Danubio,CA Penarol,1,0,F,False,False,False,True,True,included
+7758,1996-04-13,Rampla Juniors Futbol Club,River Plate,2,2,F,False,False,False,True,True,included
+7759,1996-04-13,Montevideo Wanderers,Liverpool,0,2,F,False,False,False,True,True,included
+7760,1996-04-13,CA Cerro,Club Social Y Deportivo Huracan Buceo,0,3,F,False,False,False,True,True,included
+7761,1996-04-13,Nacional,Liverpool,4,2,F,False,False,False,True,True,included
+7762,1996-04-13,Danubio,Defensor Sporting,1,0,F,False,False,False,True,True,included
+7763,1996-04-13,Rampla Juniors Futbol Club,Club Social Y Deportivo Huracan Buceo,0,5,F,False,False,False,True,True,included
+7764,1996-04-13,CA Penarol,River Plate,3,0,F,False,False,False,True,True,included
+7872,1997-03-22,CA Penarol,Rentistas,3,0,F,False,False,False,True,True,included
+7877,1997-03-22,CA Penarol,Racing Club,4,0,F,False,False,False,True,True,included
+7878,1997-03-22,Racing Club,Rampla Juniors Futbol Club,0,1,F,False,False,False,True,True,included
+7981,1997-08-30,CA Penarol,Nacional,3,2,F,False,False,False,True,True,included
+7982,1997-08-30,CA Penarol,Defensor Sporting,1,0,F,False,True,False,True,False,ambiguous_fixture
+7983,1997-08-30,CA Penarol,Defensor Sporting,3,0,F,False,True,False,True,False,ambiguous_fixture
+7984,1997-08-30,River Plate,Defensor Sporting,2,2,F,False,False,False,True,True,included
+7985,1997-08-30,Liverpool,Nacional,0,3,F,False,False,False,True,True,included
+7988,1997-09-13,CA Penarol,River Plate,3,1,F,False,False,False,True,True,included
+7989,1997-09-13,Nacional,Club Social Y Deportivo Huracan Buceo,4,1,F,False,False,False,True,True,included
+7990,1997-09-13,Club Social Y Deportivo Huracan Buceo,CA Penarol,0,1,F,False,False,False,True,True,included
+7991,1997-09-13,River Plate,Nacional,1,1,F,False,False,False,True,True,included
+7992,1997-09-13,CA Penarol,Nacional,3,1,F,False,False,False,True,True,included
+8027,1998-04-18,Bella Vista,Nacional,1,0,F,False,False,False,True,True,included
+8028,1998-04-18,CA Penarol,Montevideo Wanderers,2,1,F,False,False,False,True,True,included
+8029,1998-04-18,Rampla Juniors Futbol Club,River Plate,0,4,F,False,False,False,True,True,included
+8030,1998-04-18,Liverpool,Club Social Y Deportivo Huracan Buceo,0,1,F,False,False,False,True,True,included
+8032,1998-04-18,Danubio,CSyd Villa Espanola,2,1,F,False,False,False,True,True,included
+8033,1998-04-18,Liverpool,CA Penarol,1,5,F,False,False,False,True,True,included
+8034,1998-04-18,Nacional,Rampla Juniors Futbol Club,3,1,F,False,False,False,True,True,included
+8035,1998-04-18,CSyd Villa Espanola,Rampla Juniors Futbol Club,2,0,F,False,False,False,True,True,included
+8119,1998-08-29,CA Penarol,Rampla Juniors Futbol Club,5,0,F,False,False,False,True,True,included
+8121,1998-08-29,Montevideo Wanderers,River Plate,0,4,F,False,False,False,True,True,included
+8123,1998-08-29,Rentistas,Danubio,0,2,F,False,False,False,True,True,included
+8124,1998-08-29,Liverpool,Bella Vista,0,0,F,False,False,False,True,True,included
+8125,1998-08-29,River Plate,Bella Vista,0,2,F,False,False,False,True,True,included
+8126,1998-08-29,Rentistas,CA Penarol,0,1,F,False,False,False,True,True,included
+8127,1998-08-29,Bella Vista,Rentistas,1,0,F,False,False,False,True,True,included
+8128,1998-08-29,CA Penarol,River Plate,2,0,F,False,False,False,True,True,included
+8129,1998-08-29,Rentistas,River Plate,3,1,F,False,False,False,True,True,included
+8130,1998-08-29,CA Penarol,Bella Vista,1,1,F,False,True,False,True,False,ambiguous_fixture
+8131,1998-08-29,Bella Vista,CA Penarol,1,0,F,False,True,False,True,False,ambiguous_fixture
+8155,1999-03-27,River Plate,Deportivo Maldonado,2,4,F,False,False,False,True,True,included
+8156,1999-03-27,Rampla Juniors Futbol Club,Frontera Rivera Chico,1,2,F,False,False,False,True,True,included
+8158,1999-03-27,Deportivo Maldonado,Frontera Rivera Chico,2,2,F,False,False,False,True,True,included
+8161,1999-04-03,Tacuarembo Futbol Club,Bella Vista,1,2,F,False,False,False,True,True,included
+8165,1999-04-03,Bella Vista,CA Cerro,4,0,F,False,False,False,True,True,included
+8207,1999-05-22,CA Cerro,Paysandu FC,3,1,F,False,False,False,True,True,included
+8210,1999-05-22,Nacional,CA Penarol,1,0,F,False,False,False,True,True,included
+8214,1999-05-22,CA Cerro,Nacional,1,3,F,False,False,False,True,True,included
+8215,1999-05-29,Paysandu FC,Defensor Sporting,0,1,F,False,False,False,True,True,included
+8220,1999-05-29,CA Penarol,Bella Vista,2,3,F,False,False,False,True,True,included
+8221,1999-05-29,Bella Vista,Paysandu FC,3,1,F,False,False,False,True,True,included
+8286,1999-09-11,Liverpool,Nacional,1,2,F,False,False,False,True,True,included
+8287,1999-09-11,Bella Vista,Defensor Sporting,0,0,F,False,False,False,True,True,included
+8292,1999-09-11,Bella Vista,Nacional,1,4,F,False,False,False,True,True,included
+8336,1999-10-30,CA Cerro,CA Penarol,0,0,F,False,False,False,True,True,included
+8340,1999-10-30,Liverpool,Frontera Rivera Chico,2,3,F,False,False,False,True,True,included
+8342,1999-10-30,CA Cerro,Frontera Rivera Chico,1,1,F,False,False,False,True,True,included
+8343,1999-11-06,CA Penarol,Nacional,1,1,F,False,False,False,True,True,included
+8346,1999-11-06,Defensor Sporting,Nacional,1,2,F,False,False,False,True,True,included
+8347,1999-11-13,Nacional,CA Penarol,1,1,F,False,False,False,True,True,included
+8348,1999-11-13,Nacional,Bella Vista,1,2,F,False,False,False,True,True,included
+8351,1999-11-20,CA Penarol,Nacional,2,1,F,False,False,False,True,True,included
+8354,1999-11-20,Nacional,Danubio,3,0,F,False,False,False,True,True,included
+10398,2007-05-17,CA Penarol,Danubio,1,1,P,False,False,True,False,False,extra_time_or_penalties
+12132,2014-06-08,Montevideo Wanderers,Danubio,2,2,P,False,False,True,False,False,extra_time_or_penalties
+12373,2015-06-14,Nacional,CA Penarol,3,2,E,False,False,True,False,False,extra_time_or_penalties
+12614,2016-06-12,CA Penarol,Plaza Colonia,3,1,E,False,False,True,False,False,extra_time_or_penalties
+13033,2017-12-10,CA Penarol,Defensor Sporting,0,0,P,False,False,True,False,False,extra_time_or_penalties
+13035,2017-12-18,Institucion Atletica Sud America,El Tanque Sisley,1,1,P,False,False,True,False,False,extra_time_or_penalties
+13296,2018-11-11,Nacional,CA Penarol,1,2,E,False,False,True,False,False,extra_time_or_penalties
+13473,2019-09-08,Liverpool,River Plate,2,2,P,False,False,True,False,False,extra_time_or_penalties
+13716,2020-10-15,Nacional,Rentistas,0,1,E,False,False,True,False,False,extra_time_or_penalties
+13773,2021-01-15,Nacional,Montevideo Wanderers,0,0,P,False,False,True,False,False,extra_time_or_penalties
+13894,2021-04-01,Rentistas,Liverpool,1,1,P,False,False,True,False,False,extra_time_or_penalties
+14137,2021-12-08,Plaza Colonia,CA Penarol,1,1,P,False,False,True,False,False,extra_time_or_penalties
+14435,2022-10-30,Liverpool,Nacional,1,4,E,False,False,True,False,False,extra_time_or_penalties
+15185,2025-06-17,Montevideo Wanderers,Defensor Sporting,0,0,F,True,False,False,False,False,exact_duplicate
