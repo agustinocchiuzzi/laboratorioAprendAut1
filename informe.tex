@@ -1,70 +1,317 @@
 \documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
 
-\usepackage[spanish,es-nodecimaldot]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
 \usepackage{graphicx}
-\usepackage{hyperref}
-
-\title{Prediccion de resultados del futbol uruguayo}
-
-\author{\IEEEauthorblockN{Integrantes del grupo}
-\IEEEauthorblockA{Aprendizaje Automatico -- FING, UdelaR\\
-2026}}
-
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
+
+\title{Predicción de resultados del fútbol uruguayo mediante métodos de aprendizaje supervisado}
+
+\author{
+\IEEEauthorblockN{1\textsuperscript{st} Nombre Apellido}
+\IEEEauthorblockA{\textit{Facultad de Ingeniería} \\
+\textit{Universidad de la República}\\
+Montevideo, Uruguay \\
+email@fing.edu.uy}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Nombre Apellido}
+\IEEEauthorblockA{\textit{Facultad de Ingeniería} \\
+\textit{Universidad de la República}\\
+Montevideo, Uruguay \\
+email@fing.edu.uy}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Nombre Apellido}
+\IEEEauthorblockA{\textit{Facultad de Ingeniería} \\
+\textit{Universidad de la República}\\
+Montevideo, Uruguay \\
+email@fing.edu.uy}
+}
+
 \maketitle
 
+% =========================================================
+% PRESUPUESTO DE ESPACIO (formato IEEE, 2 columnas, 10pt)
+% Referencia: ~500 palabras/columna de solo texto, ~1000 palabras/página.
+% Límite duro: 5 páginas TOTALES, incluyendo 1 tabla y 3 figuras ya
+% reservadas en el esqueleto (ocupan aprox. 1.5 páginas equivalentes
+% entre las tres + la tabla). Presupuesto de TEXTO detallado por
+% sección/subsección en cada % TODO más abajo.
+%
+% RESUMEN POR SECCIÓN (para chequeo rápido de avance):
+%   Abstract .......................  100-150 palabras
+%   Introducción ...................  250-300 palabras
+%   Trabajo relacionado (opcional) .   80-120 palabras (o se omite)
+%   Dataset y preprocesamiento .....  550-650 palabras (6 subsecciones)
+%   Modelos .........................  400-450 palabras (+ 3 ecuaciones)
+%   Experimentación .................  180-220 palabras (+ 2 figuras)
+%   Resultados ......................  350-400 palabras (+ tabla + fig.)
+%   Conclusiones ....................  150-180 palabras
+%   Uso de IA .......................   50-70 palabras
+%   -------------------------------------------------------
+%   TOTAL TEXTO ..................... ~2100-2600 palabras
+%   + 1-2 tablas, 3-4 figuras -> ocupan el resto hasta las 5 páginas.
+%
+% Si al ir escribiendo una sección se pasa del número, recortar AHÍ
+% antes de seguir con la siguiente — es más fácil ajustar sobre la
+% marcha que recortar 500 palabras de golpe al final.
+% =========================================================
+
 \begin{abstract}
-% Resumir problema, datos, metodos, mejor resultado y principal conclusion.
+% TODO — 100-150 palabras (uno de los últimos párrafos en escribirse).
+% 3-5 líneas: problema abordado, enfoque (modelos propios + sklearn),
+% dataset y período, y el resultado principal (ej. mejor macro-F1 obtenido
+% y qué modelo lo logró).
 \end{abstract}
 
 \begin{IEEEkeywords}
-aprendizaje supervisado, clasificacion, datos temporales, futbol
+aprendizaje supervisado, árboles de decisión, Naive Bayes, predicción deportiva, fútbol uruguayo
 \end{IEEEkeywords}
 
-\section{Introduccion}
-% Motivacion, objetivo y contribuciones concretas del trabajo.
+% =========================================================
+\section{Introducción}
+% TODO — presupuesto: 250-300 palabras (media columna aprox.)
+% - Contexto del problema: predecir resultado de partidos (L/V/E).
+% - Por qué es un problema interesante/difícil (alta variabilidad, clase
+%   minoritaria de empates, etc.).
+% - Objetivo del trabajo (referenciar los 3 objetivos del enunciado).
+% - Resumen de qué se hizo: preprocesamiento + 2 modelos propios
+%   (árbol con min_info_gain, Naive Bayes con m) + comparación con
+%   Random Forest y Naive Bayes de scikit-learn + baseline.
+% - Estructura del resto del paper (una oración tipo "en la Sección II se
+%   describe..., en la Sección III...").
 
-\section{Datos y preprocesamiento}
-% Fuente, cantidad de instancias, clases, limpieza y atributos causales.
-% Explicar explicitamente como se evito leakage.
+% =========================================================
+\section{Trabajo relacionado}
+% TODO — presupuesto: 80-120 palabras (opcional pero recomendado en
+% formato IEEE). Con solo 5 páginas de margen total, si el equipo no
+% tiene tiempo de buscar referencias, es preferible OMITIR esta
+% sección entera (renombrando la siguiente como Sección II) antes que
+% escribirla floja — ese espacio rinde más en Resultados/Análisis.
+% - 1-2 referencias sobre predicción de resultados deportivos con ML,
+%   si el equipo decide buscarlas.
 
-\section{Metodos}
+% =========================================================
+\section{Conjunto de datos y preprocesamiento}
+\label{sec:preprocesamiento}
+% PRESUPUESTO DE LA SECCIÓN COMPLETA (las 6 subsecciones juntas):
+% 550-650 palabras en total. Es la sección con más subsecciones, así
+% que cada una tiene que ser corta y puntual (2-4 oraciones), casi
+% estilo changelog de decisiones — no hace falta re-explicar el
+% razonamiento completo que se discutió al armarlas, solo la decisión
+% final y su justificación en 1-2 líneas.
+
+\subsection{Descripción del dataset}
+% TODO — 60-80 palabras
+% - Fuente (David Schoch, football-data), período 1932-2025, cantidad
+%   de partidos, columnas originales relevantes.
+
+\subsection{Limpieza de datos}
+% TODO — 100-120 palabras
+% - Duplicados eliminados, columnas constantes descartadas
+%   (competition, level, *_country, *_code, *_continent, *_ident).
+% - Tratamiento de full\_time (F/P/E): decisión tomada sobre partidos
+%   definidos por penales/tiempo extra (empate según resultado
+%   reglamentario) y justificación.
+% - Revisión de nombres de equipos y de valores atípicos en goles.
+
+\subsection{Construcción de la variable objetivo}
+% TODO — 50-70 palabras
+% - Cómo se construyó `ganador` (L/V/E) a partir de gh, ga y la regla
+%   para full_time = P/E.
+
+\subsection{Atributos derivados (feature engineering)}
+% TODO — 150-180 palabras (la subsección más densa de esta sección,
+% justifica el presupuesto mayor)
+% - Listar los 6 features causales: win_rate_last_5 (home/away),
+%   win_rate_season (home/away), win_rate_as_home_all,
+%   win_rate_h2h_as_home.
+% - Explicar el cuidado de leakage temporal (shift + rolling/expanding
+%   ordenado por fecha).
+% - Tratamiento de valores neutros para casos sin historial
+%   (NEUTRAL_WIN_RATE, etc.) y por qué se distinguen de un 0.0 real.
+% - Atributos descartados y por qué (nombre de equipo, mes).
+
+\subsection{Discretización}
+% TODO — 80-100 palabras
+% - Justificar el enfoque híbrido: cortes fijos para win_rate_last_5,
+%   cuantiles (ajustados solo con train) para el resto, categoría
+%   aparte "sin historial" en win_rate_h2h_as_home.
+% - Mencionar que la versión discretizada es solo para los modelos
+%   propios; los modelos de scikit-learn pueden consumir la versión
+%   numérica continua.
+
+\subsection{División temporal de datos}
+% TODO — 40-60 palabras
+% - Train: hasta 2023 inclusive. Test: 2024-2025.
+% - Por qué no se usa un split aleatorio (naturaleza temporal del
+%   problema).
+
+% =========================================================
+\section{Modelos}
+\label{sec:modelos}
+% PRESUPUESTO DE LA SECCIÓN COMPLETA: 400-450 palabras de texto.
+% Las 2 ecuaciones ya puestas ocupan espacio propio (aprox. 2-3 líneas
+% de columna cada una) — no cuentan en el conteo de palabras de texto,
+% pero sí restan espacio de página, tenerlo en cuenta.
+
 \subsection{Clasificador base}
-% Proporcion de victorias en los diez anos anteriores.
+% TODO — 40-50 palabras
+% - Descripción del baseline (equipo con mayor proporción de partidos
+%   ganados en los últimos 10 años, calculado sin leakage temporal).
 
-\subsection{Naive Bayes}
-% Derivacion del m-estimate e implementacion propia.
+\subsection{Árbol de decisión propio}
+% TODO — 130-150 palabras de texto (además de las 2 ecuaciones,
+% que ya están puestas abajo y no hace falta reescribir)
+% - Formalización: entropía, ganancia de información.
+% - Rol del hiperparámetro min\_info\_gain como criterio de corte.
+% - Manejo de casos borde (subconjunto vacío, valores no vistos en test).
+\begin{equation}
+H(S) = -\sum_{c \in \{L,V,E\}} p_c \log_2 p_c
+\label{eq:entropia}
+\end{equation}
+\begin{equation}
+IG(S, A) = H(S) - \sum_{v \in valores(A)} \frac{|S_v|}{|S|} H(S_v)
+\label{eq:ganancia}
+\end{equation}
 
-\subsection{Arbol de decision}
-% Entropia, ganancia de informacion y min_info_gain.
+\subsection{Naive Bayes propio}
+% TODO — 100-120 palabras de texto (además de la ecuación ya puesta)
+% - Formalización: supuesto de independencia condicional, priors,
+%   m-estimate para las probabilidades condicionales.
+% - Rol del hiperparámetro m.
+\begin{equation}
+P(a_i \mid c) = \frac{n_c + m \cdot p}{n + m}
+\label{eq:m-estimate}
+\end{equation}
 
-\subsection{Modelos de scikit-learn}
-% Random Forest y Naive Bayes usados como comparadores.
+\subsection{Modelos de referencia (scikit-learn)}
+% TODO — 60-80 palabras
+% - RandomForestClassifier y Naive Bayes de scikit-learn: qué
+%   implementación se usó (GaussianNB / CategoricalNB) y por qué,
+%   y qué versión de los datos consume cada uno (numérica vs.
+%   discretizada + codificada).
 
-\section{Protocolo experimental}
-% Train hasta 2023; test 2024-2025; CV temporal expansiva; grillas y semilla.
+% =========================================================
+\section{Experimentación}
+\label{sec:experimentacion}
+% PRESUPUESTO DE LA SECCIÓN COMPLETA: 180-220 palabras de TEXTO.
+% Ojo: las 2 figuras de abajo son las que más espacio real consumen
+% de todo el paper (aprox. 1/3 de columna cada una, ~2/3 de página en
+% total entre las dos). Si el espacio aprieta más adelante, esta es
+% la sección donde conviene achicar las figuras (side-by-side en una
+% sola figura con 2 subplots) antes que recortar Resultados.
 
+\subsection{Validación cruzada temporal}
+% TODO — 100-120 palabras
+% - Justificar por qué no se usó TimeSeriesSplit por índice
+%   (densidad no uniforme de partidos por año) y qué esquema se usó
+%   en su lugar.
+% - Cantidad de folds, criterio de expansión.
+
+\subsection{Ajuste de hiperparámetros}
+% TODO — 80-100 palabras de texto (además de lo que muestren las 2
+% figuras, que no cuenta como palabras pero sí ocupa espacio de página)
+% - Rango de valores probados para min\_info\_gain y m (y para los
+%   hiperparámetros de Random Forest si se tunearon).
+% - Métrica usada para seleccionar el mejor valor (ej. macro-F1
+%   promedio en los folds).
+% - Incluir Fig.~\ref{fig:hiperparam-arbol} y Fig.~\ref{fig:hiperparam-nb}
+%   con el error/macro-F1 vs. hiperparámetro.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.9\linewidth]{figures/error_vs_min_info_gain.png}}
+\caption{Error de validación cruzada en función de min\_info\_gain.}
+\label{fig:hiperparam-arbol}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.9\linewidth]{figures/error_vs_m.png}}
+\caption{Error de validación cruzada en función de m.}
+\label{fig:hiperparam-nb}
+\end{figure}
+
+% =========================================================
 \section{Resultados}
-% Incluir una tabla compacta de accuracy, macro-F1 y F1 por clase.
-% Incluir solo las curvas y matrices que aporten al argumento.
+\label{sec:resultados}
+% PRESUPUESTO DE LA SECCIÓN COMPLETA: 350-400 palabras de texto,
+% sumado a la tabla y a la(s) figura(s) de matriz de confusión.
+% Esta es la sección con más peso relativo del informe (el enunciado
+% pide explícitamente el análisis de resultados) — si sobra espacio
+% de otras secciones, se lo lleva esta.
 
-\section{Analisis cualitativo y limitaciones}
-% Examinar ejemplos de aciertos/errores y amenazas a la validez.
+% TODO — la tabla en sí no cuenta como palabras, pero completarla con
+% las 5 filas x columnas (precision/recall/F1 por clase, accuracy,
+% macro-F1) puede requerir ampliarla a 2 columnas (tabla apaisada) o
+% dividir en 2 tablas más chicas si no entran bien las columnas de
+% precision/recall/F1 POR CLASE (3 clases x 3 métricas = 9 valores
+% por modelo, capaz conviene una tabla aparte solo con accuracy/macro-F1
+% y otra con el detalle por clase del mejor modelo únicamente, para
+% no ocupar demasiado espacio).
 
+\begin{table}[htbp]
+\caption{Comparación de desempeño en el conjunto de evaluación (2024-2025)}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Modelo} & \textbf{Accuracy} & \textbf{Macro-F1} & \textbf{...} & \textbf{...} \\
+\hline
+Baseline & & & & \\
+\hline
+Árbol propio & & & & \\
+\hline
+Naive Bayes propio & & & & \\
+\hline
+Random Forest & & & & \\
+\hline
+Naive Bayes (sklearn) & & & & \\
+\hline
+\end{tabular}
+\label{tab:resultados}
+\end{center}
+\end{table}
+
+\subsection{Matrices de confusión}
+% TODO — 40-60 palabras de texto + la(s) figura(s)/tabla(s) de matriz.
+% Con el límite de 5 páginas, incluir SOLO la matriz del mejor modelo
+% (no las 5) — mencionar las demás solo en el texto si hay algo
+% puntual que valga la pena contrastar.
+% - Incluir al menos la matriz de confusión del mejor modelo (y
+%   opcionalmente del baseline, para contraste, si entra el espacio).
+
+\subsection{Análisis cualitativo}
+% TODO — 150-180 palabras (la subsección más importante de Resultados,
+% es lo que el enunciado pide explícitamente como "análisis")
+% - Para al menos un modelo: ¿en qué escenarios acierta más?
+%   ¿en cuáles se equivoca sistemáticamente? (ej. ¿le cuesta más
+%   predecir empates? ¿falla más con equipos chicos con poco
+%   historial, donde los features quedan en el valor neutro?)
+
+% =========================================================
 \section{Conclusiones}
-% Responder que funciono, que no y que se haria a continuacion.
+% TODO — 150-180 palabras
+% - Retomar los 3 objetivos del enunciado y responder brevemente
+%   a cada uno.
+% - Limitaciones del trabajo (ej. conjunto de test chico, 2 años;
+%   features que dependen de historial acumulado).
+% - Posibles mejoras a futuro (más features, otros modelos, etc.).
 
-\section*{Declaracion de uso de IA}
-% Adaptar AI_USAGE.md a las exigencias exactas del curso.
+% =========================================================
+\section*{Uso de Inteligencia Artificial}
+% TODO — 50-70 palabras (párrafo corto y directo, no hace falta
+% extenderse — el detalle completo va en AI_USAGE.md del repo, no acá)
+% - Declarar uso de IA según la guía de FING (categoría 3), qué
+%   herramientas se usaron y para qué tareas puntuales (ver AI_USAGE.md
+%   del repo para el detalle completo que respalda este párrafo).
 
-\begin{thebibliography}{1}
-\bibitem{football-data}
-D. Schoch, ``football-data,'' GitHub repository. [Online]. Available:
-\url{https://github.com/schochastics/football-data/tree/master}
+\begin{thebibliography}{00}
+\bibitem{b1} D. Schoch, ``football-data,'' GitHub repository. [Online]. Available: https://github.com/schochastics/football-data
+% TODO: agregar referencias adicionales si se citan en Trabajo relacionado.
 \end{thebibliography}
 
 \end{document}
-
