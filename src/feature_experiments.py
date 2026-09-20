@@ -125,11 +125,11 @@ def classification_metrics(y, prediction):
     }
 
 
-def fixed_candidates(selected: pd.DataFrame):
+def fixed_candidates(selected: pd.DataFrame, models=REQUIRED_MODELS):
     """Resolve the prior selection against declared candidates, never test data."""
     result = []
     candidates = model_candidates()
-    for name in REQUIRED_MODELS:
+    for name in models:
         rows = selected.loc[selected.model.eq(name)]
         if len(rows) != 1:
             raise ValueError('Se requiere una selección previa por modelo: ' + name)
@@ -163,10 +163,10 @@ def summarize_experiments(details):
     return summary, selected
 
 
-def run_feature_experiments(frame, selected, progress=print):
+def run_feature_experiments(frame, selected, progress=print, *, models=REQUIRED_MODELS):
     folds = make_temporal_folds(frame)  # Reject test before any estimator is fit.
     details, predictions = [], []
-    candidates = fixed_candidates(selected)
+    candidates = fixed_candidates(selected, models=models)
     for rank, (variant, columns) in enumerate(feature_variants().items()):
         for candidate in candidates:
             if progress:

@@ -145,13 +145,14 @@ Los archivos históricos de `results/` no se borraron ni se consideran resultado
 de esta política. Las grillas no se ejecutaron durante la revisión de datos; su ejecución
 posterior, exclusivamente en validación, se documenta en `validation_findings.md`.
 
-## Verificación sin experimentos
+## Verificación histórica sin experimentos
 
-```sh
-python3.12 -m unittest discover -s tests -v
-```
+La suite de tests se retiró al preparar la integración. Las comprobaciones aquí
+registradas son históricas; las pruebas compartidas siguen disponibles en la
+copia del commit descrita en [feature_findings.md](feature_findings.md).
+La reproducción actual desde el ZIP está en [nb_delivery.md](nb_delivery.md).
 
-Las pruebas comprueban exclusiones, conservación del original, límites de la
+Las pruebas realizadas comprobaron exclusiones, conservación del original, límites de la
 ventana, independencia de resultados futuros, actualización común del baseline,
 fechas completas y ajuste de preprocesamiento por fold. Las pruebas de interfaz
 entrenan únicamente sobre datos sintéticos diminutos; no buscan hiperparámetros

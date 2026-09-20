@@ -27,3 +27,9 @@ data/legacy/*.csv
 !results/validation/**
 !results/feature_experiments/
 !results/feature_experiments/**
+!results/naive_bayes/
+!results/naive_bayes/**
+
+# Local report builds and rendering scratch files.
+output/
+tmp/

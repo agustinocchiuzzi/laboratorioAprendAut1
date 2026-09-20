@@ -103,8 +103,16 @@ P(X_j=v | Y=c) = (n_jvc + m * p_jv) / (n_c + m)
 p_jv = 1 / cantidad_de_valores_del_atributo_j
 ```
 
-Se suman log-probabilidades para evitar underflow. **Por confirmar:** validar que
-el curso define `m` con prior uniforme y no con frecuencias marginales.
+Se suman log-probabilidades para evitar underflow. La consigna pide `m` como
+tamaño equivalente de muestra, sin fijar el prior. Nuestra elección es uniforme
+sobre los `K_j` códigos del atributo, incluido cero; no se usan frecuencias
+marginales. `P(c)=n_c/N` es otro prior, el de clase, y no se suaviza.
+
+Por defecto `K_j=max(X_train[:,j])+1`; `min_categories` permite declarar de
+antemano un dominio mayor. La grilla de tres bines declara `min_categories=4`
+también en el NB propio, para incluir bines ausentes en un fold y coincidir con
+el comparador. Fuera de esa grilla `K_j` puede variar. Ver la explicación,
+ejemplo manual y condiciones de equivalencia en [docs/naive_bayes.md](docs/naive_bayes.md).
 
 ## Arbol propio
 
@@ -133,8 +141,9 @@ umbrales numericos.
   corrida; `scripts/run_validation.py` ejecuta solo validación hasta 2023.
 - Los cuatro métodos requeridos usan los mismos tres folds y macro-F1 medio.
   Se conservan los dos árboles de referencia y el baseline como controles.
-- CategoricalNB recibe los mismos códigos que el NB propio, con cuatro categorías
-  incluyendo cero. Su grilla `alpha=m/4` permite contrastar el suavizado equivalente.
+- En la grilla actual ambos NB declaran cuatro categorías incluyendo cero.
+  `alpha=m/4` es equivalente bajo ese dominio común y prior uniforme; en general
+  se necesita `alpha_j=m/K_j`. Un único `alpha` no sirve si los `K_j` difieren.
 - Random Forest mantiene 300 árboles y semilla 42, y selecciona profundidad y
   hoja mínima. Se conserva la configuración original sin límite/hoja 1.
 - Las curvas registran error `1-accuracy` y macro-F1 de train y validación;
@@ -160,3 +169,25 @@ diagnóstico sin predecir E, evaluado siempre contra las tres clases reales.
 Random Forest conserva las seis entradas actuales; ID3 y ambos NB seleccionan
 las entradas actuales más puntos y diferencia de gol recientes de ambos equipos.
 No se realizó evaluación final ni reajuste con todo el histórico.
+
+## Evaluación final de NB completada
+
+La etapa posterior está cerrada en [docs/nb_final_evaluation.md](docs/nb_final_evaluation.md):
+ambos NB usan diez atributos y sus parámetros ya seleccionados (`m=0.1`,
+`alpha=0.025`, K=4). Cada uno ajusta un pipeline nuevo con los 14.705 partidos
+admitidos hasta 2023 y predice los mismos 472 partidos de 2024–2025. Los
+historiales incorporan solo fechas anteriores; modelos y discretizadores quedan
+fijos durante test. Ningún resultado de test modifica la selección.
+
+Ambos NB tienen predicciones idénticas: accuracy 0.478814 y macro-F1 0.445369.
+El baseline de diez años, recalculado bajo la misma política y muestra, obtiene
+0.461864 y 0.356446. Los artefactos y modelos están en
+`results/naive_bayes/final/`, con configuración, versiones y hashes separados
+de los manifiestos de selección. ID3 y Random Forest no se ejecutan ni modifican.
+`RUN_FINAL_TEST=False` conserva desactivadas únicamente las celdas legadas de
+árboles. El notebook actual reproduce siempre la selección, el ajuste final y
+la evaluación de NB y baseline; ya no existe el control `REFIT_FINAL_NB` de una
+versión anterior. El procedimiento vigente está en
+[docs/nb_delivery.md](docs/nb_delivery.md).
+Verificación: Python 3.12.14, scikit-learn 1.9.1, 23 pruebas aprobadas y recarga de
+los tres modelos con reproducción exacta de sus predicciones.

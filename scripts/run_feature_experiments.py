@@ -30,8 +30,7 @@ def main():
     for relative, digest in manifest['implementation_sha256'].items():
         assert hashlib.sha256((ROOT/relative).read_bytes()).hexdigest() == digest, relative
     selected = pd.read_csv(prior/'selected.csv')
-    matches = load_clean_matches(source)
-    matches = matches.loc[matches.date.dt.year.le(2023)].copy()
+    matches = load_clean_matches(source, through_year=2023)
     frame = build_experiment_features(matches)
     folds = make_temporal_folds(frame)
     details, summary, chosen, predictions = run_feature_experiments(frame, selected)

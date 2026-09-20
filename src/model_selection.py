@@ -25,7 +25,9 @@ except ImportError:
 SEED = 42
 ID3_GRID = (0.0, 0.001, 0.005, 0.01, 0.02, 0.05)
 M_GRID = (0.1, 1.0, 10.0, 100.0, 1000.0)
-# Four codes (0 reserved, plus bins 1/2/3): alpha=m/4 for comparable priors.
+# Esta grilla declara 0..3 en AMBOS NB, aun si un bin no aparece en un fold.
+# Solo con igual K=4 y prior uniforme corresponde alpha=m/4; no es general
+# para otros discretizadores ni para atributos con cardinalidades distintas.
 ALPHA_GRID = tuple(m / 4 for m in M_GRID)
 RF_DEPTHS = (4, 8, None)
 RF_LEAVES = (50, 20, 5, 1)
@@ -48,7 +50,7 @@ def model_candidates() -> list[Candidate]:
         candidates.append(Candidate('ID3', ID3(min_info_gain=gain), 'discrete',
                                     {'min_info_gain': gain}, rank))
     for rank, m in enumerate(M_GRID):
-        candidates.append(Candidate('NB propio', MEstimateCategoricalNB(m=m),
+        candidates.append(Candidate('NB propio', MEstimateCategoricalNB(m=m, min_categories=4),
                                     'discrete', {'m': m}, rank))
     for rank, alpha in enumerate(ALPHA_GRID):
         candidates.append(Candidate('CategoricalNB', CategoricalNB(
@@ -98,11 +100,13 @@ def summarize_validation(details: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFr
     return summary, selected
 
 
-def run_model_selection(frame: pd.DataFrame, progress=print):
+def run_model_selection(frame: pd.DataFrame, progress=print, *, models=None):
     """Fit CV candidates only. Reject any date after 2023 before the first fit."""
     folds = make_temporal_folds(frame)
     details = []
     for i, candidate in enumerate(model_candidates()):
+        if models is not None and candidate.model not in models:
+            continue
         parameters = json.dumps(candidate.parameters, sort_keys=True)
         if progress:
             progress(f'{i+1:02d}/31 {candidate.model}: {parameters}', flush=True)
@@ -153,6 +157,8 @@ def plot_validation_curves(summary: pd.DataFrame, output_dir):
         axes[1].legend(fontsize=8)
 
     for model, parameter, slug in simple:
+        if model not in set(summary.model):
+            continue
         fig, axes = plt.subplots(1, 2, figsize=(10, 3.7), layout='constrained')
         draw(axes, summary.loc[summary.model.eq(model)], parameter, model, parameter != 'min_info_gain')
         fig.suptitle('Media por año: validación 2021–2023; selección por macro-F1', fontsize=11)
@@ -161,6 +167,8 @@ def plot_validation_curves(summary: pd.DataFrame, output_dir):
         plt.close(fig)
         paths.append(path)
     forest = summary.loc[summary.model.eq('Random Forest')]
+    if forest.empty:
+        return paths
     fig, axes = plt.subplots(3, 2, figsize=(10, 10), layout='constrained')
     for row, depth in enumerate(RF_DEPTHS):
         part = forest.loc[forest.parameters.map(lambda p: json.loads(p)['max_depth'] == depth)]

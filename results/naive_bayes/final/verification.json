@@ -1,0 +1,31 @@
+{
+  "python": "3.12.14",
+  "scikit_learn": "1.9.1",
+  "reloaded_predictions_identical": {
+    "NB propio": 472,
+    "CategoricalNB": 472,
+    "Base 10 años": 472
+  },
+  "reversed_prediction_order_identical": true,
+  "learned_state_unchanged": true,
+  "notebook_executed_cells_zero_based": [
+    2,
+    4,
+    6,
+    8,
+    15,
+    21,
+    23,
+    36,
+    38,
+    40,
+    42,
+    44
+  ],
+  "notebook_fits": 0,
+  "tree_or_forest_fits": 0,
+  "notebook_sha256": "346898cb7f1e4c4f22ca4a698e8321da554e7c1818c0e47d5f628788ddd7af8a",
+  "executed_notebook_sha256": "501c662c69f3dc67f7511b649b95ae142bda2a1e8b2c64cbca1acf8318ec2e2b",
+  "evaluation_manifest_sha256": "c5484422155f43d591d1631136551666fdb5f5c3006116f05712a6bb19780c5d",
+  "verification_script_sha256": "8c1d8b29148eefc26738d6ffc9f8e9b64b4cc29989048f1038d7d52a92c690f2"
+}

@@ -109,12 +109,29 @@ actualizar los historiales. Los cuantiles de los atributos añadidos se aprenden
 solo en cada entrenamiento. Las ablaciones eliminan por separado exactamente
 `home_win_rate_as_home_all` o `home_win_rate_h2h_as_home`.
 
-Corrida con Python 3.12.14 y scikit-learn 1.9.1:
+Estos resultados son históricos y corresponden al código de
+`0fc5945b03803b329226f1a0fe6b97cbad030aeb`. Sus manifiestos conservan los hashes
+originales. El comando de atributos ejecutado con el código NB posterior aborta
+por esa diferencia de versiones; no se deben reemplazar los hashes a mano.
+
+Para repetir exactamente este experimento con Python 3.12 y scikit-learn 1.9,
+usar una copia aislada del commit, sin sobrescribir la evidencia NB vigente:
 
 ```sh
-python3.12 scripts/run_feature_experiments.py
-python3.12 -m unittest discover -s tests -v
+feature_replay_dir=$(mktemp -d "${TMPDIR:-/tmp}/lab1-features.XXXXXX")
+git archive 0fc5945b03803b329226f1a0fe6b97cbad030aeb | tar -x -C "$feature_replay_dir"
+python3.12 -m venv "$feature_replay_dir/.venv"
+"$feature_replay_dir/.venv/bin/python" -m pip install -r "$feature_replay_dir/requirements.txt"
+(
+    cd "$feature_replay_dir" || exit 1
+    .venv/bin/python scripts/run_feature_experiments.py
+    .venv/bin/python -m unittest discover -s tests -v
+)
 ```
+
+La reproducción actual de NB desde el ZIP está en
+[nb_delivery.md](nb_delivery.md). Esta copia histórica sirve para repetir los
+antecedentes compartidos; no reemplaza los módulos ni resultados NB actuales.
 
 Las desviaciones entre tres años son descriptivas, no intervalos de confianza.
 Los folds ya participaron en elegir hiperparámetros y ahora atributos, de modo

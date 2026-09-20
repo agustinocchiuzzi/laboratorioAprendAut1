@@ -110,17 +110,21 @@ macro-F1 de cada panel; la selección global compara todas las profundidades.
 - [Configuraciones seleccionadas y controles](../results/validation/selected.csv)
 - [Manifiesto: versiones, SHA-256, grillas y cortes por fold](../results/validation/manifest.json)
 
-Corrida verificada con Python **3.12.14** y scikit-learn **1.9.1**:
+Esta corrida histórica se verificó con Python **3.12.14** y scikit-learn
+**1.9.1**, usando el código conservado en
+`0fc5945b03803b329226f1a0fe6b97cbad030aeb`. Para repetirla, preparar la copia
+histórica y su entorno según [feature_findings.md](feature_findings.md), y
+antes de ejecutar los experimentos de atributos ejecutar dentro de esa copia:
 
 ```sh
-python3.12 scripts/run_validation.py
-python3.12 -m unittest discover -s tests -v
+.venv/bin/python scripts/run_validation.py
 ```
 
-El notebook lee estos artefactos y comprueba los hashes del dataset y la
-implementación. Conserva las comparaciones y los diagnósticos finales detrás de
-`RUN_FINAL_TEST = False`; recorrerlo por defecto no evalúa el test. La revisión
-se detiene aquí, antes de experimentos de atributos y evaluación final.
+Los manifiestos originales no se deben modificar para atribuir esta corrida al
+código actual. En aquel notebook, `RUN_FINAL_TEST=False` desactivaba toda la
+evaluación final. En el notebook actual desactiva únicamente las celdas legadas
+de árboles: NB y baseline sí se ajustan y evalúan sobre 2024–2025. Su reproducción
+vigente desde el ZIP está en [nb_delivery.md](nb_delivery.md).
 
 Verificación final: 16 pruebas aprobadas; se recalcularon medias y selección desde
 las 93 filas guardadas y se comprobaron los hashes. Se recorrieron todas las

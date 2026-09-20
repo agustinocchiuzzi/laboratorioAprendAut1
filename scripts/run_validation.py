@@ -26,9 +26,8 @@ def main():
     if sys.version_info[:2] != (3, 12) or not sklearn.__version__.startswith('1.9.'):
         raise RuntimeError('Ejecutar con Python 3.12 y scikit-learn 1.9.')
     source = ROOT / 'data/raw/futbol_uruguayo.zip'
-    matches = load_clean_matches(source)
-    # Cut BEFORE feature construction: no 2024/2025 labels or inputs reach CV.
-    matches = matches.loc[matches.date.dt.year.le(2023)].copy()
+    # El corte ocurre en la lectura, antes de limpiar marcadores o crear etiquetas.
+    matches = load_clean_matches(source, through_year=2023)
     frame = build_causal_match_features(matches)
     del matches
     folds = make_temporal_folds(frame)

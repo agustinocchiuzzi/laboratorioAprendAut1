@@ -1,0 +1,1917 @@
+{
+  "python": "3.12.14",
+  "scikit_learn": "1.9.1",
+  "numpy": "2.5.3",
+  "pandas": "2.3.3",
+  "seed": 42,
+  "scope": [
+    "NB propio",
+    "CategoricalNB"
+  ],
+  "rows": 14705,
+  "latest_date": "2023-12-16",
+  "training_sha256": "88180c207c77776e62f072119fb313b8c1dbb21a5d4627f2c3468356b9acc9d5",
+  "source_policy": "date-only partition pass; parse/clean outcomes only through 2023",
+  "implementation_sha256": {
+    "src/baseline.py": "0131a9ea2802c108f8a3368dcb55a01da82d53614a8695e5614e3091de7a728c",
+    "src/evaluation.py": "1088eac2971e8b0f949a529614ccab7b00d26e0b9cd8d86d12c23e719c6ba723",
+    "src/feature_experiments.py": "407582ee3bd26cd667fdb13d40502c9857ae612a61e94253bddba68adae1aa8d",
+    "src/features.py": "ce7eea4ef806da0adcb415a5ec1b3f8ca5a10ee148aba710092cb085e60dc4c3",
+    "src/id3.py": "7deda030d373036bb8152da11be6c9a23aa8c070205a9a1495cbb6f82b5d7063",
+    "src/id3_nuestro.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/model_selection.py": "6d76f53ed9b4f37281138797f3fb57c45ac63fc59799590247986eeef66ad78b",
+    "src/naive_bayes.py": "acd7205023e12151fa549655634e6a6d649e7384f397e9f149fe6c93e8e94588",
+    "src/nb_selection.py": "1ad031f4655070448009627e440460a8c0b188c666fcd150325c0e5b9a57e065",
+    "src/preprocessing.py": "52eaa26e2e029fc6192cd1b7a2f8861931165175cdc716e3b9ef36f59df7bf17",
+    "scripts/consolidate_nb.py": "6c1e7c74b3036a6e11d4e9cead7a62cf303fb8259549870d721f10f1a1318330",
+    "requirements.txt": "ef9b2fbca9f93f86ff53c13bfb5c62569d26a63ee8704d98b26d447a91acc29b"
+  },
+  "artifacts_sha256": {
+    "results/naive_bayes/validation_folds.csv": "85085090c22afe67362fcdafafb73f1ede43905e01053df427b2699d709113c3",
+    "results/naive_bayes/validation_summary.csv": "8ad4d2fbc5a85e1d6285489fed551cb210bcc0ebb342f5c074a7dbb45c96b635",
+    "results/naive_bayes/validation_selected.csv": "ec0693a38d0cc300f1ca1dac1b7038abbedee02573e3f35f473d87960b0e185d",
+    "results/naive_bayes/feature_folds.csv": "2d718d4e732da6e45d4a0a2f812cb850c96f3871b541f60ad41b099b3e5c0aad",
+    "results/naive_bayes/feature_summary.csv": "820dfa10fbb9d774d2613f1a1e8f92b08fe242eb96ebbe1fafe7b30d3e946136",
+    "results/naive_bayes/feature_selected.csv": "01f59f42c6ac55dc99f792e03170649624d12e1dd65ad86fed9cf8e9c99346bf",
+    "results/naive_bayes/validation_predictions.csv": "1aa5f77c578436b327faae0cf472be9b39fc4057aa57713c041d486c0ba8b19d",
+    "results/naive_bayes/figures/nb_propio.png": "a64e160c839861c4d06732f5389f5b69254f36ddb5f31943713c7ddb32a79f2a",
+    "results/naive_bayes/figures/categorical_nb.png": "788bdaad9aed1547cd534f0d406e18319c6bcc93bd015cf5b50fb196b7357706",
+    "results/naive_bayes/final_configurations.json": "3f204e1f9fcf6445a96423a504386392590e19fed30f00372e7aeb9cfceb7dc1"
+  },
+  "historical_artifacts_sha256": {
+    "results/validation/selected.csv": "e02f438ac7fa6fba4ae5506556c18d946c44d25ddfafffe7a2afe78345c87c12",
+    "results/validation/manifest.json": "e22dbc2bbd6368c7cc6a55e03f8c8efbcc45af64993988013e540684c6ddef94",
+    "results/validation/grid_summary.csv": "6fbc7e9653b2ff492632d416d44de74b7ea85e2f6617b8ca927d67f520ee1807",
+    "results/validation/fold_metrics.csv": "16d0d741a19d11b434a66c0c85ae7c7d21954a74f001cfdd4992728750d571b6",
+    "results/validation/figures/nb_propio.png": "a64e160c839861c4d06732f5389f5b69254f36ddb5f31943713c7ddb32a79f2a",
+    "results/validation/figures/categorical_nb.png": "788bdaad9aed1547cd534f0d406e18319c6bcc93bd015cf5b50fb196b7357706",
+    "results/validation/figures/id3.png": "031f826ff841dcc3b57896cafddeeff4524ef964dc7d78b01804593a9232ce6d",
+    "results/validation/figures/random_forest.png": "d620e47a7d064fc0c338347d8d2efac730183a246b602f655ae3f256bba40d90",
+    "results/feature_experiments/summary.csv": "1062478cafc88a3a251af23ab74bbe1a761bc03f5e19a319d7c391ce85cdf62b",
+    "results/feature_experiments/validation_predictions.csv": "abfbe5360d58ce7b8fd1dfdf9fe08d3a6276cafa64b854e918e8d6fd7917da7e",
+    "results/feature_experiments/accuracy_macro_f1.png": "21240217aa2b5d52d129e7e9f0a9250b96c0e38a13ca343786d5b7426dca41ab",
+    "results/feature_experiments/selected.csv": "eb64f02f419b3c7800b4f73c814824741839e0e6ba719685b6560cf66a961b91",
+    "results/feature_experiments/manifest.json": "2b67b43bfe6de792f53b4f1062590c152ab17886dd11f1007d6de9a285a62aca",
+    "results/feature_experiments/fold_metrics.csv": "c525c67b3f728e081255cd1cc403c1b918f07fe005ef4aa7764f5f7bba7dcec1"
+  },
+  "historical_code_mismatches": {
+    "validation": [
+      "src/features.py",
+      "src/model_selection.py",
+      "src/naive_bayes.py",
+      "src/preprocessing.py",
+      "scripts/run_validation.py"
+    ],
+    "feature_experiments": [
+      "src/feature_experiments.py",
+      "src/features.py",
+      "src/model_selection.py",
+      "src/naive_bayes.py",
+      "src/preprocessing.py",
+      "scripts/run_feature_experiments.py"
+    ]
+  },
+  "folds": [
+    {
+      "validation_year": 2021,
+      "n_train": 13744,
+      "n_validation": 364,
+      "train_start": "1932-03-05",
+      "train_end": "2020-12-19",
+      "validation_start": "2021-01-13",
+      "validation_end": "2021-12-06",
+      "train_positions_sha256": "be95209bd447687cf0846dba99edc51387a2820b192d3c4b389a7da38e04728f",
+      "validation_positions_sha256": "284995d2bdbeeedcbc1c1788a155350ed7060af13932f2f2d352bf1221245b6c"
+    },
+    {
+      "validation_year": 2022,
+      "n_train": 14108,
+      "n_validation": 297,
+      "train_start": "1932-03-05",
+      "train_end": "2021-12-06",
+      "validation_start": "2022-02-05",
+      "validation_end": "2022-10-24",
+      "train_positions_sha256": "26597d4c1075ef324c5a59673b29c9a408da6a82feb46f46e432ed2c479d8090",
+      "validation_positions_sha256": "8f77ed5e2edfbb3e3234c3ecf6c16086105b9bec33bd6dcdf4e761c79c99af8d"
+    },
+    {
+      "validation_year": 2023,
+      "n_train": 14405,
+      "n_validation": 300,
+      "train_start": "1932-03-05",
+      "train_end": "2022-10-24",
+      "validation_start": "2023-02-04",
+      "validation_end": "2023-12-16",
+      "train_positions_sha256": "4428a4436f9a89845dba0dc029a06929805847e272519631ca3b1c88b72d386e",
+      "validation_positions_sha256": "e0eaa1d9000e547fb56f923932a2d286322d4280ab1b4269bede61c5f8606230"
+    }
+  ],
+  "preprocessing_by_variant_and_fold": [
+    {
+      "variant": "current",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "current",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "current",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "plus_points",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "plus_points",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "plus_points",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "plus_goal_difference",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "plus_goal_difference",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "plus_goal_difference",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "plus_points_and_goals",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "plus_points_and_goals",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "plus_points_and_goals",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ],
+        "home_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "away_points_per_match_5": [
+          1.0,
+          1.6
+        ],
+        "home_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ],
+        "away_goal_diff_per_match_5": [
+          -0.4,
+          0.4
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_points_per_match_5": 1.4,
+        "away_points_per_match_5": 1.4,
+        "home_goal_diff_per_match_5": 0.0,
+        "away_goal_diff_per_match_5": 0.0
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "plus_draw_rates",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_draw_rate_all",
+        "away_draw_rate_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_draw_rate_all": [
+          0.24705882352941178,
+          0.2878024193548387
+        ],
+        "away_draw_rate_all": [
+          0.24860853432282004,
+          0.2884333821376281
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_draw_rate_all": 0.27550483915963864,
+        "away_draw_rate_all": 0.27692307692307694
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "plus_draw_rates",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_draw_rate_all",
+        "away_draw_rate_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ],
+        "home_draw_rate_all": [
+          0.24811228666792617,
+          0.2877787511558865
+        ],
+        "away_draw_rate_all": [
+          0.25,
+          0.2884292723022784
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_draw_rate_all": 0.27636088383751933,
+        "away_draw_rate_all": 0.27751476306264916
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "plus_draw_rates",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_draw_rate_all",
+        "away_draw_rate_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ],
+        "home_draw_rate_all": [
+          0.24921037542396765,
+          0.28773903512964133
+        ],
+        "away_draw_rate_all": [
+          0.25,
+          0.28835978835978837
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936,
+        "home_win_rate_h2h_as_home": 0.5,
+        "home_draw_rate_all": 0.2768361581920904,
+        "away_draw_rate_all": 0.2777777777777778
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "without_home_history",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "without_home_history",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.38461538461538464,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "without_home_history",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_h2h_as_home"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_h2h_as_home": [
+          0.3793103448275862,
+          0.5555555555555556
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_h2h_as_home": 0.5
+      },
+      "fitted_through": "2022-10-24"
+    },
+    {
+      "variant": "without_home_h2h",
+      "validation_year": 2021,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47368421052631576
+        ],
+        "home_win_rate_as_home_all": [
+          0.41231593038821956,
+          0.4811443433029909
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36363636363636365,
+        "home_win_rate_as_home_all": 0.4435618334539277
+      },
+      "fitted_through": "2020-12-19"
+    },
+    {
+      "variant": "without_home_h2h",
+      "validation_year": 2022,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.27039627039626934,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.4111111111111111,
+          0.4800942874724908
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44200103968954385
+      },
+      "fitted_through": "2021-12-06"
+    },
+    {
+      "variant": "without_home_h2h",
+      "validation_year": 2023,
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all"
+      ],
+      "n_categories": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "observed_max_plus_one": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "numeric_edges": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "home_win_rate_season": [
+          0.25,
+          0.45454545454545453
+        ],
+        "away_win_rate_season": [
+          0.2692307692307692,
+          0.47058823529411764
+        ],
+        "home_win_rate_as_home_all": [
+          0.41026829761183026,
+          0.4791865933365216
+        ]
+      },
+      "numeric_medians": {
+        "home_win_rate_last_5": 0.4,
+        "away_win_rate_last_5": 0.4,
+        "home_win_rate_season": 0.3333333333333333,
+        "away_win_rate_season": 0.36,
+        "home_win_rate_as_home_all": 0.44150110375275936
+      },
+      "fitted_through": "2022-10-24"
+    }
+  ],
+  "grid": [
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 0.1
+      },
+      "estimator_parameters": {
+        "m": 0.1,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 1.0
+      },
+      "estimator_parameters": {
+        "m": 1.0,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 10.0
+      },
+      "estimator_parameters": {
+        "m": 10.0,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 100.0
+      },
+      "estimator_parameters": {
+        "m": 100.0,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 1000.0
+      },
+      "estimator_parameters": {
+        "m": 1000.0,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 0.025
+      },
+      "estimator_parameters": {
+        "alpha": 0.025,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 0.25
+      },
+      "estimator_parameters": {
+        "alpha": 0.25,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 2.5
+      },
+      "estimator_parameters": {
+        "alpha": 2.5,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 25.0
+      },
+      "estimator_parameters": {
+        "alpha": 25.0,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      }
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 250.0
+      },
+      "estimator_parameters": {
+        "alpha": 250.0,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      }
+    }
+  ],
+  "variants": {
+    "current": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home"
+    ],
+    "plus_points": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5"
+    ],
+    "plus_goal_difference": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "plus_points_and_goals": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "plus_draw_rates": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_draw_rate_all",
+      "away_draw_rate_all"
+    ],
+    "without_home_history": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_h2h_as_home"
+    ],
+    "without_home_h2h": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all"
+    ]
+  },
+  "fits": {
+    "hyperparameters": 30,
+    "features": 42
+  },
+  "selection_metric": "unrounded mean annual validation macro-F1; E/L/V; equal year weights",
+  "tie_policy": {
+    "hyperparameters": "smaller m/alpha",
+    "features": "fewer columns, declared variant order"
+  },
+  "error_metric": "1 - accuracy",
+  "selection_order": "hyperparameters on six rates, then fixed-parameter feature comparison",
+  "comparison_with_historical": {
+    "validation": {
+      "same_within_1e_minus_14": true,
+      "max_absolute_difference": 5.551115123125783e-17
+    },
+    "features": {
+      "same_within_1e_minus_14": true,
+      "max_absolute_difference": 6.938893903907228e-17
+    },
+    "changed_validation_predictions": {
+      "three_class": 0,
+      "never_draw": 0
+    }
+  },
+  "final_configurations": {
+    "CategoricalNB": {
+      "estimator": "CategoricalNB",
+      "estimator_parameters": {
+        "alpha": 0.025,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "variant": "plus_points_and_goals",
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "representation": "discrete",
+      "decision": "three_class",
+      "preprocessing": {
+        "n_bins": 3,
+        "fixed_cuts": {
+          "home_win_rate_last_5": [
+            0.3,
+            0.6
+          ],
+          "away_win_rate_last_5": [
+            0.3,
+            0.6
+          ]
+        },
+        "quantiles_and_medians": "fit on training only"
+      },
+      "validation_macro_f1_mean": 0.3857983021252314,
+      "validation_accuracy_mean": 0.4276498809832143
+    },
+    "NB propio": {
+      "estimator": "MEstimateCategoricalNB",
+      "estimator_parameters": {
+        "m": 0.1,
+        "min_categories": 4
+      },
+      "variant": "plus_points_and_goals",
+      "columns": [
+        "home_win_rate_last_5",
+        "away_win_rate_last_5",
+        "home_win_rate_season",
+        "away_win_rate_season",
+        "home_win_rate_as_home_all",
+        "home_win_rate_h2h_as_home",
+        "home_points_per_match_5",
+        "away_points_per_match_5",
+        "home_goal_diff_per_match_5",
+        "away_goal_diff_per_match_5"
+      ],
+      "representation": "discrete",
+      "decision": "three_class",
+      "preprocessing": {
+        "n_bins": 3,
+        "fixed_cuts": {
+          "home_win_rate_last_5": [
+            0.3,
+            0.6
+          ],
+          "away_win_rate_last_5": [
+            0.3,
+            0.6
+          ]
+        },
+        "quantiles_and_medians": "fit on training only"
+      },
+      "validation_macro_f1_mean": 0.3857983021252314,
+      "validation_accuracy_mean": 0.4276498809832143
+    }
+  },
+  "test_evaluated": false,
+  "final_refit_performed": false
+}

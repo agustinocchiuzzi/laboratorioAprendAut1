@@ -34,7 +34,7 @@ _UNUSED_COLUMNS = {
 }
 
 
-def load_raw_matches(source: str | Path) -> pd.DataFrame:
+def load_raw_matches(source: str | Path, *, through_year: int | None = None) -> pd.DataFrame:
     """Read the original ZIP (one CSV) without modifying source records.
 
     ``gh``/``ga``/``winner`` are kept only for target construction and auditing;
@@ -52,14 +52,22 @@ def load_raw_matches(source: str | Path) -> pd.DataFrame:
                 "El ZIP debe contener exactamente un CSV; "
                 f"se encontraron {len(csv_members)}: {csv_members}."
             )
+        skiprows = None
+        if through_year is not None:
+            # Primero leer SOLO fechas. La segunda lectura no interpreta los
+            # campos (ni los resultados) del horizonte reservado.
+            with archive.open(csv_members[0]) as stream:
+                dates = pd.read_csv(stream, usecols=["date"], encoding="utf-8-sig")
+            dates = pd.to_datetime(dates["date"], format="%Y-%m-%d", errors="raise")
+            skiprows = (np.flatnonzero(dates.dt.year.gt(through_year)) + 1).tolist()
         with archive.open(csv_members[0]) as stream:
-            raw = pd.read_csv(stream, encoding="utf-8-sig")
+            raw = pd.read_csv(stream, encoding="utf-8-sig", skiprows=skiprows)
     return raw
 
 
-def load_clean_matches(source: str | Path) -> pd.DataFrame:
+def load_clean_matches(source: str | Path, *, through_year: int | None = None) -> pd.DataFrame:
     """Apply the audited policy before building targets or any team history."""
-    return _clean_matches(load_raw_matches(source))
+    return _clean_matches(load_raw_matches(source, through_year=through_year))
 
 
 def _normalize_matches(raw: pd.DataFrame) -> pd.DataFrame:

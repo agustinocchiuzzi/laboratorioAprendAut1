@@ -1,0 +1,81 @@
+{
+  "CategoricalNB": {
+    "estimator": "CategoricalNB",
+    "estimator_parameters": {
+      "alpha": 0.025,
+      "class_prior": null,
+      "fit_prior": true,
+      "force_alpha": true,
+      "min_categories": 4
+    },
+    "variant": "plus_points_and_goals",
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "representation": "discrete",
+    "decision": "three_class",
+    "preprocessing": {
+      "n_bins": 3,
+      "fixed_cuts": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ]
+      },
+      "quantiles_and_medians": "fit on training only"
+    },
+    "validation_macro_f1_mean": 0.3857983021252314,
+    "validation_accuracy_mean": 0.4276498809832143
+  },
+  "NB propio": {
+    "estimator": "MEstimateCategoricalNB",
+    "estimator_parameters": {
+      "m": 0.1,
+      "min_categories": 4
+    },
+    "variant": "plus_points_and_goals",
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "representation": "discrete",
+    "decision": "three_class",
+    "preprocessing": {
+      "n_bins": 3,
+      "fixed_cuts": {
+        "home_win_rate_last_5": [
+          0.3,
+          0.6
+        ],
+        "away_win_rate_last_5": [
+          0.3,
+          0.6
+        ]
+      },
+      "quantiles_and_medians": "fit on training only"
+    },
+    "validation_macro_f1_mean": 0.3857983021252314,
+    "validation_accuracy_mean": 0.4276498809832143
+  }
+}

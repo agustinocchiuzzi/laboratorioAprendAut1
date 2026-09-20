@@ -1,0 +1,15 @@
+{
+  "n_predictions": 472,
+  "n_differences": 0,
+  "identical_predictions": true,
+  "identical_discrete_inputs": true,
+  "identical_category_counts": true,
+  "identical_cardinalities": true,
+  "m_over_K_equals_alpha": true,
+  "equivalence_conditions_met": true,
+  "max_abs_class_log_prior_difference": 7.771561172376096e-16,
+  "max_abs_feature_log_probability_difference": 8.881784197001252e-16,
+  "max_abs_joint_log_likelihood_difference": 5.329070518200751e-15,
+  "decision": "argmax over classes E, L, V; exact ties choose first class",
+  "explanation": "Los conteos, entradas, dominios y priors coinciden; K=4 y alpha=m/4. Ambas fórmulas son equivalentes salvo redondeo de punto flotante."
+}
