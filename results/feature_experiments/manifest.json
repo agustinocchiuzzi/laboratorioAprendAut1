@@ -1,0 +1,181 @@
+{
+  "python": "3.12.14",
+  "scikit_learn": "1.9.1",
+  "source_sha256": "1eab655a3e3985f26362fefce7bd2bb43d2a109f6db4ac327327b6fd7bcf1280",
+  "implementation_sha256": {
+    "src/baseline.py": "0131a9ea2802c108f8a3368dcb55a01da82d53614a8695e5614e3091de7a728c",
+    "src/evaluation.py": "1088eac2971e8b0f949a529614ccab7b00d26e0b9cd8d86d12c23e719c6ba723",
+    "src/feature_experiments.py": "ca2dfec1dd6086ed5034cbe86c8e5d47102b9e8c3ac5e6f6cbfaa7e8193206e0",
+    "src/features.py": "5b0118707f8b6e78d56ef51e713da107bfef8eaa975fcb2f2b5d02f41046b360",
+    "src/id3.py": "7deda030d373036bb8152da11be6c9a23aa8c070205a9a1495cbb6f82b5d7063",
+    "src/id3_nuestro.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/model_selection.py": "ae10702f46212caf67b19655cc85193d6829a1e82c1a8afa1e0bfa231ed73fb7",
+    "src/naive_bayes.py": "4d87fe268c9935f765ea0280fd783e809d14b340dcb87c3064e78a55ff5d7b18",
+    "src/preprocessing.py": "ffb46311471d3af8b385bf54c08a1c45bcafc6e5359e341673ac24611f881afe",
+    "scripts/run_feature_experiments.py": "bf13b5c45194f2fc4fca9340661a3556984af49fcaaad8b3b17b7aff1f258b22",
+    "requirements.txt": "ef9b2fbca9f93f86ff53c13bfb5c62569d26a63ee8704d98b26d447a91acc29b",
+    "docs/feature_experiment_plan.md": "295b3522fe8919825f3be522a180db3e862f403d27cd6422e1c0b1f0d529d899",
+    "results/validation/selected.csv": "e02f438ac7fa6fba4ae5506556c18d946c44d25ddfafffe7a2afe78345c87c12",
+    "results/validation/manifest.json": "e22dbc2bbd6368c7cc6a55e03f8c8efbcc45af64993988013e540684c6ddef94"
+  },
+  "rows": 14705,
+  "latest_date": "2023-12-16",
+  "seed": 42,
+  "variants": {
+    "current": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home"
+    ],
+    "plus_points": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5"
+    ],
+    "plus_goal_difference": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "plus_points_and_goals": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "plus_draw_rates": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_draw_rate_all",
+      "away_draw_rate_all"
+    ],
+    "without_home_history": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_h2h_as_home"
+    ],
+    "without_home_h2h": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all"
+    ]
+  },
+  "fixed_models": [
+    {
+      "model": "ID3",
+      "parameters": {
+        "max_depth": 8,
+        "min_info_gain": 0.005
+      },
+      "representation": "discrete"
+    },
+    {
+      "model": "NB propio",
+      "parameters": {
+        "m": 0.1
+      },
+      "representation": "discrete"
+    },
+    {
+      "model": "CategoricalNB",
+      "parameters": {
+        "alpha": 0.025,
+        "class_prior": null,
+        "fit_prior": true,
+        "force_alpha": true,
+        "min_categories": 4
+      },
+      "representation": "discrete"
+    },
+    {
+      "model": "Random Forest",
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced_subsample",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 20,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 2,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "representation": "continuous"
+    }
+  ],
+  "folds": [
+    {
+      "year": 2021,
+      "n_train": 13744,
+      "n_validation": 364,
+      "train_end": "2020-12-19",
+      "validation_start": "2021-01-13",
+      "validation_end": "2021-12-06"
+    },
+    {
+      "year": 2022,
+      "n_train": 14108,
+      "n_validation": 297,
+      "train_end": "2021-12-06",
+      "validation_start": "2022-02-05",
+      "validation_end": "2022-10-24"
+    },
+    {
+      "year": 2023,
+      "n_train": 14405,
+      "n_validation": 300,
+      "train_end": "2022-10-24",
+      "validation_start": "2023-02-04",
+      "validation_end": "2023-12-16"
+    }
+  ],
+  "fits": 84,
+  "selection_metric": "mean annual macro-F1; labels E,L,V; equal weights; three_class only",
+  "tie_policy": "fewer features, declared variant order, model name",
+  "diagnostic": "restricted L/V prediction; original three-class truth and training unchanged",
+  "control_reproduces_prior_selection": true,
+  "test_evaluated": false,
+  "final_refit_performed": false,
+  "global_selection": {
+    "model": "Random Forest",
+    "variant": "current",
+    "parameters": "{\"max_depth\": null, \"min_samples_leaf\": 20}"
+  }
+}

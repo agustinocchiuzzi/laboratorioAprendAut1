@@ -1,0 +1,473 @@
+date,home,away,winner,pred_nb_propio,pred_categorical_nb,pred_baseline_10y,correct_nb_propio,correct_categorical_nb,correct_baseline_10y,nb_identical
+2024-02-17,CA Fenix,Danubio,V,V,V,V,True,True,True,True
+2024-02-17,Miramar Misiones,CA Progreso,V,V,V,V,True,True,True,True
+2024-02-17,Nacional,River Plate,L,L,L,L,True,True,True,True
+2024-02-18,CA Cerro,Montevideo Wanderers,E,V,V,V,False,False,False,True
+2024-02-18,Deportivo Maldonado,Boston River,V,L,L,L,False,False,False,True
+2024-02-18,Racing Club,Liverpool,E,V,V,V,False,False,False,True
+2024-02-19,Cerro Largo FC,CA Penarol,V,L,L,V,False,False,True,True
+2024-02-23,River Plate,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-02-24,Boston River,Danubio,E,V,V,V,False,False,False,True
+2024-02-24,Montevideo Wanderers,Racing Club,V,E,E,L,False,False,False,True
+2024-02-25,CA Penarol,Miramar Misiones,L,L,L,L,True,True,True,True
+2024-02-25,Cerro Largo FC,CA Fenix,E,L,L,L,False,False,False,True
+2024-02-25,Defensor Sporting,CA Cerro,L,L,L,L,True,True,True,True
+2024-02-25,Liverpool,Nacional,E,V,V,V,False,False,False,True
+2024-03-01,CA Cerro,CA Progreso,V,V,V,V,True,True,True,True
+2024-03-01,Miramar Misiones,Cerro Largo FC,V,V,V,V,True,True,True,True
+2024-03-02,Racing Club,Defensor Sporting,V,L,L,V,False,False,True,True
+2024-03-02,River Plate,Danubio,L,V,V,L,False,False,True,True
+2024-03-03,CA Fenix,Boston River,V,V,V,V,True,True,True,True
+2024-03-03,Liverpool,Deportivo Maldonado,V,L,L,L,False,False,False,True
+2024-03-03,Nacional,Montevideo Wanderers,L,L,L,L,True,True,True,True
+2024-03-04,Rampla Juniors Futbol Club,CA Penarol,V,V,V,V,True,True,True,True
+2024-03-09,CA Penarol,CA Cerro,L,L,L,L,True,True,True,True
+2024-03-09,Miramar Misiones,CA Fenix,E,V,V,V,False,False,False,True
+2024-03-09,River Plate,Boston River,V,E,E,L,False,False,False,True
+2024-03-10,CA Progreso,Racing Club,L,L,L,L,True,True,True,True
+2024-03-10,Defensor Sporting,Nacional,E,V,V,V,False,False,False,True
+2024-03-10,Liverpool,Danubio,V,V,V,L,True,True,False,True
+2024-03-11,Cerro Largo FC,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-03-11,Montevideo Wanderers,Deportivo Maldonado,E,E,E,L,True,True,False,True
+2024-03-15,Boston River,Liverpool,E,L,L,V,False,False,False,True
+2024-03-16,CA Fenix,River Plate,E,V,V,V,False,False,False,True
+2024-03-16,Racing Club,CA Penarol,V,V,V,V,True,True,True,True
+2024-03-23,Nacional,CA Progreso,E,L,L,L,False,False,False,True
+2024-03-23,Rampla Juniors Futbol Club,Miramar Misiones,E,E,E,L,True,True,False,True
+2024-03-24,CA Cerro,Cerro Largo FC,E,V,V,V,False,False,False,True
+2024-03-24,Danubio,Montevideo Wanderers,V,L,L,V,False,False,True,True
+2024-03-24,Deportivo Maldonado,Defensor Sporting,L,V,V,V,False,False,False,True
+2024-03-27,CA Progreso,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-03-29,CA Penarol,Nacional,E,L,L,V,False,False,False,True
+2024-03-29,Cerro Largo FC,Racing Club,V,L,L,L,False,False,False,True
+2024-03-30,Defensor Sporting,Danubio,L,L,L,L,True,True,True,True
+2024-03-30,Liverpool,River Plate,E,E,E,L,True,True,False,True
+2024-03-30,Rampla Juniors Futbol Club,CA Fenix,L,L,L,V,True,True,False,True
+2024-03-31,CA Progreso,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-03-31,Miramar Misiones,CA Cerro,E,E,E,V,True,True,False,True
+2024-04-01,Montevideo Wanderers,Boston River,V,V,V,L,True,True,False,True
+2024-04-06,Boston River,Defensor Sporting,E,V,V,V,False,False,False,True
+2024-04-06,Danubio,CA Progreso,E,V,V,V,False,False,False,True
+2024-04-06,Nacional,Cerro Largo FC,L,L,L,L,True,True,True,True
+2024-04-06,Racing Club,Miramar Misiones,E,L,L,L,False,False,False,True
+2024-04-06,River Plate,Montevideo Wanderers,L,L,L,V,True,True,False,True
+2024-04-07,CA Cerro,Rampla Juniors Futbol Club,L,E,E,L,False,False,True,True
+2024-04-07,CA Fenix,Liverpool,V,E,E,V,False,False,True,True
+2024-04-07,Deportivo Maldonado,CA Penarol,V,V,V,V,True,True,True,True
+2024-04-13,CA Cerro,CA Fenix,E,L,L,L,False,False,False,True
+2024-04-13,CA Progreso,Boston River,L,V,V,L,False,False,True,True
+2024-04-14,CA Penarol,Danubio,L,L,L,L,True,True,True,True
+2024-04-14,Defensor Sporting,River Plate,L,L,L,L,True,True,True,True
+2024-04-14,Deportivo Maldonado,Cerro Largo FC,V,V,V,V,True,True,True,True
+2024-04-14,Rampla Juniors Futbol Club,Racing Club,V,E,E,V,False,False,True,True
+2024-04-16,Montevideo Wanderers,Liverpool,V,E,E,V,False,False,True,True
+2024-04-17,Miramar Misiones,Nacional,V,V,V,V,True,True,True,True
+2024-04-19,Liverpool,Defensor Sporting,E,L,L,L,False,False,False,True
+2024-04-19,Racing Club,CA Cerro,E,E,E,L,True,True,False,True
+2024-04-20,Boston River,CA Penarol,V,V,V,V,True,True,True,True
+2024-04-20,Danubio,Cerro Largo FC,E,E,E,V,True,True,False,True
+2024-04-20,Nacional,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-04-21,CA Fenix,Montevideo Wanderers,V,E,E,V,False,False,True,True
+2024-04-21,Deportivo Maldonado,Miramar Misiones,V,L,L,L,False,False,False,True
+2024-04-21,River Plate,CA Progreso,E,V,V,L,False,False,False,True
+2024-04-24,Rampla Juniors Futbol Club,Defensor Sporting,L,V,V,V,False,False,False,True
+2024-04-27,Cerro Largo FC,Boston River,L,E,E,L,False,False,True,True
+2024-04-27,Rampla Juniors Futbol Club,Deportivo Maldonado,E,L,L,V,False,False,False,True
+2024-04-28,CA Cerro,Nacional,V,V,V,V,True,True,True,True
+2024-04-28,CA Progreso,Liverpool,L,L,L,V,True,True,False,True
+2024-04-28,Miramar Misiones,Danubio,V,E,E,V,False,False,True,True
+2024-04-29,Defensor Sporting,Montevideo Wanderers,E,L,L,L,False,False,False,True
+2024-04-29,Racing Club,CA Fenix,L,L,L,L,True,True,True,True
+2024-04-30,CA Penarol,River Plate,L,L,L,L,True,True,True,True
+2024-05-03,Danubio,Rampla Juniors Futbol Club,E,L,L,L,False,False,False,True
+2024-05-03,Liverpool,CA Penarol,E,V,V,V,False,False,False,True
+2024-05-04,Boston River,Miramar Misiones,L,E,E,L,False,False,True,True
+2024-05-04,Montevideo Wanderers,CA Progreso,L,V,V,L,False,False,True,True
+2024-05-04,Nacional,Racing Club,L,L,L,L,True,True,True,True
+2024-05-05,CA Fenix,Defensor Sporting,V,V,V,V,True,True,True,True
+2024-05-05,Deportivo Maldonado,CA Cerro,L,E,E,V,False,False,False,True
+2024-05-05,River Plate,Cerro Largo FC,V,L,L,V,False,False,True,True
+2024-05-11,CA Cerro,Danubio,L,E,E,V,False,False,False,True
+2024-05-11,CA Penarol,Montevideo Wanderers,L,L,L,L,True,True,True,True
+2024-05-11,Miramar Misiones,River Plate,E,E,E,V,True,True,False,True
+2024-05-11,Nacional,CA Fenix,V,L,L,L,False,False,False,True
+2024-05-11,Racing Club,Deportivo Maldonado,V,L,L,L,False,False,False,True
+2024-05-12,CA Progreso,Defensor Sporting,V,V,V,V,True,True,True,True
+2024-05-12,Liverpool,Cerro Largo FC,L,L,L,L,True,True,True,True
+2024-05-12,Rampla Juniors Futbol Club,Boston River,V,E,E,V,False,False,True,True
+2024-05-18,CA Fenix,CA Progreso,L,V,V,V,False,False,False,True
+2024-05-18,Defensor Sporting,CA Penarol,V,V,V,V,True,True,True,True
+2024-05-18,River Plate,Rampla Juniors Futbol Club,V,E,E,L,False,False,False,True
+2024-05-19,Boston River,CA Cerro,L,L,L,L,True,True,True,True
+2024-05-19,Danubio,Racing Club,V,L,L,L,False,False,False,True
+2024-05-19,Montevideo Wanderers,Cerro Largo FC,L,V,V,V,False,False,False,True
+2024-05-20,Liverpool,Miramar Misiones,L,L,L,L,True,True,True,True
+2024-05-21,Deportivo Maldonado,Nacional,V,V,V,V,True,True,True,True
+2024-05-24,CA Penarol,CA Progreso,L,L,L,L,True,True,True,True
+2024-05-24,Racing Club,Boston River,V,V,V,V,True,True,True,True
+2024-05-25,Liverpool,Rampla Juniors Futbol Club,V,L,L,L,False,False,False,True
+2024-05-25,Miramar Misiones,Montevideo Wanderers,L,V,V,V,False,False,False,True
+2024-05-25,Nacional,Danubio,L,L,L,L,True,True,True,True
+2024-05-26,CA Cerro,River Plate,L,E,E,V,False,False,False,True
+2024-05-26,Defensor Sporting,Cerro Largo FC,L,L,L,L,True,True,True,True
+2024-05-26,Deportivo Maldonado,CA Fenix,V,V,V,L,True,True,False,True
+2024-06-01,Montevideo Wanderers,Rampla Juniors Futbol Club,L,V,V,L,False,False,True,True
+2024-06-02,CA Fenix,CA Penarol,V,V,V,V,True,True,True,True
+2024-06-02,Defensor Sporting,Miramar Misiones,L,L,L,L,True,True,True,True
+2024-06-02,River Plate,Racing Club,E,E,E,L,True,True,False,True
+2024-06-03,Danubio,Deportivo Maldonado,E,V,V,L,False,False,False,True
+2024-06-03,Liverpool,CA Cerro,V,L,L,L,False,False,False,True
+2024-06-04,CA Progreso,Cerro Largo FC,V,V,V,V,True,True,True,True
+2024-06-05,Boston River,Nacional,V,V,V,V,True,True,True,True
+2024-06-08,Liverpool,Miramar Misiones,V,L,L,L,False,False,False,True
+2024-06-08,Montevideo Wanderers,CA Penarol,L,V,V,V,False,False,False,True
+2024-06-08,Racing Club,CA Fenix,L,V,V,L,False,False,True,True
+2024-06-09,CA Cerro,Nacional,L,V,V,V,False,False,False,True
+2024-06-09,CA Progreso,River Plate,L,L,L,V,True,True,False,True
+2024-06-09,Cerro Largo FC,Danubio,E,L,L,L,False,False,False,True
+2024-06-09,Deportivo Maldonado,Defensor Sporting,V,V,V,V,True,True,True,True
+2024-06-11,Rampla Juniors Futbol Club,Boston River,E,V,V,V,False,False,False,True
+2024-06-15,Miramar Misiones,CA Cerro,L,V,V,V,False,False,False,True
+2024-06-15,Nacional,Liverpool,L,L,L,L,True,True,True,True
+2024-06-15,River Plate,Deportivo Maldonado,E,E,E,L,True,True,False,True
+2024-06-16,CA Fenix,Montevideo Wanderers,L,V,V,V,False,False,False,True
+2024-06-16,CA Penarol,Racing Club,E,L,L,L,False,False,False,True
+2024-06-16,Danubio,Rampla Juniors Futbol Club,L,E,E,L,False,False,True,True
+2024-06-16,Defensor Sporting,CA Progreso,E,L,L,L,False,False,False,True
+2024-06-17,Boston River,Cerro Largo FC,V,L,L,V,False,False,True,True
+2024-06-22,CA Cerro,Danubio,E,L,L,V,False,False,False,True
+2024-06-22,CA Progreso,CA Penarol,V,V,V,V,True,True,True,True
+2024-06-22,Deportivo Maldonado,CA Fenix,V,V,V,L,True,True,False,True
+2024-06-22,Racing Club,Defensor Sporting,V,V,V,V,True,True,True,True
+2024-06-23,Cerro Largo FC,Nacional,V,V,V,V,True,True,True,True
+2024-06-23,Liverpool,Boston River,L,V,V,L,False,False,True,True
+2024-06-23,Montevideo Wanderers,River Plate,V,L,L,L,False,False,False,True
+2024-06-23,Rampla Juniors Futbol Club,Miramar Misiones,V,V,V,L,True,True,False,True
+2024-07-06,Boston River,CA Cerro,L,V,V,L,False,False,True,True
+2024-07-06,CA Penarol,Deportivo Maldonado,E,L,L,L,False,False,False,True
+2024-07-06,Cerro Largo FC,Liverpool,L,L,L,V,True,True,False,True
+2024-07-07,CA Fenix,River Plate,L,L,L,V,True,True,False,True
+2024-07-07,CA Progreso,Racing Club,L,E,E,L,False,False,True,True
+2024-07-07,Defensor Sporting,Montevideo Wanderers,E,L,L,L,False,False,False,True
+2024-07-07,Nacional,Rampla Juniors Futbol Club,E,L,L,L,False,False,False,True
+2024-07-08,Miramar Misiones,Danubio,V,L,L,V,False,False,True,True
+2024-07-13,Boston River,Miramar Misiones,L,V,V,L,False,False,True,True
+2024-07-13,Danubio,Nacional,V,V,V,V,True,True,True,True
+2024-07-13,Deportivo Maldonado,Racing Club,E,V,V,V,False,False,False,True
+2024-07-13,Rampla Juniors Futbol Club,Liverpool,L,E,E,V,False,False,False,True
+2024-07-14,CA Cerro,Cerro Largo FC,V,V,V,V,True,True,True,True
+2024-07-14,CA Fenix,Defensor Sporting,V,V,V,V,True,True,True,True
+2024-07-14,Montevideo Wanderers,CA Progreso,L,L,L,L,True,True,True,True
+2024-07-14,River Plate,CA Penarol,V,V,V,V,True,True,True,True
+2024-07-20,Cerro Largo FC,Rampla Juniors Futbol Club,V,L,L,L,False,False,False,True
+2024-07-20,Defensor Sporting,River Plate,V,L,L,L,False,False,False,True
+2024-07-20,Nacional,Miramar Misiones,L,L,L,L,True,True,True,True
+2024-07-20,Racing Club,Montevideo Wanderers,V,V,V,V,True,True,True,True
+2024-07-21,Boston River,Danubio,V,L,L,L,False,False,False,True
+2024-07-21,CA Penarol,CA Fenix,L,L,L,L,True,True,True,True
+2024-07-21,CA Progreso,Deportivo Maldonado,V,L,L,L,False,False,False,True
+2024-07-21,Liverpool,CA Cerro,V,E,E,L,False,False,False,True
+2024-07-27,CA Fenix,CA Progreso,E,L,L,V,False,False,False,True
+2024-07-27,CA Penarol,Defensor Sporting,L,L,L,L,True,True,True,True
+2024-07-27,Miramar Misiones,Cerro Largo FC,E,V,V,V,False,False,False,True
+2024-07-27,Montevideo Wanderers,Deportivo Maldonado,L,E,E,L,False,False,True,True
+2024-07-28,CA Cerro,Rampla Juniors Futbol Club,L,E,E,L,False,False,True,True
+2024-07-28,Danubio,Liverpool,L,L,L,V,True,True,False,True
+2024-07-28,Nacional,Boston River,L,L,L,L,True,True,True,True
+2024-07-29,River Plate,Racing Club,E,L,L,L,False,False,False,True
+2024-08-04,Nacional,CA Penarol,E,L,L,L,False,False,False,True
+2024-08-17,CA Penarol,Cerro Largo FC,E,L,L,L,False,False,False,True
+2024-08-17,Liverpool,Racing Club,E,E,E,L,True,True,False,True
+2024-08-17,Montevideo Wanderers,CA Cerro,L,L,L,L,True,True,True,True
+2024-08-18,Boston River,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-08-18,CA Progreso,Miramar Misiones,E,E,E,L,True,True,False,True
+2024-08-18,Danubio,CA Fenix,L,L,L,L,True,True,True,True
+2024-08-18,River Plate,Nacional,E,V,V,V,False,False,False,True
+2024-08-19,Defensor Sporting,Rampla Juniors Futbol Club,V,L,L,L,False,False,False,True
+2024-09-07,CA Cerro,Defensor Sporting,E,E,E,V,True,True,False,True
+2024-09-07,Miramar Misiones,CA Penarol,V,V,V,V,True,True,True,True
+2024-09-07,Racing Club,Montevideo Wanderers,V,V,V,V,True,True,True,True
+2024-09-08,CA Fenix,Cerro Largo FC,L,V,V,V,False,False,False,True
+2024-09-08,Danubio,Boston River,L,V,V,V,False,False,False,True
+2024-09-08,Deportivo Maldonado,River Plate,V,E,E,V,False,False,True,True
+2024-09-08,Nacional,Liverpool,L,L,L,L,True,True,True,True
+2024-09-08,Rampla Juniors Futbol Club,CA Progreso,L,L,L,V,True,True,False,True
+2024-09-14,CA Progreso,CA Cerro,V,V,V,L,True,True,False,True
+2024-09-14,Cerro Largo FC,Miramar Misiones,V,L,L,L,False,False,False,True
+2024-09-14,Defensor Sporting,Racing Club,V,L,L,L,False,False,False,True
+2024-09-15,CA Penarol,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-09-15,Danubio,River Plate,L,L,L,V,True,True,False,True
+2024-09-15,Deportivo Maldonado,Liverpool,V,E,E,V,False,False,True,True
+2024-09-16,Montevideo Wanderers,Nacional,V,V,V,V,True,True,True,True
+2024-09-17,Boston River,CA Fenix,L,L,L,L,True,True,True,True
+2024-09-21,Deportivo Maldonado,Montevideo Wanderers,V,V,V,V,True,True,True,True
+2024-09-21,Racing Club,CA Progreso,L,L,L,V,True,True,False,True
+2024-09-21,Rampla Juniors Futbol Club,Cerro Largo FC,L,L,L,V,True,True,False,True
+2024-09-22,Boston River,River Plate,L,V,V,V,False,False,False,True
+2024-09-22,CA Fenix,Miramar Misiones,E,L,L,L,False,False,False,True
+2024-09-22,Danubio,Liverpool,L,L,L,V,True,True,False,True
+2024-09-22,Nacional,Defensor Sporting,E,L,L,L,False,False,False,True
+2024-09-23,CA Cerro,CA Penarol,V,V,V,V,True,True,True,True
+2024-09-28,Cerro Largo FC,CA Cerro,L,E,E,L,False,False,True,True
+2024-09-28,Miramar Misiones,Rampla Juniors Futbol Club,E,V,V,V,False,False,False,True
+2024-09-29,Defensor Sporting,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-09-29,Liverpool,Boston River,E,V,V,L,False,False,False,True
+2024-09-29,Montevideo Wanderers,Danubio,E,L,L,L,False,False,False,True
+2024-09-29,River Plate,CA Fenix,L,E,E,L,False,False,True,True
+2024-09-30,CA Progreso,Nacional,V,V,V,V,True,True,True,True
+2024-10-01,CA Penarol,Racing Club,E,L,L,L,False,False,False,True
+2024-10-04,River Plate,Liverpool,E,E,E,V,True,True,False,True
+2024-10-05,Boston River,Montevideo Wanderers,L,V,V,V,False,False,False,True
+2024-10-05,CA Cerro,Miramar Misiones,V,E,E,L,False,False,False,True
+2024-10-05,Danubio,Defensor Sporting,E,L,L,V,False,False,False,True
+2024-10-05,Racing Club,Cerro Largo FC,E,L,L,V,False,False,False,True
+2024-10-06,CA Fenix,Rampla Juniors Futbol Club,L,V,V,L,False,False,True,True
+2024-10-06,Deportivo Maldonado,CA Progreso,E,L,L,V,False,False,False,True
+2024-10-06,Nacional,CA Penarol,L,L,L,L,True,True,True,True
+2024-10-11,Liverpool,CA Fenix,V,E,E,L,False,False,False,True
+2024-10-12,CA Penarol,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-10-12,CA Progreso,Danubio,E,V,V,V,False,False,False,True
+2024-10-12,Defensor Sporting,Boston River,V,V,V,L,True,True,False,True
+2024-10-12,Rampla Juniors Futbol Club,CA Cerro,E,L,L,V,False,False,False,True
+2024-10-13,Cerro Largo FC,Nacional,V,V,V,V,True,True,True,True
+2024-10-13,Miramar Misiones,Racing Club,E,V,V,V,False,False,False,True
+2024-10-13,Montevideo Wanderers,River Plate,V,L,L,L,False,False,False,True
+2024-10-15,Liverpool,Montevideo Wanderers,E,E,E,L,True,True,False,True
+2024-10-16,Boston River,CA Progreso,L,L,L,L,True,True,True,True
+2024-10-16,Danubio,CA Penarol,V,V,V,V,True,True,True,True
+2024-10-16,Racing Club,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-10-17,CA Fenix,CA Cerro,V,L,L,V,False,False,True,True
+2024-10-17,Cerro Largo FC,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-10-17,River Plate,Defensor Sporting,V,E,E,V,False,False,True,True
+2024-10-18,Nacional,Miramar Misiones,L,L,L,L,True,True,True,True
+2024-10-19,CA Progreso,River Plate,L,E,E,V,False,False,False,True
+2024-10-20,CA Cerro,Racing Club,E,V,V,L,False,False,False,True
+2024-10-20,CA Penarol,Boston River,L,L,L,L,True,True,True,True
+2024-10-20,Cerro Largo FC,Danubio,E,E,E,L,True,True,False,True
+2024-10-20,Rampla Juniors Futbol Club,Nacional,L,V,V,V,False,False,False,True
+2024-10-21,Miramar Misiones,Deportivo Maldonado,L,E,E,V,False,False,False,True
+2024-10-21,Montevideo Wanderers,CA Fenix,V,E,E,L,False,False,False,True
+2024-10-22,Defensor Sporting,Liverpool,L,L,L,V,True,True,False,True
+2024-11-01,Deportivo Maldonado,Rampla Juniors Futbol Club,E,E,E,L,True,True,False,True
+2024-11-02,Danubio,Miramar Misiones,L,E,E,L,False,False,True,True
+2024-11-02,Nacional,CA Cerro,L,L,L,L,True,True,True,True
+2024-11-03,Boston River,Cerro Largo FC,L,L,L,V,True,True,False,True
+2024-11-03,CA Fenix,Racing Club,V,L,L,L,False,False,False,True
+2024-11-03,Liverpool,CA Progreso,L,E,E,L,False,False,True,True
+2024-11-03,River Plate,CA Penarol,V,V,V,V,True,True,True,True
+2024-11-04,Montevideo Wanderers,Defensor Sporting,E,V,V,V,False,False,False,True
+2024-11-08,CA Cerro,Deportivo Maldonado,E,L,L,L,False,False,False,True
+2024-11-09,CA Penarol,Liverpool,L,L,L,L,True,True,True,True
+2024-11-09,Cerro Largo FC,River Plate,L,E,E,L,False,False,True,True
+2024-11-09,Racing Club,Nacional,V,V,V,V,True,True,True,True
+2024-11-09,Rampla Juniors Futbol Club,Danubio,V,E,E,V,False,False,True,True
+2024-11-10,CA Progreso,Montevideo Wanderers,E,E,E,V,True,True,False,True
+2024-11-10,Defensor Sporting,CA Fenix,L,L,L,L,True,True,True,True
+2024-11-10,Miramar Misiones,Boston River,L,V,V,V,False,False,False,True
+2024-11-12,Deportivo Maldonado,Racing Club,V,V,V,V,True,True,True,True
+2024-11-13,CA Fenix,Nacional,V,V,V,V,True,True,True,True
+2024-11-13,Cerro Largo FC,Liverpool,E,L,L,V,False,False,False,True
+2024-11-13,River Plate,Miramar Misiones,E,E,E,L,True,True,False,True
+2024-11-14,Boston River,Rampla Juniors Futbol Club,L,L,L,L,True,True,True,True
+2024-11-14,Danubio,CA Cerro,E,L,L,L,False,False,False,True
+2024-11-14,Defensor Sporting,CA Progreso,L,L,L,L,True,True,True,True
+2024-11-14,Montevideo Wanderers,CA Penarol,V,V,V,V,True,True,True,True
+2024-11-16,Nacional,Deportivo Maldonado,L,L,L,L,True,True,True,True
+2024-11-17,CA Penarol,Defensor Sporting,L,L,L,L,True,True,True,True
+2024-11-17,Miramar Misiones,Liverpool,E,E,E,V,True,True,False,True
+2024-11-17,Racing Club,Danubio,E,L,L,V,False,False,False,True
+2024-11-18,CA Cerro,Boston River,E,V,V,V,False,False,False,True
+2024-11-18,CA Progreso,CA Fenix,E,V,V,L,False,False,False,True
+2024-11-19,Cerro Largo FC,Montevideo Wanderers,L,L,L,V,True,True,False,True
+2024-11-19,Rampla Juniors Futbol Club,River Plate,V,L,L,V,False,False,True,True
+2024-11-26,Montevideo Wanderers,Miramar Misiones,L,V,V,L,False,False,True,True
+2024-11-26,Rampla Juniors Futbol Club,Liverpool,V,E,E,V,False,False,True,True
+2024-11-26,River Plate,CA Cerro,L,E,E,L,False,False,True,True
+2024-11-27,Boston River,Racing Club,V,L,L,L,False,False,False,True
+2024-11-27,CA Fenix,Deportivo Maldonado,V,E,E,L,False,False,False,True
+2024-11-27,CA Progreso,CA Penarol,V,V,V,V,True,True,True,True
+2024-11-27,Cerro Largo FC,Defensor Sporting,L,V,V,V,False,False,False,True
+2024-11-28,Danubio,Nacional,E,V,V,V,False,False,False,True
+2024-11-30,CA Cerro,Liverpool,V,E,E,V,False,False,True,True
+2024-11-30,Cerro Largo FC,CA Progreso,L,L,L,L,True,True,True,True
+2024-11-30,Miramar Misiones,Defensor Sporting,E,V,V,V,False,False,False,True
+2024-11-30,Rampla Juniors Futbol Club,Montevideo Wanderers,E,E,E,V,True,True,False,True
+2024-12-01,CA Penarol,CA Fenix,L,L,L,L,True,True,True,True
+2024-12-01,Nacional,Boston River,L,L,L,L,True,True,True,True
+2024-12-01,Racing Club,River Plate,L,L,L,V,True,True,False,True
+2024-12-02,Deportivo Maldonado,Danubio,L,V,V,V,False,False,False,True
+2025-01-31,Cerro Largo FC,CA Juventud,E,L,L,L,False,False,False,True
+2025-02-01,Danubio,Liverpool,E,V,V,V,False,False,False,True
+2025-02-01,Defensor Sporting,Boston River,L,L,L,L,True,True,True,True
+2025-02-02,CA Progreso,CA Penarol,V,V,V,V,True,True,True,True
+2025-02-02,Miramar Misiones,Plaza Colonia,V,E,E,V,False,False,True,True
+2025-02-02,Torque FC,Nacional,L,V,V,V,False,False,False,True
+2025-02-03,CA Cerro,River Plate,E,E,E,V,True,True,False,True
+2025-02-03,Montevideo Wanderers,Racing Club,E,V,V,L,False,False,False,True
+2025-02-07,Cerro Largo FC,CA Progreso,L,L,L,L,True,True,True,True
+2025-02-08,Liverpool,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-02-08,Plaza Colonia,Montevideo Wanderers,L,L,L,V,True,True,False,True
+2025-02-08,Racing Club,CA Cerro,V,L,L,V,False,False,True,True
+2025-02-08,River Plate,Defensor Sporting,V,L,L,V,False,False,True,True
+2025-02-09,Boston River,Torque FC,E,V,V,L,False,False,False,True
+2025-02-09,CA Juventud,Danubio,E,V,V,V,False,False,False,True
+2025-02-09,Nacional,CA Penarol,E,L,L,L,False,False,False,True
+2025-02-14,CA Cerro,Plaza Colonia,V,V,V,L,True,True,False,True
+2025-02-15,CA Penarol,Boston River,E,L,L,L,False,False,False,True
+2025-02-15,Danubio,Cerro Largo FC,E,V,V,V,False,False,False,True
+2025-02-15,Montevideo Wanderers,Liverpool,E,V,V,V,False,False,False,True
+2025-02-16,CA Progreso,Nacional,V,V,V,V,True,True,True,True
+2025-02-16,Defensor Sporting,Racing Club,L,L,L,L,True,True,True,True
+2025-02-16,Miramar Misiones,CA Juventud,V,V,V,V,True,True,True,True
+2025-02-17,Torque FC,River Plate,L,L,L,V,True,True,False,True
+2025-02-21,Racing Club,Torque FC,L,V,V,V,False,False,False,True
+2025-02-22,Boston River,Nacional,V,V,V,V,True,True,True,True
+2025-02-22,Cerro Largo FC,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-02-22,Liverpool,CA Cerro,L,L,L,L,True,True,True,True
+2025-02-23,CA Juventud,Montevideo Wanderers,L,V,V,V,False,False,False,True
+2025-02-23,Danubio,CA Progreso,E,L,L,L,False,False,False,True
+2025-02-23,Plaza Colonia,Defensor Sporting,V,V,V,V,True,True,True,True
+2025-02-24,River Plate,CA Penarol,E,V,V,V,False,False,False,True
+2025-03-07,Defensor Sporting,Liverpool,V,L,L,L,False,False,False,True
+2025-03-07,Torque FC,Plaza Colonia,E,V,V,L,False,False,False,True
+2025-03-08,CA Cerro,CA Juventud,L,V,V,L,False,False,True,True
+2025-03-09,CA Penarol,Racing Club,V,L,L,L,False,False,False,True
+2025-03-09,CA Progreso,Boston River,E,L,L,V,False,False,False,True
+2025-03-09,Nacional,River Plate,E,L,L,L,False,False,False,True
+2025-03-10,Miramar Misiones,Danubio,L,V,V,V,False,False,False,True
+2025-03-11,Montevideo Wanderers,Cerro Largo FC,L,V,V,V,False,False,False,True
+2025-03-15,Liverpool,Torque FC,L,L,L,L,True,True,True,True
+2025-03-15,Plaza Colonia,CA Penarol,L,L,L,V,True,True,False,True
+2025-03-16,CA Juventud,Defensor Sporting,L,V,V,V,False,False,False,True
+2025-03-16,Danubio,Montevideo Wanderers,E,E,E,V,True,True,False,True
+2025-03-16,Miramar Misiones,CA Progreso,E,E,E,V,True,True,False,True
+2025-03-16,Racing Club,Nacional,V,V,V,V,True,True,True,True
+2025-03-17,Cerro Largo FC,CA Cerro,E,L,L,L,False,False,False,True
+2025-03-18,River Plate,Boston River,V,E,E,V,False,False,True,True
+2025-03-20,Torque FC,CA Juventud,V,V,V,L,True,True,False,True
+2025-03-21,CA Penarol,Liverpool,V,V,V,L,True,True,False,True
+2025-03-22,Boston River,Racing Club,V,E,E,L,False,False,False,True
+2025-03-22,Nacional,Plaza Colonia,E,L,L,L,False,False,False,True
+2025-03-23,CA Cerro,Danubio,E,L,L,V,False,False,False,True
+2025-03-23,CA Progreso,River Plate,L,L,L,V,True,True,False,True
+2025-03-23,Defensor Sporting,Cerro Largo FC,E,L,L,L,False,False,False,True
+2025-03-24,Montevideo Wanderers,Miramar Misiones,V,E,E,L,False,False,False,True
+2025-03-26,Cerro Largo FC,Torque FC,E,E,E,L,True,True,False,True
+2025-03-26,Liverpool,Nacional,E,L,L,V,False,False,False,True
+2025-03-26,Plaza Colonia,Boston River,V,L,L,V,False,False,True,True
+2025-03-26,Racing Club,River Plate,L,L,L,V,True,True,False,True
+2025-03-27,CA Juventud,CA Penarol,V,L,L,V,False,False,True,True
+2025-03-27,Danubio,Defensor Sporting,E,V,V,V,False,False,False,True
+2025-03-27,Montevideo Wanderers,CA Progreso,E,L,L,L,False,False,False,True
+2025-03-28,Miramar Misiones,CA Cerro,E,V,V,V,False,False,False,True
+2025-03-29,Boston River,Liverpool,V,V,V,V,True,True,True,True
+2025-03-29,River Plate,Plaza Colonia,V,V,V,L,True,True,False,True
+2025-03-30,CA Progreso,Racing Club,V,V,V,L,True,True,False,True
+2025-03-30,Nacional,CA Juventud,V,L,L,L,False,False,False,True
+2025-03-30,Torque FC,Danubio,E,V,V,L,False,False,False,True
+2025-03-31,CA Penarol,Cerro Largo FC,V,L,L,L,False,False,False,True
+2025-04-01,CA Cerro,Montevideo Wanderers,L,L,L,V,True,True,False,True
+2025-04-01,Defensor Sporting,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-04-05,CA Juventud,Boston River,L,L,L,V,True,True,False,True
+2025-04-05,Danubio,CA Penarol,V,E,E,V,False,False,True,True
+2025-04-05,Plaza Colonia,Racing Club,V,V,V,V,True,True,True,True
+2025-04-06,CA Cerro,CA Progreso,E,L,L,L,False,False,False,True
+2025-04-06,Cerro Largo FC,Nacional,V,E,E,V,False,False,True,True
+2025-04-06,Liverpool,River Plate,E,L,L,L,False,False,False,True
+2025-04-07,Miramar Misiones,Torque FC,V,L,L,V,False,False,True,True
+2025-04-07,Montevideo Wanderers,Defensor Sporting,E,V,V,V,False,False,False,True
+2025-04-12,CA Penarol,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-04-12,CA Progreso,Plaza Colonia,E,V,V,L,False,False,False,True
+2025-04-12,Montevideo Wanderers,Torque FC,E,E,E,L,True,True,False,True
+2025-04-13,Boston River,Cerro Largo FC,L,L,L,V,True,True,False,True
+2025-04-13,Nacional,Danubio,L,L,L,L,True,True,True,True
+2025-04-14,Defensor Sporting,CA Cerro,L,L,L,L,True,True,True,True
+2025-04-14,Racing Club,Liverpool,E,V,V,V,False,False,False,True
+2025-04-14,River Plate,CA Juventud,L,V,V,L,False,False,True,True
+2025-04-18,Cerro Largo FC,River Plate,L,E,E,L,False,False,True,True
+2025-04-18,Danubio,Boston River,V,V,V,V,True,True,True,True
+2025-04-18,Miramar Misiones,Nacional,V,V,V,V,True,True,True,True
+2025-04-19,CA Juventud,Racing Club,L,V,V,V,False,False,False,True
+2025-04-19,Montevideo Wanderers,CA Penarol,V,V,V,V,True,True,True,True
+2025-04-20,CA Cerro,Torque FC,V,E,E,V,False,False,True,True
+2025-04-20,Liverpool,Plaza Colonia,L,L,L,L,True,True,True,True
+2025-04-21,Defensor Sporting,CA Progreso,V,L,L,L,False,False,False,True
+2025-04-26,Plaza Colonia,CA Juventud,E,V,V,L,False,False,False,True
+2025-04-26,River Plate,Danubio,L,L,L,L,True,True,True,True
+2025-04-27,Boston River,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-04-27,CA Penarol,CA Cerro,L,L,L,L,True,True,True,True
+2025-04-27,CA Progreso,Liverpool,V,V,V,V,True,True,True,True
+2025-04-27,Nacional,Montevideo Wanderers,L,L,L,L,True,True,True,True
+2025-04-27,Torque FC,Defensor Sporting,V,V,V,V,True,True,True,True
+2025-04-28,Racing Club,Cerro Largo FC,E,L,L,V,False,False,False,True
+2025-05-03,Boston River,Montevideo Wanderers,L,L,L,V,True,True,False,True
+2025-05-03,Danubio,Racing Club,E,E,E,V,True,True,False,True
+2025-05-03,Defensor Sporting,CA Penarol,V,L,L,V,False,False,True,True
+2025-05-03,Nacional,CA Cerro,L,L,L,L,True,True,True,True
+2025-05-04,CA Juventud,Liverpool,L,L,L,V,True,True,False,True
+2025-05-04,Cerro Largo FC,Plaza Colonia,L,L,L,L,True,True,True,True
+2025-05-04,Torque FC,CA Progreso,V,L,L,L,False,False,False,True
+2025-05-05,Miramar Misiones,River Plate,L,V,V,V,False,False,False,True
+2025-05-17,River Plate,Montevideo Wanderers,V,L,L,V,False,False,True,True
+2025-05-18,CA Penarol,Torque FC,L,L,L,L,True,True,True,True
+2025-05-18,CA Progreso,CA Juventud,V,V,V,L,True,True,False,True
+2025-05-18,Liverpool,Cerro Largo FC,L,L,L,L,True,True,True,True
+2025-05-18,Nacional,Defensor Sporting,L,L,L,L,True,True,True,True
+2025-05-19,Plaza Colonia,Danubio,V,E,E,V,False,False,True,True
+2025-05-19,Racing Club,Miramar Misiones,E,L,L,L,False,False,False,True
+2025-05-20,Boston River,CA Cerro,E,L,L,L,False,False,False,True
+2025-05-23,Racing Club,Boston River,L,V,V,V,False,False,False,True
+2025-05-24,CA Juventud,Torque FC,L,L,L,V,True,True,False,True
+2025-05-24,CA Penarol,Plaza Colonia,L,L,L,L,True,True,True,True
+2025-05-24,Nacional,CA Progreso,L,L,L,L,True,True,True,True
+2025-05-25,Danubio,Miramar Misiones,L,L,L,L,True,True,True,True
+2025-05-25,Defensor Sporting,Cerro Largo FC,L,L,L,L,True,True,True,True
+2025-05-25,Liverpool,CA Cerro,E,L,L,L,False,False,False,True
+2025-05-25,Montevideo Wanderers,River Plate,L,E,E,L,False,False,True,True
+2025-05-31,CA Progreso,Danubio,V,V,V,V,True,True,True,True
+2025-05-31,Plaza Colonia,Liverpool,E,V,V,V,False,False,False,True
+2025-06-01,CA Cerro,Montevideo Wanderers,V,E,E,V,False,False,True,True
+2025-06-01,Cerro Largo FC,CA Penarol,E,V,V,V,False,False,False,True
+2025-06-01,River Plate,Defensor Sporting,V,V,V,V,True,True,True,True
+2025-06-01,Torque FC,Nacional,V,V,V,V,True,True,True,True
+2025-06-02,Boston River,CA Juventud,L,V,V,L,False,False,True,True
+2025-06-06,CA Cerro,River Plate,L,E,E,V,False,False,False,True
+2025-06-07,CA Penarol,Defensor Sporting,L,L,L,L,True,True,True,True
+2025-06-07,Danubio,Torque FC,L,L,L,V,True,True,False,True
+2025-06-07,Liverpool,Cerro Largo FC,L,L,L,L,True,True,True,True
+2025-06-07,Montevideo Wanderers,Plaza Colonia,E,L,L,L,False,False,False,True
+2025-06-08,CA Juventud,Racing Club,L,L,L,V,True,True,False,True
+2025-06-08,CA Progreso,Miramar Misiones,L,E,E,L,False,False,True,True
+2025-06-08,Nacional,Boston River,L,L,L,L,True,True,True,True
+2025-06-12,Cerro Largo FC,Montevideo Wanderers,E,V,V,V,False,False,False,True
+2025-06-13,Plaza Colonia,CA Cerro,E,V,V,V,False,False,False,True
+2025-06-13,Torque FC,CA Progreso,L,V,V,L,False,False,True,True
+2025-06-14,Boston River,Danubio,E,V,V,L,False,False,False,True
+2025-06-14,Defensor Sporting,Liverpool,L,L,L,V,True,True,False,True
+2025-06-14,Miramar Misiones,CA Juventud,V,V,V,V,True,True,True,True
+2025-06-14,Racing Club,Nacional,V,V,V,V,True,True,True,True
+2025-06-15,River Plate,CA Penarol,V,V,V,V,True,True,True,True
+2025-06-17,Montevideo Wanderers,Defensor Sporting,E,V,V,V,False,False,False,True
+2025-06-18,Danubio,Racing Club,V,L,L,L,False,False,False,True
+2025-06-18,Nacional,CA Juventud,L,L,L,L,True,True,True,True
+2025-06-18,Torque FC,Miramar Misiones,E,E,E,L,True,True,False,True
+2025-06-19,CA Cerro,Cerro Largo FC,L,E,E,V,False,False,False,True
+2025-06-19,CA Progreso,Boston River,L,V,V,V,False,False,False,True
+2025-06-19,Liverpool,CA Penarol,L,V,V,V,False,False,False,True
+2025-06-19,Plaza Colonia,River Plate,E,E,E,V,True,True,False,True
+2025-06-21,CA Juventud,Danubio,L,V,V,V,False,False,False,True
+2025-06-21,Miramar Misiones,Nacional,V,V,V,V,True,True,True,True
+2025-06-22,CA Penarol,Montevideo Wanderers,L,L,L,L,True,True,True,True
+2025-06-22,Defensor Sporting,CA Cerro,L,L,L,L,True,True,True,True
+2025-06-22,Racing Club,CA Progreso,L,L,L,L,True,True,True,True
+2025-06-22,River Plate,Liverpool,L,V,V,V,False,False,False,True
+2025-06-23,Boston River,Torque FC,L,V,V,L,False,False,True,True
+2025-06-23,Cerro Largo FC,Plaza Colonia,V,L,L,L,False,False,False,True
+2025-06-28,Boston River,Miramar Misiones,V,L,L,L,False,False,False,True
+2025-06-28,CA Penarol,CA Cerro,L,L,L,L,True,True,True,True
+2025-06-28,Defensor Sporting,Plaza Colonia,E,L,L,L,False,False,False,True
+2025-06-28,Liverpool,Montevideo Wanderers,V,L,L,L,False,False,False,True
+2025-06-29,CA Juventud,CA Progreso,L,L,L,V,True,True,False,True
+2025-06-29,Nacional,Danubio,L,L,L,L,True,True,True,True
+2025-06-29,Racing Club,Torque FC,E,L,L,V,False,False,False,True
+2025-06-30,Cerro Largo FC,River Plate,E,E,E,L,True,True,False,True

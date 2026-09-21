@@ -1,0 +1,13 @@
+{
+  "source_sha256": "1eab655a3e3985f26362fefce7bd2bb43d2a109f6db4ac327327b6fd7bcf1280",
+  "raw_rows": 15207,
+  "exact_duplicate_rows_removed": 1,
+  "ambiguous_fixture_rows_removed": 16,
+  "extra_time_rows_removed": 5,
+  "penalty_rows_removed": 8,
+  "team_date_warning_rows_before_exclusions": 191,
+  "retained_team_date_warning_rows": 175,
+  "included_rows": 15177,
+  "train_rows": 14705,
+  "test_rows": 472
+}

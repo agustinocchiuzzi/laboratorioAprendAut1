@@ -17,7 +17,10 @@ class MixedTypeDiscretizer(TransformerMixin, BaseEstimator):
     bins using quantile edges fit on the training data (no leakage). Numeric
     columns listed in ``fixed_cuts`` use user-provided constant edges that do
     not depend on the data, so they introduce no leakage and need no refitting.
-    Value zero is reserved for unseen or missing values. Fitting this
+    Value zero is reserved for unseen or missing categorical values. Missing
+    or non-finite numbers are imputed with the training median (zero if the
+    training column has no finite values), then binned like other numbers.
+    Repeated quantiles can reduce the number of bins. Fitting this
     transformer inside a Pipeline prevents category and quantile leakage across
     temporal folds.
     """
@@ -95,6 +98,7 @@ class MixedTypeDiscretizer(TransformerMixin, BaseEstimator):
 
         for column in self.numeric_features:
             values = pd.to_numeric(X[column], errors="coerce").to_numpy(dtype=float)
+            # Reutilizar la mediana de fit: nunca aprenderla de validacion/test.
             values = np.where(
                 np.isfinite(values), values, self.numeric_medians_[column]
             )

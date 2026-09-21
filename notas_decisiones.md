@@ -2,9 +2,14 @@
 
 Este documento registra decisiones para que los experimentos sean comparables.
 Las marcadas **por confirmar** deben contrastarse con las notas del curso.
+La política vigente y la auditoría reproducible se documentan en
+[docs/data_policy.md](docs/data_policy.md); prevalecen sobre salidas históricas.
 
 ## Variable objetivo
 
+- Solo se admiten registros F sin conflictos de fecha/par de equipos; las
+  filas E/P y todas las variantes de un encuentro ambiguo se excluyen también
+  de los historiales, sin reconstruir goles.
 - `L`: `gh > ga`.
 - `V`: `gh < ga`.
 - `E`: `gh == ga`.
@@ -15,9 +20,11 @@ Las marcadas **por confirmar** deben contrastarse con las notas del curso.
 
 - Entrenamiento final: desde 1932 hasta 2023 inclusive.
 - Evaluacion final: 2024 y 2025.
-- Seleccion de hiperparametros: ventana expansiva sobre bloques contiguos de fechas
-  dentro de entrenamiento.
-- Una fecha completa pertenece a un unico fold.
+- Selección de hiperparámetros: folds comunes de años completos 2021, 2022 y
+  2023, con entrenamiento expansivo anterior a cada año. `src/evaluation.py`
+  crea un pipeline nuevo por fold para todos los modelos.
+- Dentro de cada fold una fecha completa pertenece a un único lado de la
+  partición; un año validado puede integrar el entrenamiento de folds posteriores.
 - La evaluacion 2024-2025 no participa en la seleccion de atributos ni parametros.
 
 ## Politica de atributos historicos
@@ -35,9 +42,9 @@ valor neutro constante, distinto de una tasa real `0.0`:
   uniforme sobre `L`/`E`/`V`) para puntos por partido;
 - `NEUTRAL_GOAL_DIFF_PER_MATCH = 0.0` para diferencia de gol por partido.
 
-Asi, "perdio todos los partidos con historial" queda en `0.0` real mientras que
-"no hay historial" queda en el neutro, y el modelo no confunde falta de dato con
-mala forma. El caso `denominador = 0` se resuelve explicitamente en
+Asi, "no ganó ningún partido con historial" queda en `0.0` real mientras que
+"no hay historial" queda en el neutro, pero el neutro puede coincidir con una tasa real de 0.5; no identifica
+por sí solo la ausencia de historial. El caso `denominador = 0` se resuelve explicitamente en
 `src/features.py`; nunca cae en un `0/0` silencioso. Se incorporan las
 siguientes tasas, siempre calculadas antes de la fecha del partido: victorias en
 los últimos cinco partidos de cada equipo, victorias de cada equipo dentro del
@@ -58,14 +65,14 @@ quedan para auditoria y para los datasets procesados.
 Cada tasa se convierte en tres categorias (`baja`, `media`, `alta`):
 
 - `win_rate_last_5` (valores casi discretos: 0, 0.2, 0.4, 0.6, 0.8, 1.0): cortes
-  fijos `[0.3, 0.6]`, es decir 0-1 triunfos de 5 = baja, 2 = media, 3+ = alta.
+  fijos `[0.3, 0.6]`, es decir 0-1 triunfos de 5 = baja, 2 = media, 3+ = alta cuando hay cinco antecedentes;
+  con menos se usa la proporción sobre los disponibles.
   Al ser fijos no dependen de los datos y no requieren ajuste con train (sin
   riesgo de leakage).
 - `win_rate_season`, `win_rate_as_home_all` y `win_rate_h2h_as_home`: cuantiles
   (equal-frequency) con tres bines, calculados **solo con train** dentro de cada
-  fold y reutilizados en validacion/test. Se prefiere esta opcion porque
-  `win_rate_as_home_all` concentra ~44% de las filas en `[0.4, 0.5)` y los cortes
-  de ancho igual dejarian una categoria enorme y las otras casi vacias.
+  fold y reutilizados en validacion/test. Los valores repetidos pueden producir grupos desiguales o menos de tres
+  intervalos. No se fuerza un tercio exacto por categoría.
 
 Comparacion opcional para el informe: congelar todos los historiales al 31/12/2023
 y medir cuanto cambia el resultado. No mezclar ambas politicas en una misma tabla.
@@ -78,8 +85,10 @@ Para cada equipo se calcula:
 partidos ganados / partidos jugados
 ```
 
-usando partidos de entrenamiento en los diez anos anteriores a la fecha a
-predecir. Se predice `L` o `V` segun cual equipo tenga mayor proporcion. Si hay
+usando las tasas causales de `build_causal_match_features` en la ventana
+`[fecha - 10 años, fecha)`. Incluye fechas anteriores de validación/test, igual
+que los demás modelos; sin antecedentes usa 0.5. `fit` no almacena un historial
+congelado y `predict` no necesita etiquetas ni modifica estado. Se predice `L` o `V` segun cual equipo tenga mayor proporcion. Si hay
 empate exacto, se elige `L` de forma deterministica. **Por confirmar:** preguntar
 si el equipo docente espera otro desempate.
 
@@ -94,8 +103,16 @@ P(X_j=v | Y=c) = (n_jvc + m * p_jv) / (n_c + m)
 p_jv = 1 / cantidad_de_valores_del_atributo_j
 ```
 
-Se suman log-probabilidades para evitar underflow. **Por confirmar:** validar que
-el curso define `m` con prior uniforme y no con frecuencias marginales.
+Se suman log-probabilidades para evitar underflow. La consigna pide `m` como
+tamaño equivalente de muestra, sin fijar el prior. Nuestra elección es uniforme
+sobre los `K_j` códigos del atributo, incluido cero; no se usan frecuencias
+marginales. `P(c)=n_c/N` es otro prior, el de clase, y no se suaviza.
+
+Por defecto `K_j=max(X_train[:,j])+1`; `min_categories` permite declarar de
+antemano un dominio mayor. La grilla de tres bines declara `min_categories=4`
+también en el NB propio, para incluir bines ausentes en un fold y coincidir con
+el comparador. Fuera de esa grilla `K_j` puede variar. Ver la explicación,
+ejemplo manual y condiciones de equivalencia en [docs/naive_bayes.md](docs/naive_bayes.md).
 
 ## Arbol propio
 
@@ -118,14 +135,22 @@ umbrales numericos.
 - matriz de confusion con orden `E`, `L`, `V`;
 - analisis cualitativo a partir de las predicciones sobre test del notebook.
 
-## Comparadores de scikit-learn
+## Comparadores y selección de hiperparámetros
 
-- `CategoricalNB` recibe exactamente la misma discretizacion que el Naive Bayes
-  propio y ajusta `alpha`.
-- `RandomForestClassifier` usa `class_weight="balanced_subsample"`, semilla 42 y
-  ajusta profundidad maxima y cantidad minima de instancias por hoja.
-- La corrida rapida reduce grillas y cantidad de arboles; solo la corrida `full`
-  debe alimentar el informe final.
+- `src/model_selection.py` declara las grillas y los desempates antes de la
+  corrida; `scripts/run_validation.py` ejecuta solo validación hasta 2023.
+- Los cuatro métodos requeridos usan los mismos tres folds y macro-F1 medio.
+  Se conservan los dos árboles de referencia y el baseline como controles.
+- En la grilla actual ambos NB declaran cuatro categorías incluyendo cero.
+  `alpha=m/4` es equivalente bajo ese dominio común y prior uniforme; en general
+  se necesita `alpha_j=m/K_j`. Un único `alpha` no sirve si los `K_j` difieren.
+- Random Forest mantiene 300 árboles y semilla 42, y selecciona profundidad y
+  hoja mínima. Se conserva la configuración original sin límite/hoja 1.
+- Las curvas registran error `1-accuracy` y macro-F1 de train y validación;
+  solo el macro-F1 de validación selecciona parámetros.
+- Resultados, grillas y limitaciones: [docs/validation_findings.md](docs/validation_findings.md).
+- No se ejecutó el test ni el reajuste final. El notebook los deja desactivados
+  con `RUN_FINAL_TEST = False`. Las salidas históricas siguen invalidadas.
 
 ## Reproducibilidad
 
@@ -134,3 +159,35 @@ umbrales numericos.
 - semilla 42;
 - datos limpios, figuras y modelos generados desde comandos documentados;
 - ninguna salida generada se considera fuente.
+
+## Comparación acotada de atributos
+
+Se ejecutó el plan de [atributos](docs/feature_experiment_plan.md) con los
+hiperparámetros previamente elegidos, sin reajustarlos. El
+[resumen de validación](docs/feature_findings.md) registra siete variantes y el
+diagnóstico sin predecir E, evaluado siempre contra las tres clases reales.
+Random Forest conserva las seis entradas actuales; ID3 y ambos NB seleccionan
+las entradas actuales más puntos y diferencia de gol recientes de ambos equipos.
+No se realizó evaluación final ni reajuste con todo el histórico.
+
+## Evaluación final de NB completada
+
+La etapa posterior está cerrada en [docs/nb_final_evaluation.md](docs/nb_final_evaluation.md):
+ambos NB usan diez atributos y sus parámetros ya seleccionados (`m=0.1`,
+`alpha=0.025`, K=4). Cada uno ajusta un pipeline nuevo con los 14.705 partidos
+admitidos hasta 2023 y predice los mismos 472 partidos de 2024–2025. Los
+historiales incorporan solo fechas anteriores; modelos y discretizadores quedan
+fijos durante test. Ningún resultado de test modifica la selección.
+
+Ambos NB tienen predicciones idénticas: accuracy 0.478814 y macro-F1 0.445369.
+El baseline de diez años, recalculado bajo la misma política y muestra, obtiene
+0.461864 y 0.356446. Los artefactos y modelos están en
+`results/naive_bayes/final/`, con configuración, versiones y hashes separados
+de los manifiestos de selección. ID3 y Random Forest no se ejecutan ni modifican.
+`RUN_FINAL_TEST=False` conserva desactivadas únicamente las celdas legadas de
+árboles. El notebook actual reproduce siempre la selección, el ajuste final y
+la evaluación de NB y baseline; ya no existe el control `REFIT_FINAL_NB` de una
+versión anterior. El procedimiento vigente está en
+[docs/nb_delivery.md](docs/nb_delivery.md).
+Verificación: Python 3.12.14, scikit-learn 1.9.1, 23 pruebas aprobadas y recarga de
+los tres modelos con reproducción exacta de sus predicciones.

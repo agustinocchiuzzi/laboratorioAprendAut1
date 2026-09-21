@@ -1,0 +1,200 @@
+{
+  "NB propio": {
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "n_fit_rows": 14705,
+    "fitted_through": "2023-12-16",
+    "numeric_edges": {
+      "home_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "away_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "home_win_rate_season": [
+        0.25,
+        0.45454545454545453
+      ],
+      "away_win_rate_season": [
+        0.2692307692307692,
+        0.4666666666666667
+      ],
+      "home_win_rate_as_home_all": [
+        0.4099162992780014,
+        0.47835347047069215
+      ],
+      "home_win_rate_h2h_as_home": [
+        0.375,
+        0.5555555555555556
+      ],
+      "home_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "away_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "home_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ],
+      "away_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ]
+    },
+    "numeric_medians": {
+      "home_win_rate_last_5": 0.4,
+      "away_win_rate_last_5": 0.4,
+      "home_win_rate_season": 0.3333333333333333,
+      "away_win_rate_season": 0.35714285714285715,
+      "home_win_rate_as_home_all": 0.44113667117726657,
+      "home_win_rate_h2h_as_home": 0.5,
+      "home_points_per_match_5": 1.4,
+      "away_points_per_match_5": 1.4,
+      "home_goal_diff_per_match_5": 0.0,
+      "away_goal_diff_per_match_5": 0.0
+    },
+    "n_categories": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "classes": [
+      "E",
+      "L",
+      "V"
+    ],
+    "class_count": [
+      4029,
+      6545,
+      4131
+    ],
+    "class_log_prior": [
+      -1.2946693657967483,
+      -0.8094861726440951,
+      -1.2696680635913307
+    ],
+    "state_before_test": "47486d54952728951cc78f928b9d68c4",
+    "state_after_test": "47486d54952728951cc78f928b9d68c4"
+  },
+  "CategoricalNB": {
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ],
+    "n_fit_rows": 14705,
+    "fitted_through": "2023-12-16",
+    "numeric_edges": {
+      "home_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "away_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "home_win_rate_season": [
+        0.25,
+        0.45454545454545453
+      ],
+      "away_win_rate_season": [
+        0.2692307692307692,
+        0.4666666666666667
+      ],
+      "home_win_rate_as_home_all": [
+        0.4099162992780014,
+        0.47835347047069215
+      ],
+      "home_win_rate_h2h_as_home": [
+        0.375,
+        0.5555555555555556
+      ],
+      "home_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "away_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "home_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ],
+      "away_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ]
+    },
+    "numeric_medians": {
+      "home_win_rate_last_5": 0.4,
+      "away_win_rate_last_5": 0.4,
+      "home_win_rate_season": 0.3333333333333333,
+      "away_win_rate_season": 0.35714285714285715,
+      "home_win_rate_as_home_all": 0.44113667117726657,
+      "home_win_rate_h2h_as_home": 0.5,
+      "home_points_per_match_5": 1.4,
+      "away_points_per_match_5": 1.4,
+      "home_goal_diff_per_match_5": 0.0,
+      "away_goal_diff_per_match_5": 0.0
+    },
+    "n_categories": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "classes": [
+      "E",
+      "L",
+      "V"
+    ],
+    "class_count": [
+      4029.0,
+      6545.0,
+      4131.0
+    ],
+    "class_log_prior": [
+      -1.2946693657967483,
+      -0.8094861726440943,
+      -1.2696680635913307
+    ],
+    "state_before_test": "08d2ba8754100e2d5f0e47124e75541e",
+    "state_after_test": "08d2ba8754100e2d5f0e47124e75541e"
+  }
+}
