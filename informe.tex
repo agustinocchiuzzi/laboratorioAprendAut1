@@ -273,7 +273,7 @@ C_{\mathrm{base}}=
 \]
 L presenta las mejores precision, recall y F1, seguida de V y de E. De los 254 errores del NB, 104 (40,9\%) son empates confundidos con victorias: E$\to$L es el más frecuente (60), seguido de E$\to$V (44). Las confusiones L$\leftrightarrow$V suman 89 (45 y 44), y los falsos empates, 61 (26 y 35). NB reconoce 27 de 131 empates, mientras el baseline nunca predice E. Frente a la base (121 locales y 97 visitantes), NB baja a 119 y 72 a cambio de esos empates: mejora el F1 de E y L y empeora el de V.
 
-Los árboles repiten el patrón de los empates. Se muestran por separado para que no se superpongan con la columna vecina en el formato de dos columnas:
+Los árboles repiten el patrón de los empates:
 \[
 C_{\mathrm{ID3}}=
 \begin{pmatrix}18&80&33\\24&147&19\\14&82&55\end{pmatrix}
@@ -299,7 +299,7 @@ La discretización pierde diferencias dentro de cada bin; los históricos resume
 \section{Conclusiones}
 Para NB se completó un flujo desde el ZIP original: limpieza, atributos causales, selección temporal, ajuste final y análisis. El m-estimate propio reproduce CategoricalNB bajo las condiciones explícitas de dominio y suavizado. La mejora frente al baseline es modesta en accuracy y mayor en macro-F1; no es uniforme entre clases, y los empates siguen siendo la principal dificultad.
 
-Las observaciones describen una evaluación secuencial con 2025 incompleto, no una predicción simultánea de dos años ni evidencia causal. Ningún resultado de test modificó atributos, suavizado o decisiones. Con la evaluación de los árboles, la comparación global queda cerrada para este test: el árbol de sklearn sobre los mismos códigos iguala al NB en accuracy (0,4682 frente a 0,4619) pero no en macro-F1 (0,4109 frente a 0,4281); el ID3 propio queda junto a ambos y el bosque, por detrás. La discretización de las tasas ayuda: el mismo árbol sobre valores continuos cae a 0,3602 de accuracy. Para todos los modelos la mayor dificultad sigue siendo el empate.
+Las observaciones describen una evaluación secuencial con 2025 incompleto, no una predicción simultánea de dos años ni evidencia causal. Ningún resultado de test modificó atributos, suavizado o decisiones. Con la evaluación de los árboles, la comparación global queda cerrada para este test. El árbol de sklearn sobre los mismos códigos es el único que supera la accuracy del NB (0,4682 frente a 0,4619), pero el mejor macro-F1 sigue siendo el del NB (0,4281): los árboles y el bosque ceden cohesión en las clases minoritarias. El ID3 propio queda casi igualado con su versión de sklearn (0,4661 y 0,4027 frente a 0,4682 y 0,4109), lo que valida la implementación, y el bosque (0,4386 y 0,4085) reparte mejor la clase E pero paga accuracy. La discretización de las tasas es decisiva: el mismo árbol sobre valores continuos cae a 0,3602 de accuracy, el peor de la tabla. Ningún modelo logra un recall de empate mayor a 0,26 (de 0,1374 del ID3 a 0,2366 del bosque), así que el empate sigue siendo la dificultad compartida que ningún clasificador resuelve.
 
 \section*{Uso de Inteligencia Artificial}
 En la parte de NB se utilizó Codex para asistir en el análisis de resultados, su integración en notebook e informe y la ejecución de verificaciones. Esta descripción se limita al trabajo registrado en esta sesión. \textbf{Pendiente de completar por los integrantes:} autoría y correos, herramientas utilizadas personalmente, tareas asistidas y revisión o validación humana efectivamente realizada. No se dispone de esos datos para cerrar la declaración.
