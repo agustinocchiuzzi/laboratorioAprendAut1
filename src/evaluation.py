@@ -1,19 +1,16 @@
-"""Shared temporal setup; importing this module does not fit any model.
+"""Setup temporal compartido; importar este modulo no ajusta ningun modelo.
 
-Inputs must come from the audited causal feature builder. Histories update after
-whole match dates; learned preprocessing and estimators stay fixed in each fold.
+Los insumos provienen del armador de atributos causales auditado. La
+validacion es manual (sin Pipeline de scikit-learn): en cada fold se ajusta
+el preprocesado con el train del fold y se evaluan validacion y train.
 """
 
-from __future__ import annotations
-
+import copy
 from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
-from sklearn.base import clone
-from sklearn.compose import ColumnTransformer
-from sklearn.metrics import accuracy_score, f1_score
-from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, classification_report, f1_score
 
 try:  # Notebook imports src modules directly; tests can import as a package.
     from .baseline import BASELINE_FEATURES
@@ -32,22 +29,24 @@ LAST_5_CUTS = (0.3, 0.6)
 @dataclass(frozen=True)
 class TemporalFold:
     validation_year: int
-    train_positions: tuple[int, ...]
-    validation_positions: tuple[int, ...]
+    train_positions: tuple
+    validation_positions: tuple
 
 
-def _dates(frame: pd.DataFrame) -> pd.Series:
+def _dates(frame):
     dates = pd.to_datetime(frame["date"], errors="raise")
     if dates.isna().any() or not dates.eq(dates.dt.normalize()).all():
-        raise ValueError("Se requieren fechas de partido completas, sin horas ni faltantes.")
+        raise ValueError(
+            "Se requieren fechas de partido completas, sin horas ni faltantes."
+        )
     return dates
 
 
-def make_temporal_folds(frame: pd.DataFrame) -> tuple[TemporalFold, ...]:
-    """Expanding training before each complete year 2021, 2022 and 2023.
+def make_temporal_folds(frame):
+    """Entrenamiento expandido antes de cada ano completo 2021, 2022 y 2023.
 
-    Positions refer to the supplied frame, irrespective of its index/order.
-    Reject final evaluation rows instead of silently allowing them in CV.
+    Las posiciones refieren al frame recibido, sin importar su orden. Se
+    rechaza el test 2024-2025 en lugar de dejarlo pasar por la CV.
     """
     dates = _dates(frame)
     if dates.dt.year.gt(2023).any():
@@ -62,7 +61,7 @@ def make_temporal_folds(frame: pd.DataFrame) -> tuple[TemporalFold, ...]:
     return tuple(folds)
 
 
-def temporal_holdout(frame: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+def temporal_holdout(frame):
     dates = _dates(frame)
     if dates.dt.year.gt(2025).any():
         raise ValueError("Hay fechas posteriores al horizonte de la consigna.")
@@ -73,39 +72,21 @@ def temporal_holdout(frame: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return train, test
 
 
-def new_discretizer() -> MixedTypeDiscretizer:
-    """Return a fresh, unfitted transformer for each training partition."""
+def new_discretizer():
+    """Devuelve un discretizador sin ajustar para cada particion de train."""
     return MixedTypeDiscretizer(
         categorical_features=[], numeric_features=NUMERIC_FEATURES,
         n_bins=3, fixed_cuts={column: LAST_5_CUTS for column in NUMERIC_FEATURES[:2]},
     )
 
 
-def make_model_pipeline(estimator, representation: str) -> Pipeline:
-    """Clone the estimator and select only allowed inputs, never labels/dates.
+def evaluate_temporal_cv(estimator, frame, folds, representation):
+    """Evalua solo cuando se la llama; modelo nuevo y ajustado en cada fold.
 
-    discrete: ID3/categorical NB; continuous: reference trees/forest;
-    baseline: shared causal ten-year rates, without discretization.
-    """
-    if representation == "discrete":
-        preprocessing = new_discretizer()
-    elif representation in {"continuous", "baseline"}:
-        columns = NUMERIC_FEATURES if representation == "continuous" else BASELINE_FEATURES
-        preprocessing = ColumnTransformer(
-            [("inputs", "passthrough", columns)], remainder="drop",
-            verbose_feature_names_out=False,
-        ).set_output(transform="pandas")
-    else:
-        raise ValueError("Representacion desconocida: " + representation)
-    return Pipeline([("preprocessing", preprocessing), ("model", clone(estimator))])
-
-
-def evaluate_temporal_cv(estimator, frame: pd.DataFrame,
-                         folds: tuple[TemporalFold, ...], representation: str) -> pd.DataFrame:
-    """Evaluate only when explicitly called; use a NEW pipeline in every fold.
-
-    Revalidate positions against the exact frame so a reordered/stale split or
-    an ad-hoc fold splitting a match date cannot be used by a single model.
+    Se revalidan las posiciones contra el frame exacto para que ningun modelo
+    use un split distinto. representation indica el tipo de input:
+    "discrete" aplica la discretizacion ajustada por fold, "continuous" pasa
+    las tasas crudas y "baseline" las tasas de diez anos sin discretizar.
     """
     if folds != make_temporal_folds(frame):
         raise ValueError("Todos los modelos deben usar los folds anuales compartidos.")
@@ -113,10 +94,25 @@ def evaluate_temporal_cv(estimator, frame: pd.DataFrame,
     for fold in folds:
         train = frame.iloc[list(fold.train_positions)]
         valid = frame.iloc[list(fold.validation_positions)]
-        pipeline = make_model_pipeline(estimator, representation)
-        pipeline.fit(train, train["winner"])
-        prediction = pipeline.predict(valid)
-        train_prediction = pipeline.predict(train)
+
+        if representation == "discrete":
+            discretizer = new_discretizer()
+            discretizer.fit(train[NUMERIC_FEATURES])
+            X_train = discretizer.transform(train[NUMERIC_FEATURES])
+            X_valid = discretizer.transform(valid[NUMERIC_FEATURES])
+        elif representation == "continuous":
+            X_train = train[NUMERIC_FEATURES]
+            X_valid = valid[NUMERIC_FEATURES]
+        elif representation == "baseline":
+            X_train = train[BASELINE_FEATURES]
+            X_valid = valid[BASELINE_FEATURES]
+        else:
+            raise ValueError("Representacion desconocida: " + representation)
+
+        model = copy.deepcopy(estimator)
+        model.fit(X_train, train["winner"])
+        prediction = model.predict(X_valid)
+        train_prediction = model.predict(X_train)
         rows.append({
             "validacion": fold.validation_year,
             "n_train": len(train), "n_validacion": len(valid),
@@ -125,8 +121,29 @@ def evaluate_temporal_cv(estimator, frame: pd.DataFrame,
             "train_accuracy": accuracy_score(train["winner"], train_prediction),
             "train_error": 1.0 - accuracy_score(train["winner"], train_prediction),
             "train_macro_f1": f1_score(train["winner"], train_prediction,
-                                       labels=list(CLASSES), average="macro", zero_division=0),
+                                       labels=list(CLASSES), average="macro",
+                                       zero_division=0),
             "macro_f1": f1_score(valid["winner"], prediction,
-                                 labels=list(CLASSES), average="macro", zero_division=0),
+                                 labels=list(CLASSES), average="macro",
+                                 zero_division=0),
         })
     return pd.DataFrame(rows)
+
+
+def reporte_por_clases(nombre, y_true, y_pred, digits=4):
+    """Classification report por clase (precision, recall, F1, support).
+
+    Se reusa para todos los modelos para que midan lo mismo en el mismo orden
+    (E, L, V); zero_division=0 mantiene definida la tabla si una clase nunca
+    se predice.
+    """
+    reporte = classification_report(
+        y_true,
+        y_pred,
+        labels=list(CLASSES),
+        target_names=list(CLASSES),
+        digits=digits,
+        zero_division=0,
+    )
+    print(f"### {nombre}\n{reporte}")
+    return reporte
