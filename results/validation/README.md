@@ -40,3 +40,7 @@ La evaluación posterior verificada está en `../finalized/`, con Python 3.12.14
 y scikit-learn 1.9.1. `informe.tex` e `Informe_final.pdf` ya contienen esos
 resultados. El ZIP de Overleaf es histórico. Las instrucciones vigentes están
 en el [README de la raíz](../../README.md).
+
+La entrega actual guarda el notebook completamente ejecutado con
+`RUN_FINAL_TEST=True`; el modo `False` sigue disponible para revisar solo
+selección y ajuste. Esta carpeta conserva el registro de aquella etapa de validación.

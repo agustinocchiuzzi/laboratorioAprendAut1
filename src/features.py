@@ -53,14 +53,18 @@ def load_clean_matches(source):
 
 
 def _normalize_matches(raw):
-    """Limpieza minima: nombres de columnas, tipos y goles enteros."""
+    """Normaliza tipos y rechaza goles faltantes, no finitos o no enteros."""
     frame = raw.copy().reset_index(drop=True)
     frame.columns = [str(column).strip() for column in frame.columns]
     for column in frame.select_dtypes(include=["object", "string"]).columns:
         frame[column] = frame[column].astype("string").str.strip()
     frame["date"] = pd.to_datetime(frame["date"], format="%Y-%m-%d", errors="raise")
-    frame["gh"] = pd.to_numeric(frame["gh"], errors="raise").astype("int64")
-    frame["ga"] = pd.to_numeric(frame["ga"], errors="raise").astype("int64")
+    for column in ("gh", "ga"):
+        scores = pd.to_numeric(frame[column], errors="raise")
+        if (scores.isna().any() or not np.isfinite(scores).all()
+                or scores.lt(0).any() or scores.mod(1).ne(0).any()):
+            raise ValueError(f"{column} debe contener goles enteros no negativos y finitos.")
+        frame[column] = scores.astype("int64")
     return frame
 
 

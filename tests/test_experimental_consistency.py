@@ -14,7 +14,7 @@ from sklearn.naive_bayes import CategoricalNB
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src import evaluation
-from src.features import NUMERIC_FEATURES
+from src.features import NUMERIC_FEATURES, _normalize_matches
 from src.naive_bayes import MEstimateCategoricalNB
 
 EXTRA = [
@@ -47,6 +47,28 @@ def fixture():
 
 
 class ExperimentalConsistencyTest(unittest.TestCase):
+    def test_score_validation_rejects_invalid_values_in_both_workflows(self):
+        namespace = dict(np=np, pd=pd)
+        exec(definition("_normalize_matches"), namespace)
+        for normalize in (_normalize_matches, namespace["_normalize_matches"]):
+            for column in ("gh", "ga"):
+                for value in (-1, 1.9, np.nan, np.inf, -np.inf, "invalid"):
+                    with self.subTest(column=column, value=value, normalize=normalize):
+                        raw = pd.DataFrame({"date": ["2024-01-01"], "gh": [2], "ga": [0]})
+                        raw[column] = value
+                        with self.assertRaises((ValueError, TypeError)):
+                            normalize(raw)
+
+    def test_score_validation_preserves_valid_integer_strings(self):
+        namespace = dict(np=np, pd=pd)
+        exec(definition("_normalize_matches"), namespace)
+        raw = pd.DataFrame({"date": ["2024-01-01"], "gh": ["2"], "ga": ["0"]})
+        for normalize in (_normalize_matches, namespace["_normalize_matches"]):
+            normalized = normalize(raw)
+            self.assertEqual(normalized["gh"].tolist(), [2])
+            self.assertEqual(normalized["ga"].tolist(), [0])
+            self.assertEqual(str(normalized["gh"].dtype), "int64")
+
     def test_notebook_and_source_discretizers_match_training_quantiles(self):
         namespace = dict(np=np, pd=pd, NUMERIC_FEATURES=NUMERIC_FEATURES,
                          LAST_5_CUTS=evaluation.LAST_5_CUTS)
@@ -166,8 +188,8 @@ class ExperimentalConsistencyTest(unittest.TestCase):
             namespace = {"RUN_FINAL_TEST": False}
             exec(source, namespace)  # No test frame, models or predictions exist here.
             self.assertNotIn("y_test", namespace)
-        setup = next(source for source in CODE if "RUN_FINAL_TEST = False" in source)
-        self.assertIn("RUN_FINAL_TEST = False", setup)
+        setup = next(source for source in CODE if "RUN_FINAL_TEST = True" in source)
+        self.assertIn("RUN_FINAL_TEST = True", setup)
 
     def test_shared_cv_and_notebook_workflows_stay_synchronized(self):
         import inspect

@@ -1,46 +1,63 @@
-# Reproducción de la entrega final
+# Tarea 1: predicción de resultados del fútbol uruguayo
 
-La entrega vigente es `entrega/notebook.ipynb`, junto con `entrega/id3.py`,
-`entrega/naive_bayes.py` e `Informe_final.pdf`. El notebook raíz reproduce
-el mismo flujo usando los módulos de `src/`.
+Autores: Thiago Rivas, Juan Duarte y Agustin Occhiuzzi.
 
-## Entorno y ejecución
+La entrega autocontenida está en `entrega/`: informe IEEE, notebook ejecutado,
+las dos implementaciones propias, dataset crudo, dependencias e instrucciones.
+El notebook raíz reproduce el mismo flujo usando los módulos de `src/`.
 
-Se verificó con Python 3.12.14 y scikit-learn 1.9.1. La semilla es 42 para
-Random Forest, los árboles de referencia y las muestras ilustrativas.
-Las versiones completas y hashes del código/dataset de la evaluación guardada
-están en `results/finalized/environment.json`.
+## Reproducción
 
-Desde la raíz del repositorio:
+Se verificó con Python 3.12.14 y scikit-learn 1.9.1. Las dependencias están
+fijadas a las versiones utilizadas; la semilla es 42. Desde la raíz:
 
 ```sh
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m ipykernel install --user --name aprendaut1 --display-name 'AprendAut1 Python 3.12'
+python3.12 -m venv .venv312
+.venv312/bin/python -m pip install -r requirements.txt
+.venv312/bin/python -m ipykernel install --user --name aprendaut1 --display-name 'AprendAut1 Python 3.12'
 ```
 
-Abrir el notebook en Jupyter o VS Code y seleccionar ese kernel. Comprobar
-la ruta `RAW` de la primera celda de código. Para reproducir el informe,
-cambiar `RUN_FINAL_TEST = True` y ejecutar todas las celdas en orden desde
-un kernel nuevo. El valor predeterminado `False` permite revisar únicamente
-validación y ajuste; omite evaluación e instancias nuevas.
-El notebook de entrega contiene todo el procesamiento necesario y no lee
-tablas de resultados ni archivos intermedios.
+Abrir `entrega/notebook.ipynb` en Jupyter o VS Code, seleccionar ese kernel,
+reiniciarlo y ejecutar todas las celdas. El directorio de trabajo debe ser
+`entrega/`, donde están los modelos y `futbol_uruguayo.zip`.
+`RUN_FINAL_TEST=True` está activado: se reproducen selección, ajuste final,
+métricas, matrices, ejemplos y predicciones de partidos hipotéticos.
+`False` conserva un modo opcional que omite evaluación y demostraciones.
+El notebook no lee resultados precalculados ni archivos de procesamiento parcial.
 
-## Resultados vigentes
+## Resultados y verificaciones
 
-`results/validation/` conserva las búsquedas y selecciones. `results/finalized/`
-contiene métricas, matrices, ejemplos, escenarios y comprobaciones del ajuste
-final: 14.705 partidos hasta 2023 y 472 de 2024–2025. Las últimas celdas del
-notebook reproducen esas tablas, incluidos los ejemplos y escenarios del informe.
-El test fue inspeccionado previamente; no es una evaluación independiente nueva.
+Se usan 14.705 partidos hasta 2023 y 472 de 2024-2025. El test fue
+inspeccionado previamente: estas cifras no representan un nuevo holdout intacto.
+`results/validation/` conserva las búsquedas; `results/finalized/` contiene
+métricas, matrices, ejemplos, escenarios, comprobaciones y versiones/hashes.
 
-`scripts/verify_final_experiment.py` reproduce únicamente el ajuste y evaluación
-con la configuración congelada, sin repetir la búsqueda de hiperparámetros.
-Desde la raíz: `.venv/bin/python -B scripts/verify_final_experiment.py`.
+```sh
+.venv312/bin/python -B -m unittest discover -s tests -v
+.venv312/bin/python -B scripts/verify_final_experiment.py
+```
 
-`old/`, `notas_decisiones.md`, `results/notebook_execution.txt`,
-`results/notebook.executed.ipynb`, `results/notebook.merged.executed.ipynb` y
-`informe_overleaf.zip` son antecedentes de versiones anteriores; no son la
-entrega final ni la evidencia vigente de sus resultados. El fuente actual
-del PDF es `informe.tex` con las imágenes de `figuras/`.
+El verificador reproduce el ajuste y evaluación con la configuración congelada,
+sin repetir la búsqueda. La ejecución completa del notebook sí repite las búsquedas.
+
+## Informe y paquete de entrega
+
+El fuente vigente es `informe.tex`, con las imágenes de `figuras/`.
+`scripts/plot_validation.py` regenera esas imágenes desde los registros de
+validación. Compilar el fuente con una distribución LaTeX que incluya IEEEtran
+(dos pasadas), revisar el PDF y guardar el resultado como `Informe_final.pdf`.
+
+Después de guardar el notebook ejecutado y el PDF actualizado:
+
+```sh
+.venv312/bin/python scripts/build_submission.py
+```
+
+El comando sincroniza los archivos de `entrega/` y genera
+`output/entrega/Tarea1_Rivas_Duarte_Occhiuzzi.zip`. Solo incluye los siete
+archivos enumerados en `entrega/README.md`; no incluye modelos serializados,
+datasets procesados, cachés ni resultados intermedios.
+
+`old/`, `notas_decisiones.md`, los notebooks históricos de `results/` e
+`informe_overleaf.zip` son antecedentes, no la entrega vigente. El ZIP de
+Overleaf contiene una versión anterior y no debe usarse para compilar el informe.
