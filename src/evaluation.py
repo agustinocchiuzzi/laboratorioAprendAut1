@@ -72,37 +72,42 @@ def temporal_holdout(frame):
     return train, test
 
 
-def new_discretizer():
+def new_discretizer(feature_columns=None):
     """Devuelve un discretizador sin ajustar para cada particion de train."""
     return MixedTypeDiscretizer(
-        categorical_features=[], numeric_features=NUMERIC_FEATURES,
+        categorical_features=[], numeric_features=(
+            list(NUMERIC_FEATURES) if feature_columns is None else list(feature_columns)
+        ),
         n_bins=3, fixed_cuts={column: LAST_5_CUTS for column in NUMERIC_FEATURES[:2]},
     )
 
 
-def evaluate_temporal_cv(estimator, frame, folds, representation):
+def evaluate_temporal_cv(estimator, frame, folds, representation,
+                         feature_columns=None):
     """Evalua solo cuando se la llama; modelo nuevo y ajustado en cada fold.
 
     Se revalidan las posiciones contra el frame exacto para que ningun modelo
     use un split distinto. representation indica el tipo de input:
     "discrete" aplica la discretizacion ajustada por fold, "continuous" pasa
     las tasas crudas y "baseline" las tasas de diez anos sin discretizar.
+    feature_columns permite comparar las entradas con el mismo preprocesado.
     """
     if folds != make_temporal_folds(frame):
         raise ValueError("Todos los modelos deben usar los folds anuales compartidos.")
+    columns = list(NUMERIC_FEATURES if feature_columns is None else feature_columns)
     rows = []
     for fold in folds:
         train = frame.iloc[list(fold.train_positions)]
         valid = frame.iloc[list(fold.validation_positions)]
 
         if representation == "discrete":
-            discretizer = new_discretizer()
-            discretizer.fit(train[NUMERIC_FEATURES])
-            X_train = discretizer.transform(train[NUMERIC_FEATURES])
-            X_valid = discretizer.transform(valid[NUMERIC_FEATURES])
+            discretizer = new_discretizer(columns)
+            discretizer.fit(train[columns])
+            X_train = discretizer.transform(train[columns])
+            X_valid = discretizer.transform(valid[columns])
         elif representation == "continuous":
-            X_train = train[NUMERIC_FEATURES]
-            X_valid = valid[NUMERIC_FEATURES]
+            X_train = train[columns]
+            X_valid = valid[columns]
         elif representation == "baseline":
             X_train = train[BASELINE_FEATURES]
             X_valid = valid[BASELINE_FEATURES]
