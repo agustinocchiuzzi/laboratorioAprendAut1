@@ -80,7 +80,7 @@ email@fing.edu.uy}
 % =========================================================
 
 \begin{abstract}
-En este informe, se estudia la predicción de victoria local, visitante o empate en el fútbol uruguayo mediante atributos históricos causales y validación temporal. Se conserva un conjunto común de 14.705 partidos hasta 2023 y se evalúan 472 de 2024--2025. Para Naive Bayes propio y su versión de scikit-learn, la selección secuencial de suavizado y atributos produce modelos equivalentes de diez entradas, con un accuracy de 0,4619 y macro-F1 0,4281, frente a 0,4619 y 0,3564 del baseline de diez años. Por otro lado el ID3 propio alcanza 0,4661 y 0,4027, y su versión de scikit-learn sobre los mismos códigos, 0,4682 y 0,4109. El bosque aleatorio sobre tasas continuas queda en 0,4386 y 0,4085. La mayor dificultad encontrada son los empates.
+Se estudia la predicción de victoria local, visitante o empate mediante atributos históricos causales y validación temporal. Se usan 14.705 partidos hasta 2023 para entrenamiento y 472 de 2024--2025 para evaluación. La validación anual 2021--2023 selecciona diez entradas para ID3 y ambos Naive Bayes, y seis para Random Forest. En la evaluación final, Naive Bayes obtiene accuracy 0,4788 y macro-F1 0,4454; ID3, 0,4492 y 0,4238; Random Forest, 0,4258 y 0,4219; y el baseline de diez años, 0,4619 y 0,3564. Los dos NB producen las mismas 472 clases predichas. El bloque de evaluación ya había sido inspeccionado, por lo que estos resultados no se presentan como un nuevo holdout intacto.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -91,11 +91,11 @@ aprendizaje supervisado, árboles de decisión, Naive Bayes, predicción deporti
 \section{Introducción}
 La predicción de resultados del fútbol uruguayo se plantea como un problema de clasificación supervisada con tres clases, los cuales son victoria local (L), victoria visitante (V) y empate (E). A partir de registros históricos de partidos, se busca construir atributos disponibles antes del encuentro y estimar su resultado. El desafío no es únicamente ajustar un clasificador, también requiere respetar el orden temporal y evitar que el resultado que se intenta predecir intervenga en sus entradas.
 
-Este trabajo aborda la aplicación de herramientas metodológicas a datos reales, la implementación de métodos supervisados y el análisis de sus predicciones. Se implementaron un árbol ID3 con umbral mínimo de ganancia de información, un Naive Bayes categórico con suavizado mediante tamaño equivalente de muestra y el clasificador base de proporción de victorias en los diez años anteriores. El notebook incorpora además árboles de decisión y Random Forest de scikit-learn. La comparación incluye también Naive Bayes categórico de esa biblioteca.
+Este trabajo aborda la aplicación de herramientas metodológicas a datos reales, la implementación de métodos supervisados y el análisis de sus predicciones. Se implementaron un árbol ID3 con umbral mínimo de ganancia de información, un Naive Bayes categórico con suavizado mediante tamaño equivalente de muestra y el clasificador base de proporción de victorias en los diez años anteriores. La comparación incluye \texttt{CategoricalNB} y Random Forest de scikit-learn.
 
-El procesamiento parte de seis tasas históricas de victoria y reserva 2024--2025 para evaluación. Para ambos NB, la validación seleccionó diez atributos, esas tasas más puntos y diferencia de gol por partido de cada equipo en hasta cinco antecedentes previos. Se examinan métricas por clase además de la proporción global de aciertos.
+El procesamiento parte de seis tasas históricas de victoria y separa 2024--2025 para evaluación. Para ID3 y ambos NB, la validación seleccionó diez atributos: esas tasas más puntos y diferencia de gol por partido de cada equipo en hasta cinco antecedentes previos. El bosque conserva las seis tasas. Se examinan métricas por clase además de la proporción global de aciertos.
 
-La evaluación final consolidada abarca ambos NB, el ID3 propio, dos árboles de scikit-learn y el random forest, todos sobre el mismo test. Las curvas de validación se conservan como selección de hiperparámetros y no anticipan conclusiones sobre test.
+La configuración se elige mediante validación y luego se ajusta una vez con todo el entrenamiento. La evaluación final verificada usa esa configuración congelada; las curvas de validación no son resultados de test.
 
 % =========================================================
 % Trabajo relacionado es opcional: incorporar solo referencias verificadas
@@ -125,13 +125,13 @@ El diccionario de la fuente incluye prórroga y penales en los goles\cite{b1}, p
 \subsection{Atributos derivados}
 Se construyen seis tasas: proporción de victorias en los últimos cinco partidos de cada equipo, proporción de victorias de ambos dentro del año calendario, proporción histórica de victorias del local jugando como local y proporción de victorias de ese local frente al visitante con la misma localía. Si hay menos de cinco antecedentes se usan los disponibles, la referencia anual no corresponde necesariamente a una temporada deportiva.
 
-El cálculo recorre fechas y obtiene los atributos de todos los encuentros de un día antes de actualizar cualquier historial de ese día. Así excluye resultados simultáneos y futuros. Cuando no hay antecedentes se asigna $0{,}5$: esto evita equiparar ausencia de historial con cero victorias, pero puede coincidir con una tasa observada y no constituye una categoría independiente. Nombres de equipos y mes no integran las seis entradas; los nombres sirven para enlazar historiales. Para NB se agregan cuatro entradas: puntos por partido y diferencia de gol por partido en hasta cinco antecedentes, para local y visitante. Los puntos son 3/1/0 y la diferencia es goles a favor menos goles en contra; sin antecedentes se asignan $4/3$ y 0. Estas diez entradas, seleccionadas por validación, no incluyen goles del partido a predecir.
+El cálculo recorre fechas y obtiene los atributos de todos los encuentros de un día antes de actualizar cualquier historial de ese día. Así excluye resultados simultáneos y futuros. Cuando no hay antecedentes se asigna $0{,}5$: esto evita equiparar ausencia de historial con cero victorias, pero puede coincidir con una tasa observada y no constituye una categoría independiente. Nombres de equipos y mes no integran las seis entradas; los nombres sirven para enlazar historiales. Para la variante de diez atributos de ID3 y NB se agregan cuatro entradas: puntos por partido y diferencia de gol por partido en hasta cinco antecedentes, para local y visitante. Los puntos son 3/1/0 y la diferencia es goles a favor menos goles en contra; sin antecedentes se asignan $4/3$ y 0. Estas diez entradas, seleccionadas por validación, no incluyen goles del partido a predecir.
 
 \subsection{Discretización}
-El discretizador común produce códigos enteros para los modelos propios. Para las tasas de los últimos cinco partidos se fijan cortes en $0{,}3$ y $0{,}6$, es decir, baja si $x<0{,}3$, media si $0{,}3\leq x<0{,}6$ y alta en otro caso. Las otras ocho entradas del NB final usan terciles aprendidos solo con entrenamiento y reutilizados en validación o evaluación. Los cortes repetidos se eliminan, por lo que pueden resultar menos de tres intervalos; los empates entre valores tampoco garantizan grupos de igual tamaño. No existe un intervalo exclusivo para ``sin historial''. Los valores numéricos no finitos se imputan con la mediana aprendida en entrenamiento.
+El discretizador común produce códigos enteros para ID3 y ambos NB. Para las tasas de los últimos cinco partidos se fijan cortes en $0{,}3$ y $0{,}6$, es decir, baja si $x<0{,}3$, media si $0{,}3\leq x<0{,}6$ y alta en otro caso. Las otras ocho entradas usan terciles aprendidos solo con entrenamiento y reutilizados en validación o evaluación. Los cortes repetidos se eliminan, por lo que pueden resultar menos de tres intervalos; los empates entre valores tampoco garantizan grupos de igual tamaño. No existe un intervalo exclusivo para ``sin historial''. Los valores numéricos no finitos se imputan con la mediana aprendida en entrenamiento.
 
 \subsection{División temporal de datos}
-Se reservan 14.705 partidos hasta 2023 como set de entrenamiento y 472 de 2024--2025 para evaluación. Los atributos de evaluación incorporan resultados de fechas anteriores del propio período, simulando predicciones sucesivas, sin reajustar el modelo. La misma política rige para el clasificador base: todos disponen de resultados de fechas anteriores, incluidos los del bloque de evaluación.
+Se separan temporalmente 14.705 partidos hasta 2023 como set de entrenamiento y 472 de 2024--2025 para evaluación. Los atributos de evaluación incorporan resultados de fechas anteriores del propio período, simulando predicciones sucesivas, sin reajustar el modelo. La misma política rige para el clasificador base: todos disponen de resultados de fechas anteriores, incluidos los del bloque de evaluación.
 
 % =========================================================
 \section{Modelos}
@@ -161,10 +161,10 @@ P(X_j=v\mid c)=\frac{n_{jvc}+m/K_j}{n_c+m}
 \end{equation}
 Aquí $n_{jvc}$ cuenta coincidencias de código y clase, $n_c$ cuenta ejemplos de la clase y $K_j$ es el máximo código de entrenamiento más uno, o el mínimo declarado mediante \texttt{min\_categories} si es mayor. La grilla declara cuatro códigos en ambos NB, incluso con bines ausentes, en general $K_j$ puede variar entre atributos y un único $\alpha=m/K$ solo es equivalente con un dominio común de tamaño $K$. El cero queda reservado para desconocidos. El parámetro $m>0$ es el tamaño equivalente de muestra: reparte un peso total $m$ uniformemente entre las $K_j$ categorías, agregando $m/K_j$ a cada conteo. Se decide por $\arg\max_c[\log P(c)+\sum_j\log P(X_j=x_j\mid c)]$, con desempate E/L/V. Los códigos fuera del dominio se remiten al cero; el prior de clase $P(c)=n_c/N$ no se suaviza.
 
-\subsection{Modelos de referencia de scikit-learn}
-Se entrenan dos árboles de decisión de scikit-learn con criterio de entropía: uno recibe los mismos códigos discretos que utiliza el ID3 propio, y el otro trabaja directamente sobre las tasas continuas. El Random Forest, por su parte, combina 300 árboles entrenados sobre las tasas continuas, con semilla 42 y ponderación de clases en cada muestra bootstrap (\texttt{balanced\_subsample}).
+\subsection{Modelos de referencia}
+El Random Forest combina 300 árboles entrenados sobre las seis tasas continuas, con semilla 42 y ponderación de clases en cada muestra bootstrap (\texttt{balanced\_subsample}). El baseline compara las tasas causales de diez años ya descritas.
 
-Para comparar con el Naive Bayes propio se utiliza \texttt{CategoricalNB}, aplicado sobre la misma discretización y con cuatro códigos por atributo (incluyendo el código reservado para valores desconocidos). Este estimador calcula las probabilidades condicionales como $(n_{jvc}+\alpha)/(n_c+K_j\alpha)$. Cuando $K_j=4$ y $\alpha=m/4$, y ambos modelos comparten el mismo prior de clase empírico y las mismas entradas, esta fórmula coincide exactamente con la del NB propio (Ecuación~\ref{eq:m-estimate}). El suavizado indicado se respeta sin truncar, y el prior de clase se aprende a partir de train. En la evaluación final, ambos NB utilizan los mismos diez atributos, mientras que los árboles conservan su configuración original.
+Para comparar con el Naive Bayes propio se utiliza \texttt{CategoricalNB}, aplicado sobre la misma discretización y con cuatro códigos por atributo (incluyendo el código reservado para valores desconocidos). Este estimador calcula las probabilidades condicionales como $(n_{jvc}+\alpha)/(n_c+K_j\alpha)$. Cuando $K_j=4$ y $\alpha=m/4$, y ambos modelos comparten el mismo prior de clase empírico y las mismas entradas, esta fórmula coincide exactamente con la del NB propio (Ecuación~\ref{eq:m-estimate}). El suavizado indicado se respeta sin truncar, y el prior de clase se aprende a partir de train. El ajuste final de ID3 y ambos NB utiliza las diez entradas elegidas por validación. El bosque conserva seis tasas y usa la profundidad y hoja mínima seleccionadas en su grilla.
 
 % =========================================================
 \section{Experimentación}
@@ -181,16 +181,16 @@ Se validó en los años completos 2021, 2022 y 2023, con entrenamiento expansivo
 
 Se exploraron seis umbrales ID3 entre 0 y $0{,}05$, cinco valores de $m$ entre $0{,}1$ y 1000, cinco de $\alpha=m/4$ y doce combinaciones de profundidad (4, 8, sin límite) y hoja mínima (1, 5, 20, 50) del bosque. Este mantiene 300 árboles y semilla 42. Ante empate exacto se favorece menor umbral o suavizado; para el bosque, menor profundidad y mayor hoja.
 
-ID3 seleccionó $0{,}005$ (macro-F1 $0{,}3818$), ambos NB seleccionaron el menor suavizado ($m=0{,}1$, $\alpha=0{,}025$), con macro-F1 $0{,}3635$. Sus métricas coinciden, como corresponde al suavizado equivalente con cuatro códigos. Para Random Forest se conservó la configuración del notebook: 300 árboles entrenados sobre las tasas continuas, con semilla 42, ponderación de clases en cada muestra bootstrap y hoja mínima 1, con macro-F1 de validación $0{,}3753$. Se conservaron los dos árboles de referencia y el baseline. El notebook incluye las curvas de validación de ID3 y NB. Estos hallazgos de selección no son una evaluación independiente, el reajuste y el test de todos los modelos se presentan en la sección~\ref{sec:resultados}.
+ID3 seleccionó $0{,}005$ (macro-F1 $0{,}3818$ sobre seis tasas), ambos NB seleccionaron el menor suavizado ($m=0{,}1$, $\alpha=0{,}025$), con macro-F1 $0{,}3635$. Sus métricas coinciden bajo el dominio común de cuatro códigos. Random Forest seleccionó profundidad sin límite y hoja mínima 20: macro-F1 $0{,}4228$ y error $0{,}5653$. Esta configuración controla su ajuste final; se mantienen 300 árboles, semilla 42 y ponderación \texttt{balanced\_subsample}. El notebook presenta error de entrenamiento y validación para ID3, ambos NB identificados explícitamente (curvas superpuestas) y las doce configuraciones del bosque.
 
 \subsection{Comparación acotada de atributos}
-Con hiperparámetros fijos se compararon siete variantes, siendo estos actuales, adición de puntos, diferencia de gol, ambas, tasas históricas de empate y retiro separado de cada historial de localía. Los mismos folds seleccionaron puntos y goles para ID3 y ambos NB, macro-F1 $0{,}4002$ y $0{,}3858$, respectivamente, con menor accuracy que sus versiones iniciales. Random Forest conservó las seis tasas crudas y su configuración por defecto ($0{,}3753$). Restringir predicciones a L/V, manteniendo todas las verdades E/L/V, redujo macro-F1 en las 28 comparaciones, aunque a veces aumentó accuracy. Son resultados de selección, NB conserva $m=0{,}1$ y $\alpha=0{,}025$, sin volver a optimizarlos sobre diez atributos ni consultar test. El macro-F1 NB anual es $0{,}3532$, $0{,}4169$ y $0{,}3742$. Reutilizar folds para decisiones sucesivas puede introducir optimismo.
+Con hiperparámetros fijos se compararon únicamente las seis tasas y esas tasas más puntos y diferencia de gol recientes de ambos equipos, diez entradas. La misma función de validación ajusta cortes fijos $[0{,}3,0{,}6]$ solo para las dos tasas de los últimos cinco partidos; el resto usa terciles aprendidos en cada train. Los mismos folds seleccionaron diez entradas para ID3 y ambos NB: macro-F1 $0{,}4002$ y $0{,}3858$, con errores $0{,}5846$ y $0{,}5723$, respectivamente. En empate exacto se prefieren seis entradas. Estas selecciones determinan las columnas del ajuste final; el bosque mantiene las seis tasas. No se reoptimizan hiperparámetros y el cálculo de selección no usa las filas de test. Reutilizar folds para decisiones sucesivas puede introducir optimismo.
 
 \begin{figure}[htbp]
 \IfFileExists{figuras/id3.png}{%
 \centerline{\includegraphics[width=0.9\linewidth]{figuras/id3.png}}
 }{\centering\fbox{\parbox{0.85\linewidth}{\centering Figura pendiente de consolidación.}}}
-\caption{Error y macro-F1 de entrenamiento/validación para ID3; medias de los tres años.}
+\caption{Error de entrenamiento/validación y macro-F1 de validación para ID3; medias de los tres años.}
 \label{fig:hiperparam-arbol}
 \end{figure}
 
@@ -198,7 +198,7 @@ Con hiperparámetros fijos se compararon siete variantes, siendo estos actuales,
 \IfFileExists{figuras/nb_propio.png}{%
 \centerline{\includegraphics[width=0.9\linewidth]{figuras/nb_propio.png}}
 }{\centering\fbox{\parbox{0.85\linewidth}{\centering Figura pendiente de consolidación.}}}
-\caption{Error y macro-F1 de validación para el NB propio según $m$; medias de los tres años, sobre las seis tasas iniciales.}
+\caption{Error y macro-F1 para NB propio y sklearn CategoricalNB ($\alpha=m/4$); curvas equivalentes superpuestas sobre las seis tasas iniciales.}
 \label{fig:hiperparam-nb}
 \end{figure}
 
@@ -206,20 +206,21 @@ Con hiperparámetros fijos se compararon siete variantes, siendo estos actuales,
 \IfFileExists{figuras/random_forest.png}{%
 \centerline{\includegraphics[width=0.9\linewidth]{figuras/random_forest.png}}
 }{\centering\fbox{\parbox{0.85\linewidth}{\centering Figura pendiente de consolidación.}}}
-\caption{Macro-F1 medio de validación del bosque según profundidad y hoja mínima. El bosque final conserva 300 árboles, semilla 42 y ponderación de clases en cada muestra bootstrap.}
+\caption{Error de entrenamiento/validación y macro-F1 de validación del bosque según profundidad y hoja mínima. Se selecciona profundidad sin límite y hoja mínima 20.}
 \label{fig:hiperparam-rf}
 \end{figure}
 
 % =========================================================
 \section{Resultados}
 \label{sec:resultados}
+
 % PRESUPUESTO DE LA SECCIÓN COMPLETA: 350-400 palabras de texto,
 % sumado a la tabla y a la(s) figura(s) de matriz de confusión.
 % Esta es la sección con más peso relativo del informe (el enunciado
 % pide explícitamente el análisis de resultados) — si sobra espacio
 % de otras secciones, se lo lleva esta.
 
-Ambos NB se ajustaron una vez con los 14.705 partidos hasta 2023 y se evaluaron sobre los mismos 472 encuentros. Los discretizadores y clasificadores permanecen fijos durante test. Las métricas agrupan todo el bloque; macro-F1 pondera E/L/V por igual y se usa cero para divisiones indefinidas.
+Cada modelo se ajustó una vez con los 14.705 partidos hasta 2023 y se evaluó sobre los mismos 472 encuentros. Discretizadores y clasificadores permanecen fijos. Los atributos de cada partido sí incorporan resultados de fechas anteriores de 2024--2025, como en una secuencia de predicciones; nunca incorporan partidos de la misma fecha. La configuración se congeló a partir de validación, pero este bloque de test ya había sido inspeccionado en iteraciones anteriores. Por ello no se lo presenta como un nuevo holdout intacto ni como una evaluación confirmatoria independiente.
 
 \begin{table}[htbp]
 \caption{Evaluación común sobre los 472 partidos de 2024--2025}
@@ -229,88 +230,67 @@ Ambos NB se ajustaron una vez con los 14.705 partidos hasta 2023 y se evaluaron 
 \hline
 Modelo & Accuracy & Macro-F1 \\
 \hline
-Árbol sklearn (mismos códigos) & 0,4682 & 0,4109 \\
-Árbol ID3 propio & 0,4661 & 0,4027 \\
-Naive Bayes propio & 0,4619 & 0,4281 \\
-Naive Bayes (sklearn) & 0,4619 & 0,4281 \\
+ID3 propio & 0,4492 & 0,4238 \\
+Naive Bayes propio & 0,4788 & 0,4454 \\
+CategoricalNB (sklearn) & 0,4788 & 0,4454 \\
 Baseline (diez años) & 0,4619 & 0,3564 \\
-Random Forest & 0,4386 & 0,4085 \\
-Siempre L (referencia) & 0,4025 & 0,1913 \\
-Árbol sklearn (tasas crudas) & 0,3602 & 0,3514 \\
+Random Forest & 0,4258 & 0,4219 \\
 \hline
 \end{tabular}
 \end{table}
 
-Los NB coinciden en las 472 predicciones, conteos y dominios; sus puntajes logarítmicos difieren como máximo $8{,}9\,10^{-15}$, sin modificar el argmax. Ambos aciertan 218 partidos, la misma cantidad que el baseline (misma accuracy 0,4619): cada uno corrige 68 errores del otro y pierde otros 68 de sus aciertos, con 150 aciertos en común y 186 fallos compartidos. La diferencia está en el macro-F1 (0,4281 frente a 0,3564), porque el NB reparte sus aciertos entre las tres clases. Sobre los mismos códigos discretos, el árbol de sklearn llega a 0,4682 de accuracy y 0,4109 de macro-F1, y el ID3 propio queda en 0,4661 y 0,4027. Sobre tasas continuas, el árbol cae a 0,3602 y 0,3514, mientras el bosque con 300 árboles y ponderación de clases alcanza 0,4386 y 0,4085. Como referencia, predecir siempre L daría 0,4025 y 0,1913. No se evaluó significación estadística.
+Los dos NB aciertan 226 encuentros y generan las mismas 472 etiquetas. Esto no significa que sus probabilidades sean bit a bit idénticas: la diferencia absoluta máxima entre vectores es $2{,}0\,10^{-15}$, dentro de la precisión numérica y sin alterar el \textit{argmax}. Frente al baseline, NB mejora tanto accuracy (0,4788 frente a 0,4619) como macro-F1 (0,4454 frente a 0,3564). ID3 y Random Forest tienen menor accuracy que el baseline, aunque mayor macro-F1. No se realizaron pruebas de significación.
 
 \begin{table}[htbp]
-\caption{Métricas por clase sobre el test. Ambos NB tienen idénticos valores}
+\caption{Métricas por clase. Ambos NB tienen idénticos valores}
 \label{tab:clases}
 \centering
+\scriptsize
 \begin{tabular}{llrrrr}
 \hline
 Modelo & Clase & Precision & Recall & F1 & $n$ \\
 \hline
-NB (ambos) & E & 0,3068 & 0,2061 & 0,2466 & 131 \\
- & L & 0,5336 & 0,6263 & 0,5763 & 190 \\
- & V & 0,4472 & 0,4768 & 0,4615 & 151 \\
+NB (ambos) & E & 0,3537 & 0,2214 & 0,2723 & 131 \\
+ & L & 0,5475 & 0,6368 & 0,5888 & 190 \\
+ & V & 0,4497 & 0,5033 & 0,4750 & 151 \\
 Baseline & E & 0,0000 & 0,0000 & 0,0000 & 131 \\
  & L & 0,5021 & 0,6368 & 0,5615 & 190 \\
  & V & 0,4199 & 0,6424 & 0,5079 & 151 \\
-Árbol ID3 propio & E & 0,3214 & 0,1374 & 0,1925 & 131 \\
- & L & 0,4757 & 0,7737 & 0,5892 & 190 \\
- & V & 0,5140 & 0,3642 & 0,4264 & 151 \\
-Árbol sklearn (códigos) & E & 0,3281 & 0,1603 & 0,2154 & 131 \\
- & L & 0,4801 & 0,7632 & 0,5894 & 190 \\
- & V & 0,5189 & 0,3642 & 0,4280 & 151 \\
-Árbol sklearn (crudas) & E & 0,2615 & 0,2595 & 0,2605 & 131 \\
- & L & 0,3990 & 0,4158 & 0,4072 & 190 \\
- & V & 0,3958 & 0,3775 & 0,3864 & 151 \\
-Random Forest & E & 0,3298 & 0,2366 & 0,2756 & 131 \\
- & L & 0,4722 & 0,6263 & 0,5385 & 190 \\
- & V & 0,4524 & 0,3775 & 0,4116 & 151 \\
+ID3 & E & 0,3036 & 0,2595 & 0,2798 & 131 \\
+ & L & 0,4917 & 0,6211 & 0,5488 & 190 \\
+ & V & 0,5000 & 0,3974 & 0,4428 & 151 \\
+Random Forest & E & 0,2975 & 0,3588 & 0,3253 & 131 \\
+ & L & 0,5725 & 0,4158 & 0,4817 & 190 \\
+ & V & 0,4261 & 0,4967 & 0,4587 & 151 \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Matrices de confusión}
-Con filas reales y columnas predichas en orden E/L/V:
-\[
-C_{\mathrm{NB}}=
-\begin{pmatrix}27&60&44\\26&119&45\\35&44&72\end{pmatrix},
-\quad
-C_{\mathrm{base}}=
-\begin{pmatrix}0&66&65\\0&121&69\\0&54&97\end{pmatrix}.
-\]
-L presenta la mejor precision, recall y F1, seguida de V y de E. De los 254 errores del NB, 104 (40,9\%) corresponden a empates confundidos con victorias: E$\to$L es la confusión más frecuente (60 casos), seguida de E$\to$V (44). Las confusiones L$\leftrightarrow$V suman 89 (45 y 44), y los falsos empates, 61 (26 y 35). El NB reconoce 27 de los 131 empates reales, mientras que el baseline nunca predice E. Frente al baseline (121 locales y 97 visitantes correctos), el NB baja a 119 y 72 a cambio de esos empates: mejora el F1 de E y L, pero empeora el de V.
-
-Los árboles repiten el mismo patrón con los empates:
+Con filas reales y columnas predichas en orden E/L/V, las matrices verificadas son:
 \begin{gather*}
-C_{\mathrm{ID3}}=
-\begin{pmatrix}18&80&33\\24&147&19\\14&82&55\end{pmatrix}
-\\[4pt]
-C_{\mathrm{DT}}=
-\begin{pmatrix}21&77&33\\27&145&18\\16&80&55\end{pmatrix}
-\\[4pt]
-C_{\mathrm{RF}}=
-\begin{pmatrix}31&67&33\\35&119&36\\28&66&57\end{pmatrix}
+C_{\mathrm{ID3}}=\begin{pmatrix}34&64&33\\45&118&27\\33&58&60\end{pmatrix},\quad
+C_{\mathrm{NB}}=\begin{pmatrix}29&54&48\\24&121&45\\29&46&76\end{pmatrix},
+\\
+C_{\mathrm{RF}}=\begin{pmatrix}47&34&50\\60&79&51\\51&25&75\end{pmatrix},\quad
+C_{\mathrm{base}}=\begin{pmatrix}0&66&65\\0&121&69\\0&54&97\end{pmatrix}.
 \end{gather*}
-$C_{\mathrm{ID3}}$ y $C_{\mathrm{DT}}$ aciertan 220 y 221 partidos respectivamente, con la columna L dominante (147 y 145 locales) y solo 18 y 21 empates reconocidos. El bosque reparte mejor los aciertos entre clases (119 locales, 57 visitantes y 31 empates, 207 en total sobre la diagonal), aunque su accuracy global es menor. El árbol entrenado sobre tasas continuas es el peor de los tres: acierta apenas 170 partidos y predice empate 130 veces, con toda la diagonal baja (ver Tabla~\ref{tab:resultados}).
+CategoricalNB comparte la matriz de NB propio. En los cuatro modelos, E tiene el menor F1. NB reconoce 29 de los 131 empates y mejora respecto del baseline en F1 de E y L, pero no de V (0,4750 frente a 0,5079). El bosque reconoce más empates, 47, sin que ello se traduzca en mayor accuracy global.
 
 \subsection{Análisis cualitativo}
-Se ordenaron los partidos por fecha, local y visitante, y se tomó el primero de cada par (resultado real, predicción del NB), cubriendo las nueve celdas posibles de confusión. Es una selección reproducible e ilustrativa, no representativa de las frecuencias reales. El 11/03/2024, Montevideo Wanderers--Deportivo Maldonado terminó 0--0: el NB predijo E y el baseline, L. El 17/02/2024, CA Fenix--Danubio terminó 1--2 y ambos modelos predijeron V. Como ejemplo de error, el 07/04/2024 CA Cerro--Rampla Juniors Futbol Club terminó 3--0: nuevamente el NB predijo E y el baseline, L. Los marcadores se recuperaron del ZIP limpio y en ningún caso se usaron como entradas del modelo.
+Se ordenaron las predicciones finales por fecha, local y visitante y se tomó el primer partido de cada combinación (clase real, predicción del NB), cubriendo las nueve celdas de su matriz. Es una regla reproducible e ilustrativa, no una muestra representativa. El 11/03/2024, Montevideo Wanderers--Deportivo Maldonado terminó 0--0 y NB predijo E. El 17/02/2024, CA Fenix--Danubio terminó 1--2 y NB predijo V. Como error, el 07/04/2024, CA Cerro--Rampla Juniors terminó 3--0 y NB predijo E. Los marcadores solo se recuperaron para describir los casos; no fueron entradas del partido predicho.
 
-Se dividió además todo el conjunto de test según el signo de la diferencia de puntos por partido en los últimos cinco antecedentes de cada equipo. Con ventaja local, el NB acierta 113/216 (52,31\%); con igualdad, 15/39 (38,46\%); y con ventaja visitante, 90/217 (41,47\%). El baseline acierta 99, 21 y 98 respectivamente. Este es un diagnóstico posterior a la evaluación, sin búsqueda de umbrales. Una explicación posible es que exista una señal útil de forma local, aunque también cambia la composición de clases en cada grupo (E/L/V: 62/106/48, 9/15/15 y 60/69/88), efecto que no se aisló; el macro-F1 del NB por grupo es 0,3577, 0,3617 y 0,3522.
+Como diagnóstico posterior, al separar por el signo de la diferencia de puntos recientes, NB acierta 116/216 con ventaja local, 15/39 con igualdad y 95/217 con ventaja visitante; el baseline acierta 99, 21 y 98. La composición E/L/V también cambia entre grupos (62/106/48, 9/15/15 y 60/69/88), por lo que esta partición descriptiva no demuestra un efecto del atributo.
 
-Varias limitaciones ayudan a contextualizar estos resultados. La discretización pierde diferencias dentro de un mismo bin; los históricos resumen ventanas de distinta extensión y omiten sus denominadores; y una tasa de 0,5 puede ser tanto observada como neutra, por lo que no constituye evidencia de ausencia de historial. Además, tasas, puntos y goles resumen partidos superpuestos, lo que vuelve plausible cierta información compartida entre atributos, aunque no se midió su dependencia condicionada a la clase ni su efecto sobre el desempeño. Estas limitaciones no deben interpretarse como causas demostradas de los errores observados, sino como líneas abiertas para trabajo futuro.
+La discretización agrupa valores distintos dentro de un bin, pero esta corrida no incluye un comparador equivalente que permita atribuirle mejoras o errores. Asimismo, una tasa de 0,5 puede ser observada o imputada y los atributos resumen ventanas de distinta extensión. Son límites de representación; el experimento no identifica sus efectos causales sobre las predicciones.
 
 % =========================================================
 \section{Conclusiones}
-El trabajo sobre Naive Bayes completó un flujo íntegro a partir del ZIP original: limpieza de datos, construcción de atributos causales, selección temporal de hiperparámetros, ajuste final y análisis de resultados. Bajo condiciones explícitas de dominio y suavizado, el m-estimate propio reproduce exactamente a \texttt{CategoricalNB}, lo que valida la implementación. Frente al baseline, la mejora es modesta en accuracy y considerablemente mayor en macro-F1, aunque no es uniforme entre clases: el empate sigue siendo, en todos los modelos evaluados, la principal fuente de error.
+La corrida verificada completa limpieza, atributos causales, validación temporal, ajuste final y evaluación secuencial. Con el dominio común de cuatro códigos y suavizados equivalentes, NB propio y \texttt{CategoricalNB} producen las mismas decisiones y probabilidades numéricamente equivalentes. NB supera al baseline en accuracy y macro-F1; ID3 y Random Forest solo lo superan en macro-F1. En todos los modelos el menor F1 corresponde a E, observación limitada a estos 472 partidos.
 
-Cabe destacar que la evaluación es secuencial y sobre un 2025 incompleto: las observaciones no equivalen a una predicción simultánea de dos años completos ni constituyen evidencia causal, y ningún resultado de test modificó atributos, suavizado o decisiones tomadas durante la selección de hiperparámetros. Incorporando la evaluación de los árboles, la comparación global para este conjunto de test queda así: el árbol de scikit-learn entrenado sobre los mismos códigos supera a ambos NB en accuracy (0,4682 frente a 0,4619) pero no en macro-F1 (0,4109 frente a 0,4281); el ID3 propio se ubica junto a ambos, y el Random Forest queda por detrás. La discretización de las tasas resulta claramente beneficiosa: el mismo árbol entrenado sobre valores continuos cae a 0,3602 de accuracy. En conjunto, los resultados muestran que, si bien las mejoras sobre el baseline trivial son modestas y el árbol entrenado sobre tasas continuas queda incluso por debajo de él (0,3602 frente a 0,4025), ninguno de los modelos logra resolver satisfactoriamente la clase empate, que permanece como la principal limitación del enfoque basado en tasas históricas de victoria.
+ID3 sí puede representar interacciones mediante divisiones sucesivas condicionadas por nodos anteriores; no impone la independencia condicional de NB. En esta ejecución, su representación está limitada por los atributos discretizados, la profundidad resultante y la prepoda, pero no se aisló el aporte de interacciones. Tampoco se comparó el mismo modelo con y sin discretización, por lo que no se le atribuye causalmente ninguna diferencia de desempeño.
 
-Estas cifras reflejan, más que una limitación puntual de NB o ID3, una dificultad estructural del problema. Un resultado de fútbol depende de factores que ninguna tasa histórica captura --lesiones, decisiones arbitrales, clima, estado anímico del plantel-- y ambos modelos suponen, de manera explícita, que los atributos son condicionalmente independientes dada la clase (NB) o que alcanza con evaluarlos uno a la vez sobre una partición discreta (ID3). Ninguno de los dos captura interacciones entre atributos: por ejemplo, que una racha positiva del local importe menos si el rival tiene mejor historial head-to-head. La discretización en pocos bines agrava esto, ya que dos partidos con tasas apenas distintas (0,45 y 0,55) pueden terminar en la misma categoría o en categorías opuestas según dónde caiga el corte. A esto se suma que el empate, por definición, es un resultado de "equilibrio" entre dos equipos, y las tasas de victoria usadas como atributos no fueron diseñadas para capturar paridad sino para capturar dominancia; es esperable, entonces, que sea la clase peor predicha en cualquier modelo que dependa únicamente de ese tipo de señal.
+La evaluación incorpora solo información de fechas anteriores y mantiene fijos modelos y cortes, pero 2025 está incompleto y el test ya fue inspeccionado. Las cifras describen esta corrida y no sustituyen una evaluación futura sobre datos nuevos.
 
 \section*{Uso de Inteligencia Artificial}
 En la parte de NB se utilizó Codex, mientras que para ID3 se utilizó Claude, con el fin de asistir en el análisis de resultados, consulta de información y asistencia en la redacción.

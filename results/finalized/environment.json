@@ -1,0 +1,26 @@
+{
+  "python": "3.12.14",
+  "implementation": "CPython",
+  "platform": "macOS-26.7-arm64-arm-64bit",
+  "scikit_learn": "1.9.1",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "ipykernel": "6.31.0",
+    "nbclient": "0.11.0",
+    "nbformat": "5.11.1"
+  },
+  "raw_zip_sha256": "1eab655a3e3985f26362fefce7bd2bb43d2a109f6db4ac327327b6fd7bcf1280",
+  "source_sha256": {
+    "src/features.py": "7b0b707cd90907984e823db598c0fba96f4966a4e3df9d08eebe9e309c05ab38",
+    "src/preprocessing.py": "d56af585faafa19ffab89b65208e8d21996a00739b15f0962eadcdb2cca9004f",
+    "src/id3.py": "14e948b990bd359a97e5c981affefdc569e8e2e7ffd826bb5b3580db487d4c21",
+    "src/naive_bayes.py": "cb6156257f15adcdc53398e3d3334f3445b63c1de0bc51b0a66bb4f79ac3debd",
+    "src/baseline.py": "99fa357e61edbb878e938d15fb0f0dd14d29fbe48cb06735e77e8bd58e33f1ee",
+    "src/evaluation.py": "9b43a108a7a4732d443494225a49db145dc44c9fa25838b619962e5644fb88db"
+  }
+}

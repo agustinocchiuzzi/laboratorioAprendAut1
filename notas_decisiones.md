@@ -1,5 +1,10 @@
 # Decisiones de modelado
 
+> Registro histórico de etapas anteriores, con estados y rutas obsoletos.
+> Para reproducir la entrega final, consultar [README.md](README.md) y
+> `results/finalized/`. Las afirmaciones de trabajo pendiente de este archivo
+> no describen el estado final.
+
 Este documento registra decisiones para que los experimentos sean comparables.
 Las marcadas **por confirmar** deben contrastarse con las notas del curso.
 La política vigente y la auditoría reproducible se documentan en

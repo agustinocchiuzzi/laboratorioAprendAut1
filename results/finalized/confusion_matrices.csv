@@ -1,0 +1,46 @@
+model,actual,predicted,count
+ID3,E,E,34
+ID3,E,L,64
+ID3,E,V,33
+ID3,L,E,45
+ID3,L,L,118
+ID3,L,V,27
+ID3,V,E,33
+ID3,V,L,58
+ID3,V,V,60
+NB propio,E,E,29
+NB propio,E,L,54
+NB propio,E,V,48
+NB propio,L,E,24
+NB propio,L,L,121
+NB propio,L,V,45
+NB propio,V,E,29
+NB propio,V,L,46
+NB propio,V,V,76
+CategoricalNB,E,E,29
+CategoricalNB,E,L,54
+CategoricalNB,E,V,48
+CategoricalNB,L,E,24
+CategoricalNB,L,L,121
+CategoricalNB,L,V,45
+CategoricalNB,V,E,29
+CategoricalNB,V,L,46
+CategoricalNB,V,V,76
+Random Forest,E,E,47
+Random Forest,E,L,34
+Random Forest,E,V,50
+Random Forest,L,E,60
+Random Forest,L,L,79
+Random Forest,L,V,51
+Random Forest,V,E,51
+Random Forest,V,L,25
+Random Forest,V,V,75
+Base 10 años,E,E,0
+Base 10 años,E,L,66
+Base 10 años,E,V,65
+Base 10 años,L,E,0
+Base 10 años,L,L,121
+Base 10 años,L,V,69
+Base 10 años,V,E,0
+Base 10 años,V,L,54
+Base 10 años,V,V,97
