@@ -12,14 +12,14 @@ class MEstimateCategoricalNB:
     """Predice E, L o V combinando la frecuencia de clase y la de cada atributo.
 
     X tiene una fila por partido y una columna por atributo ya discretizado
-    (enteros no negativos; 0 queda para desconocidos). Se supone independencia
+    (enteros no negativos. El 0 queda para desconocidos). Se supone independencia
     entre atributos dada la clase, la parte naive del modelo.
 
     El suavizado con m funciona asi: a cada codigo se le suma m dividido la
-    cantidad de codigos del atributo. Con m chico los datos mandan; con m
+    cantidad de codigos del atributo. Con m chico los datos mandan. Con m
     grande las probabilidades se acercan a la uniforme. La clase si se estima
     por frecuencia, sin suavizar. min_categories declara un dominio mayor que
-    el de train (un entero o uno por atributo) por si un codigo no aparece; por
+    el de train (un entero o uno por atributo) por si un codigo no aparece. Por
     defecto se infiere de train.
     """
 
@@ -59,7 +59,7 @@ class MEstimateCategoricalNB:
                     minlength=cardinality,
                 )
             prior_probability = 1.0 / cardinality
-            # Se resta en log para no formar cocientes chicos; logaddexp
+            # Se resta en log para no formar cocientes chicos. Logaddexp
             # maneja los conteos cero sin perder el pseudoconteo.
             with np.errstate(divide="ignore"):
                 log_counts = np.log(counts)
@@ -100,7 +100,7 @@ class MEstimateCategoricalNB:
         """Devuelve el log de las probabilidades de cada clase por partido.
 
         No se usa el log de predict_proba porque una probabilidad puede
-        redondearse a cero aunque su log sea finito; se normaliza en log.
+        redondearse a cero aunque su log sea finito. Se normaliza en log.
         """
         joint = self._joint_log_likelihood(X)
         restado = joint - joint.max(axis=1, keepdims=True)
