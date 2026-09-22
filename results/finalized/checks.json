@@ -1,0 +1,139 @@
+{
+  "frozen_validation_configuration": {
+    "passed": true,
+    "selected": {
+      "ID3": {
+        "min_info_gain": 0.005,
+        "columns": [
+          "home_win_rate_last_5",
+          "away_win_rate_last_5",
+          "home_win_rate_season",
+          "away_win_rate_season",
+          "home_win_rate_as_home_all",
+          "home_win_rate_h2h_as_home",
+          "home_points_per_match_5",
+          "away_points_per_match_5",
+          "home_goal_diff_per_match_5",
+          "away_goal_diff_per_match_5"
+        ]
+      },
+      "NB propio": {
+        "m": 0.1,
+        "columns": [
+          "home_win_rate_last_5",
+          "away_win_rate_last_5",
+          "home_win_rate_season",
+          "away_win_rate_season",
+          "home_win_rate_as_home_all",
+          "home_win_rate_h2h_as_home",
+          "home_points_per_match_5",
+          "away_points_per_match_5",
+          "home_goal_diff_per_match_5",
+          "away_goal_diff_per_match_5"
+        ]
+      },
+      "sklearn CategoricalNB": {
+        "alpha": 0.025,
+        "columns": [
+          "home_win_rate_last_5",
+          "away_win_rate_last_5",
+          "home_win_rate_season",
+          "away_win_rate_season",
+          "home_win_rate_as_home_all",
+          "home_win_rate_h2h_as_home",
+          "home_points_per_match_5",
+          "away_points_per_match_5",
+          "home_goal_diff_per_match_5",
+          "away_goal_diff_per_match_5"
+        ]
+      },
+      "Random Forest": {
+        "n_estimators": 300,
+        "random_state": 42,
+        "class_weight": "balanced_subsample",
+        "columns": [
+          "home_win_rate_last_5",
+          "away_win_rate_last_5",
+          "home_win_rate_season",
+          "away_win_rate_season",
+          "home_win_rate_as_home_all",
+          "home_win_rate_h2h_as_home"
+        ],
+        "max_depth": null,
+        "min_samples_leaf": 20
+      }
+    }
+  },
+  "current_match_and_same_day_leakage": {
+    "passed": true,
+    "date": "2024-02-17",
+    "matches_on_date": 3
+  },
+  "training_only_discretizer": {
+    "passed": true,
+    "edges": {
+      "home_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "away_win_rate_last_5": [
+        0.3,
+        0.6
+      ],
+      "home_win_rate_season": [
+        0.25,
+        0.45454545454545453
+      ],
+      "away_win_rate_season": [
+        0.2692307692307692,
+        0.4666666666666667
+      ],
+      "home_win_rate_as_home_all": [
+        0.4099162992780014,
+        0.47835347047069215
+      ],
+      "home_win_rate_h2h_as_home": [
+        0.375,
+        0.5555555555555556
+      ],
+      "home_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "away_points_per_match_5": [
+        1.0,
+        1.6
+      ],
+      "home_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ],
+      "away_goal_diff_per_match_5": [
+        -0.4,
+        0.4
+      ]
+    }
+  },
+  "id3_stopping_and_unseen_category": {
+    "passed": true,
+    "stopped_depth": 0,
+    "unseen_prediction": "L"
+  },
+  "nb_equivalence": {
+    "passed": true,
+    "identical_predictions": 472,
+    "max_probability_difference": 1.9984014443252818e-15
+  },
+  "final_fit_propagation": {
+    "passed": true,
+    "id3_features": 10,
+    "id3_min_info_gain": 0.005,
+    "nb_features": 10,
+    "nb_m": 0.1,
+    "categorical_nb_alpha": 0.025,
+    "rf_features": 6,
+    "rf_n_estimators": 300,
+    "rf_max_depth": null,
+    "rf_min_samples_leaf": 20
+  }
+}

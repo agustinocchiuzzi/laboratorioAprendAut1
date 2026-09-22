@@ -1,0 +1,10 @@
+date,home,away,winner,prediction_id3,correct_id3,prediction_nb_propio,correct_nb_propio,prediction_categoricalnb,correct_categoricalnb,prediction_random_forest,correct_random_forest,prediction_base_10_anos,correct_base_10_anos,gh,ga,score
+2024-03-11,Montevideo Wanderers,Deportivo Maldonado,E,E,True,E,True,E,True,V,False,L,False,0,0,0-0
+2024-02-25,Cerro Largo FC,CA Fenix,E,L,False,L,False,L,False,L,False,L,False,0,0,0-0
+2024-02-18,CA Cerro,Montevideo Wanderers,E,L,False,V,False,V,False,L,False,V,False,1,1,1-1
+2024-04-07,CA Cerro,Rampla Juniors Futbol Club,L,L,True,E,False,E,False,E,False,L,True,3,0,3-0
+2024-02-17,Nacional,River Plate,L,L,True,L,True,L,True,L,True,L,True,2,1,2-1
+2024-03-02,River Plate,Danubio,L,L,True,V,False,V,False,V,False,L,True,1,0,1-0
+2024-02-24,Montevideo Wanderers,Racing Club,V,V,True,E,False,E,False,L,False,L,False,0,1,0-1
+2024-02-18,Deportivo Maldonado,Boston River,V,E,False,L,False,L,False,E,False,L,False,1,2,1-2
+2024-02-17,CA Fenix,Danubio,V,E,False,V,True,V,True,V,True,V,True,1,2,1-2

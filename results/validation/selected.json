@@ -1,0 +1,63 @@
+{
+  "ID3": {
+    "min_info_gain": 0.005,
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ]
+  },
+  "NB propio": {
+    "m": 0.1,
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ]
+  },
+  "sklearn CategoricalNB": {
+    "alpha": 0.025,
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home",
+      "home_points_per_match_5",
+      "away_points_per_match_5",
+      "home_goal_diff_per_match_5",
+      "away_goal_diff_per_match_5"
+    ]
+  },
+  "Random Forest": {
+    "n_estimators": 300,
+    "random_state": 42,
+    "class_weight": "balanced_subsample",
+    "columns": [
+      "home_win_rate_last_5",
+      "away_win_rate_last_5",
+      "home_win_rate_season",
+      "away_win_rate_season",
+      "home_win_rate_as_home_all",
+      "home_win_rate_h2h_as_home"
+    ],
+    "max_depth": null,
+    "min_samples_leaf": 20
+  },
+  "test_evaluated": false
+}
