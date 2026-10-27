@@ -1,0 +1,23 @@
+{
+  "mode": "comparison",
+  "agent": "AgenteAleatorio",
+  "action_seed": 42,
+  "evaluation_seed": 10000,
+  "evaluation_episodes": 200,
+  "environment": "LunarLander-v3",
+  "continuous": false,
+  "enable_wind": false,
+  "python": "3.12.15 (main, Sep 30 2026, 22:04:19) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "packages": {
+    "torch": "2.14.1",
+    "gymnasium": "1.4.0",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2",
+    "Box2D": "2.3.10",
+    "pygame-ce": "2.5.8"
+  },
+  "device": "cpu",
+  "torch_threads": 1,
+  "hardware": "macOS-26.7.1-arm64-arm-64bit",
+  "machine": "arm64"
+}

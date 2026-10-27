@@ -1,0 +1,15 @@
+{
+  "configuration": "random",
+  "training_seed": null,
+  "completed_episodes": 0,
+  "total_steps": 0,
+  "optimizer_updates": 0,
+  "training_seconds": 0.0,
+  "evaluation_seconds": 0.03465574999972887,
+  "mean_return": -187.5830977237589,
+  "median_return": -163.24955507264934,
+  "std_return": 121.46082067419673,
+  "std_ddof": 0,
+  "successes": 0,
+  "evaluated": 10
+}
