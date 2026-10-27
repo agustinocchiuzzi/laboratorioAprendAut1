@@ -24,7 +24,7 @@ def main():
     from nbclient import NotebookClient
     from jupyter_client import KernelManager
 
-    notebook = nbformat.read(ROOT / 'LunarLander_DQN_A.ipynb', as_version=4)
+    notebook = nbformat.read(ROOT / 'lander.ipynb', as_version=4)
     manager = KernelManager(kernel_name='python3')
     # Use this exact virtualenv, without installing a user-global kernelspec.
     manager.kernel_spec.argv = [sys.executable, '-m', 'ipykernel_launcher', '-f', '{connection_file}']
@@ -34,7 +34,7 @@ def main():
 
     client = NotebookClient(notebook, km=manager, timeout=None, on_cell_start=report,
                             resources={'metadata': {'path': str(ROOT)}})
-    output = ROOT / f'LunarLander_DQN_A_{args.mode}_executed.ipynb'
+    output = ROOT / f'{args.mode}_results.ipynb'
     try:
         client.execute()
     finally:

@@ -6,9 +6,9 @@ https://github.com/agustinocchiuzzi/laboratorioAprendAut1 on branch `thiago`.
 PDF in this directory are unchanged. Our working notebook, evidence, scripts and
 notes have been added alongside them.
 
-Work in `LunarLander_DQN_A.ipynb`; read
-`LunarLander_DQN_A_comparison_executed.ipynb` to inspect the completed run and plots.
-Do not accidentally start from the unimplemented `LunarLander_DQN_Tarea.ipynb`.
+Work in `lander.ipynb`; read
+`comparison_results.ipynb` to inspect the completed run and plots.
+Do not accidentally start from the unimplemented `course_template.ipynb`.
 
 ## The problem, before the terminology
 

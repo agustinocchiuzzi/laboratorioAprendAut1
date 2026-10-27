@@ -3,9 +3,9 @@
 Completed locally on October 26, 2026 (America/Montevideo). Result directory names
 use UTC, so their date is October 27.
 
-The [executed comparison notebook](LunarLander_DQN_A_comparison_executed.ipynb)
+The [executed comparison notebook](comparison_results.ipynb)
 contains code, checks, learning curves, and evaluation outputs. The editable
-[working notebook](LunarLander_DQN_A.ipynb) defaults to pilot mode. The supplied
+[working notebook](lander.ipynb) defaults to pilot mode. The supplied
 course notebook remains unchanged. See [README_A.md](README_A.md) for commands.
 
 ## Completed

@@ -4,7 +4,7 @@
 Read [RUN_STATUS_A.md](RUN_STATUS_A.md) for measured results and your next steps.
 The commands below let you repeat or extend those runs.
 
-Work in `LunarLander_DQN_A.ipynb`; the course original is untouched. The DQN,
+Work in `lander.ipynb`; the course original is untouched. The DQN,
 all agent helpers, and correctness checks are in the working notebook. Course
 training/evaluation functions and plotting utilities are preserved.
 
@@ -30,7 +30,7 @@ All remaining commands below run from `TAREA2/`:
 This executes the notebook in a fresh kernel, checks DQN correctness, then trains
 20-episode A0 and target-off pilots with short 10-episode evaluations. These are
 **disposable pilots**, not the main comparison. The executed notebook is saved as
-`LunarLander_DQN_A_pilot_executed.ipynb`, including outputs. No packages are
+`pilot_results.ipynb`, including outputs. No packages are
 installed by running the notebook. Prior result directories are never overwritten.
 The executed notebook file for a mode is replaced by the next execution of that mode.
 

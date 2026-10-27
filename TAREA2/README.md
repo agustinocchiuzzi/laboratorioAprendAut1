@@ -6,8 +6,8 @@ The original course notebook and assignment PDF are unchanged.
 - [Start here: terminology, implementation and learning order](START_HERE_A.md)
 - [Measured results and remaining work](RUN_STATUS_A.md)
 - [Environment setup and execution commands](README_A.md)
-- [Editable notebook](LunarLander_DQN_A.ipynb)
-- [Executed comparison notebook with outputs](LunarLander_DQN_A_comparison_executed.ipynb)
+- [Editable notebook](lander.ipynb)
+- [Executed comparison notebook with outputs](comparison_results.ipynb)
 
 A0 and A1 each trained for 300 episodes with seed 42 and were evaluated over 200
 shared reset seeds. Saved configs, CSVs, weights and plots are under `results/`.

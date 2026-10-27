@@ -8,7 +8,7 @@ Confirmed available time: 4-6 hours of hands-on work, plus unattended training. 
 
 **Start from the course notebook**
 
-The unmodified [course notebook](LunarLander_DQN_Tarea.ipynb) is now in this folder. Make your working copy `LunarLander_DQN_A.ipynb`. Its three TODO blocks are still unimplemented in the downloaded original.
+The unmodified [course notebook](course_template.ipynb) is now in this folder. Make your working copy `lander.ipynb`. Its three TODO blocks are still unimplemented in the downloaded original.
 
 The [assignment PDF](Tarea%20-%20Aprendizaje%20por%20Refuerzos%20%282026%29.pdf) requires the implementation and additional agent helpers to stay inside `AgenteDQN`. Preserve the supplied agent interface, training/evaluation functions, and plotting utilities. Hyperparameters and experiment call sites can be adjusted. The final submission is due November 4; it also needs policy analysis, at least three ablations with multiple training seeds and statistical tests, and a maximum five-page IEEE article. Those full experiments are beyond Thursday's checkpoint.
 
