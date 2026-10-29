@@ -1,0 +1,61 @@
+{
+  "hiperparametros": {
+    "capas_ocultas": [
+      128,
+      128
+    ],
+    "lr": 0.0005,
+    "gamma": 0.99,
+    "tam_buffer": 100000,
+    "tam_lote": 64,
+    "min_buffer": 1000,
+    "entrenar_cada": 4,
+    "tau": 0.001,
+    "eps_inicio": 1.0,
+    "eps_fin": 0.01,
+    "pasos_decaimiento": 50000,
+    "factor_decaimiento": 0.995
+  },
+  "exploracion_principal": "exponencial",
+  "configuraciones_exploracion": {
+    "lineal": {
+      "exploracion": "lineal"
+    },
+    "exponencial": {
+      "exploracion": "exponencial"
+    },
+    "sin_exploracion": {
+      "exploracion": "ninguna"
+    }
+  },
+  "semilla_principal": 42,
+  "semillas_experimento": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "semilla_entorno": "100000 + 1000*semilla + episodio",
+  "semillas_validacion": [
+    50000,
+    50009
+  ],
+  "semillas_test": [
+    10000,
+    10099
+  ],
+  "episodios_principal": 1200,
+  "episodios_experimento": 600,
+  "tiempo_principal_min": 10.123685797055563,
+  "tiempo_medio_por_corrida_min": {
+    "lineal": 11.566121608416239,
+    "exponencial": 9.671984497706095,
+    "sin_exploracion": 10.803577478726705
+  },
+  "versiones": {
+    "gymnasium": "1.4.0",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.4"
+  }
+}
