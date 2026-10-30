@@ -1,0 +1,18 @@
+{
+  "configuration": "pilot_no_exploration",
+  "training_seed": 42,
+  "completed_episodes": 20,
+  "total_steps": 1387,
+  "optimizer_updates": 97,
+  "training_seconds": 0.23344258300494403,
+  "steps_per_second": 5941.503825677876,
+  "final_epsilon": 0.0,
+  "online_parameters": 4996,
+  "evaluation_seconds": 0.07090700000117067,
+  "mean_return": -122.80910579965757,
+  "median_return": -132.4564052065063,
+  "std_return": 44.38494327644532,
+  "std_ddof": 0,
+  "successes": 0,
+  "evaluated": 10
+}

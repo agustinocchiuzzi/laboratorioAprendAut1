@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-30",
+  "base_branch": "thiago",
+  "base_commit": "5246ac37182b7e29e920cfcb600638dc9431bb0b",
+  "integration_branch": "integration/assignment-2",
+  "remote_branches": [
+    {
+      "ref": "origin/AgustinAgente",
+      "commit": "0c593eb72c5619eaf39aa2ee1981568fd4338398",
+      "merge_base_with_thiago": "ea425a007547c8f6e19543cb8f14d1e54230f85a",
+      "changed_paths": [
+        "TAREA2/AgustinAgente/EXPLICACION_AgenteDQN.md",
+        "TAREA2/AgustinAgente/LunarLander_DQN_AgustinAgente.ipynb",
+        "TAREA2/AgustinAgente/aterrizaje_dqn.gif",
+        "TAREA2/AgustinAgente/resultados/configuracion.json",
+        "TAREA2/AgustinAgente/resultados/dqn_principal.pt",
+        "TAREA2/AgustinAgente/resultados/dqn_principal_curvas.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s0.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s1.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s2.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s3.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s4.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/lineal_s0.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/lineal_s1.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/lineal_s2.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/lineal_s3.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/lineal_s4.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s0.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s1.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s2.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s3.json",
+        "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s4.json"
+      ],
+      "decision": "integrated"
+    },
+    {
+      "ref": "origin/AlgoritmoFran",
+      "commit": "b2cdb60e705cc7be3f12e4e81398401077f9ca7d",
+      "merge_base_with_thiago": "ea425a007547c8f6e19543cb8f14d1e54230f85a",
+      "changed_paths": [
+        "TAREA2/LunarLander_DQN_B.ipynb",
+        "TAREA2/aterrizaje_dqn.gif"
+      ],
+      "decision": "integrated"
+    },
+    {
+      "ref": "origin/feature/initial-ml-pipeline",
+      "commit": "1dc76478da7ce4ef00050756633b82d8e44b6d10",
+      "merge_base_with_thiago": "1dc76478da7ce4ef00050756633b82d8e44b6d10",
+      "changed_paths": [],
+      "decision": "already_in_base"
+    },
+    {
+      "ref": "origin/fix/naive-bayes-consistency",
+      "commit": "0ca5912c4d90cb6ec0e3bc9fb1db4491fec64d87",
+      "merge_base_with_thiago": "0ca5912c4d90cb6ec0e3bc9fb1db4491fec64d87",
+      "changed_paths": [],
+      "decision": "already_in_base"
+    },
+    {
+      "ref": "origin/main",
+      "commit": "ea425a007547c8f6e19543cb8f14d1e54230f85a",
+      "merge_base_with_thiago": "ea425a007547c8f6e19543cb8f14d1e54230f85a",
+      "changed_paths": [],
+      "decision": "already_in_base"
+    },
+    {
+      "ref": "origin/naive-bayes-integration",
+      "commit": "0b986f3e9d5667c66c1031fbaa3b341f52c172b0",
+      "merge_base_with_thiago": "0b986f3e9d5667c66c1031fbaa3b341f52c172b0",
+      "changed_paths": [],
+      "decision": "already_in_base"
+    },
+    {
+      "ref": "origin/rama-arboles-informe",
+      "commit": "17a0eb8b096d6b50a472c9860d4b783a8c6339e2",
+      "merge_base_with_thiago": "68e9e607d8de2cf7e433aa6739ac2c8dcd5532fa",
+      "changed_paths": [
+        "id3_arbol_decision.ipynb",
+        "naive_bayes_evaluacion.ipynb"
+      ],
+      "decision": "assignment_1_only_excluded"
+    },
+    {
+      "ref": "origin/remove-ai-punctuation",
+      "commit": "998fcc300cacbadff8cc96e9a57d3f9f5115fa74",
+      "merge_base_with_thiago": "998fcc300cacbadff8cc96e9a57d3f9f5115fa74",
+      "changed_paths": [],
+      "decision": "already_in_base"
+    },
+    {
+      "ref": "origin/revision-final-entrega",
+      "commit": "fbc795813b4684228478d026639cbf46e55686f3",
+      "merge_base_with_thiago": "6fd51f813c74fcabfcd443c32352300ec943885e",
+      "changed_paths": [
+        ".gitignore",
+        "Informe_final.pdf",
+        "README.md",
+        "entrega/Informe_final.pdf",
+        "entrega/README.md",
+        "entrega/futbol_uruguayo.zip",
+        "entrega/notebook.ipynb",
+        "entrega/requirements.txt",
+        "figuras/id3.png",
+        "figuras/nb_propio.png",
+        "figuras/random_forest.png",
+        "informe.tex",
+        "notas_decisiones.md",
+        "notebook.ipynb",
+        "requirements.txt",
+        "results/finalized/checks.json",
+        "results/finalized/class_metrics.csv",
+        "results/finalized/confusion_matrices.csv",
+        "results/finalized/environment.json",
+        "results/finalized/metrics.csv",
+        "results/finalized/qualitative_examples.csv",
+        "results/finalized/subgroup_analysis.csv",
+        "results/validation/README.md",
+        "results/validation/feature_comparison.csv",
+        "results/validation/id3.csv",
+        "results/validation/nb.csv",
+        "results/validation/random_forest.csv",
+        "results/validation/selected.json",
+        "scripts/build_submission.py",
+        "scripts/plot_validation.py",
+        "scripts/verify_final_experiment.py",
+        "src/evaluation.py",
+        "src/features.py",
+        "tests/test_experimental_consistency.py",
+        "tests/test_finalized_experiment.py"
+      ],
+      "decision": "assignment_1_only_excluded"
+    },
+    {
+      "ref": "origin/thiago",
+      "commit": "5246ac37182b7e29e920cfcb600638dc9431bb0b",
+      "merge_base_with_thiago": "5246ac37182b7e29e920cfcb600638dc9431bb0b",
+      "changed_paths": [],
+      "decision": "base"
+    }
+  ],
+  "original_local_branches": {
+    "main": "ea425a007547c8f6e19543cb8f14d1e54230f85a",
+    "thiago": "5246ac37182b7e29e920cfcb600638dc9431bb0b"
+  },
+  "peer_file_sha256": {
+    "TAREA2/LunarLander_DQN_B.ipynb": "5d770867cfa29c27b5edb747002db0c15773af6421d9b1c5209c5b441d515adf",
+    "TAREA2/aterrizaje_dqn.gif": "ba198ed0f3ba5d68d2b4bf6b509ff827fbf85715b1e00ab8cc41805196b37d5f",
+    "TAREA2/AgustinAgente/EXPLICACION_AgenteDQN.md": "375ba71222ca18078a1a35abe74555d1e09e0506dd147c7b1c31c67136f570c7",
+    "TAREA2/AgustinAgente/LunarLander_DQN_AgustinAgente.ipynb": "5256c463094e51e5153e039bb20131e37746941ca708012fb87afb1e6e3a1ff2",
+    "TAREA2/AgustinAgente/aterrizaje_dqn.gif": "c467ba965f18ab5a7903850e45e38ba00f1ecc937360ea1ee6aa7f74847f2c19",
+    "TAREA2/AgustinAgente/resultados/configuracion.json": "499ad62f48b1616e1392915b4a026a6d274bf4413dfadc4794717349c9ecb1bb",
+    "TAREA2/AgustinAgente/resultados/dqn_principal.pt": "6b612ea598894a4aa3c9199794a1721c6994735bc6e4c14cdb577fc99e2fe32d",
+    "TAREA2/AgustinAgente/resultados/dqn_principal_curvas.json": "bf2d1c96c3c80dfcfd0a5826897a2a137a197a97e3d94a2106480f03dc0c92c1",
+    "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s0.json": "99c9b3d175826a376525145f4639bbb0809fe8fbd08428ba9bdc474787fa406b",
+    "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s1.json": "2cfcf8389f8f5c345c014ee537e3c98027a89390e008a16d3258672881ecbf24",
+    "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s2.json": "b50476006769831617ef0a9637f4557423c09369133e5fba6323493292e7499a",
+    "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s3.json": "2db57539bb1bc2865224049adfb1e098721911a3c772e656325ab6dd740323f3",
+    "TAREA2/AgustinAgente/resultados/exploracion/exponencial_s4.json": "e1f79f9189882751d5b037361c49e3df6a38b616ac4e71b41cdab00c8b0f9cbc",
+    "TAREA2/AgustinAgente/resultados/exploracion/lineal_s0.json": "7fc9ba5143ac3c7166b2827064e0d766564823a7fce53f629fd0b2cf9bb4f860",
+    "TAREA2/AgustinAgente/resultados/exploracion/lineal_s1.json": "facd261b20052eae87785bd170436f9e22343b9c2130928f645b2dc8e0fd0690",
+    "TAREA2/AgustinAgente/resultados/exploracion/lineal_s2.json": "63c3ecdeba9ddc063126145d0a6cabebb13a6b0ed74a11428c12c96ce26d23bf",
+    "TAREA2/AgustinAgente/resultados/exploracion/lineal_s3.json": "fd2426bbe377c8bb916e50b1a25454d2448641cd2b90dc53c40c470146373710",
+    "TAREA2/AgustinAgente/resultados/exploracion/lineal_s4.json": "276d73d8ef2b389d183e2d939c8c2dfe06abfcf1f2eddfba295b9d7ecf0d3671",
+    "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s0.json": "1021a42877fb2bd7ef2f98ab3c5ee491bd07f1e60349bf98cef5958636b678b2",
+    "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s1.json": "aae656a75b7d4cd06e88491fe3f91dbdada3ad546f4fab2e4b0e295bc15c382b",
+    "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s2.json": "787b727745b66d1af7299dc55177397e7fabbf477c9c7e497c6d92b85841b637",
+    "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s3.json": "99bb3af147252fd9f637ccdcfd122b3d6f4a716bc3949ddfe051b283d603bd3c",
+    "TAREA2/AgustinAgente/resultados/exploracion/sin_exploracion_s4.json": "f81563b1695781e729be247b419143de40b1648f0cba7dc78430ee6bdbfea444"
+  },
+  "preexisting_file_count": 238,
+  "intentionally_updated_preexisting_files": [
+    "TAREA2/TEAM_AGREEMENT.md",
+    "TAREA2/scripts/study_tools.py",
+    "TAREA2/tests/test_study_tools.py",
+    "TAREA2/README.md",
+    "TAREA2/lander.ipynb",
+    "TAREA2/scripts/run_notebook.py"
+  ],
+  "assignment_1_unchanged": true
+}

@@ -1,1 +1,2 @@
-*.csv text eol=lf
+# Preserve raw CSV bytes so exported SHA-256 manifests survive clone/checkout.
+*.csv -text whitespace=cr-at-eol

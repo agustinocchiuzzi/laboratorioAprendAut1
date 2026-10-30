@@ -1,0 +1,53 @@
+{
+  "unit_tests_passed": 14,
+  "notebook": "integration-pilot_results.ipynb",
+  "pilot_directory": "results/integration-pilot_20261030T202837_139269Z",
+  "runs": [
+    {
+      "run": "pilot_exponential_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 240
+    },
+    {
+      "run": "pilot_full_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 213
+    },
+    {
+      "run": "pilot_linear_steps_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 216
+    },
+    {
+      "run": "pilot_no_exploration_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 97
+    },
+    {
+      "run": "pilot_no_replay_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 233
+    },
+    {
+      "run": "pilot_no_target_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 211
+    },
+    {
+      "run": "pilot_soft_target_seed42",
+      "training_episodes": 20,
+      "evaluation_episodes": 10,
+      "optimizer_updates": 213
+    }
+  ],
+  "original_A_pilot_rows_and_weights_reproduced_exactly": true,
+  "peer_files_unchanged": 23,
+  "assignment_1_unchanged": true,
+  "selected_cli_pilot": "results/pilot_20261030T204412_152427Z/A0_no_replay_seed7"
+}

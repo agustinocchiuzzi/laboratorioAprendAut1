@@ -1,0 +1,455 @@
+{
+  "status": "draft_for_team_discussion",
+  "protocol": {
+    "status": "draft_for_team_discussion",
+    "reference_candidate": "A0; compare all peers' evidence before choosing",
+    "reference": {
+      "environment": "LunarLander-v3",
+      "continuous": false,
+      "enable_wind": false,
+      "hidden_dims": [
+        64,
+        64
+      ],
+      "lr": 0.001,
+      "gamma": 0.99,
+      "replay_capacity": 50000,
+      "batch_size": 64,
+      "learning_starts": 1000,
+      "train_frequency": 4,
+      "target_sync_steps": 1000,
+      "epsilon_start": 1.0,
+      "epsilon_end": 0.05,
+      "epsilon_decay_episodes": 200,
+      "gradient_clip": 10.0,
+      "device": "cpu",
+      "torch_threads": 1,
+      "early_stopping": null,
+      "optimizer": "Adam",
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_eps": 1e-08,
+      "weight_decay": 0,
+      "loss": "SmoothL1",
+      "loss_beta": 1.0,
+      "loss_reduction": "mean",
+      "initialization": "nn.Linear default",
+      "observation_normalization": false,
+      "reward_clipping": false,
+      "replay_sampling": "uniform without replacement"
+    },
+    "budget": {
+      "episodes": 300,
+      "max_steps": 1000
+    },
+    "training_seeds": [
+      42,
+      1042,
+      2042,
+      3042,
+      4042,
+      5042,
+      6042,
+      7042
+    ],
+    "evaluation": {
+      "development_seed_start": 10000,
+      "episodes": 200,
+      "reserved_seed_start": 30000,
+      "reserved_episodes": 200,
+      "greedy": true,
+      "learning": false,
+      "success_return": 200.0
+    },
+    "variants": {
+      "full": {
+        "owner": "agree tomorrow",
+        "changes": {}
+      },
+      "no_target": {
+        "owner": "A",
+        "changes": {
+          "use_target": false
+        }
+      },
+      "no_replay": {
+        "owner": "B",
+        "changes": {
+          "use_replay": false,
+          "effective_batch_size": 1
+        }
+      },
+      "no_exploration": {
+        "owner": "C",
+        "changes": {
+          "use_exploration": false
+        }
+      }
+    },
+    "output_files": [
+      "config.json",
+      "training.csv",
+      "evaluation.csv",
+      "summary.json",
+      "online_weights.pt"
+    ],
+    "decisions_pending": [
+      "Choose the reference using evidence from A, B and C, then freeze it",
+      "Confirm the common budget and training seed list before the full study",
+      "Agree whether replay-off uses current-transition updates (effective batch size 1)",
+      "Assign a single owner to the full-reference runs",
+      "Choose statistical test, assumptions and multiple-comparison correction before analysis"
+    ]
+  },
+  "jobs": [
+    {
+      "job_id": "full_seed42",
+      "variant": "full",
+      "training_seed": 42,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed1042",
+      "variant": "full",
+      "training_seed": 1042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed2042",
+      "variant": "full",
+      "training_seed": 2042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed3042",
+      "variant": "full",
+      "training_seed": 3042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed4042",
+      "variant": "full",
+      "training_seed": 4042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed5042",
+      "variant": "full",
+      "training_seed": 5042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed6042",
+      "variant": "full",
+      "training_seed": 6042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "full_seed7042",
+      "variant": "full",
+      "training_seed": 7042,
+      "owner": "agree tomorrow",
+      "changes": {},
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed42",
+      "variant": "no_target",
+      "training_seed": 42,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed1042",
+      "variant": "no_target",
+      "training_seed": 1042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed2042",
+      "variant": "no_target",
+      "training_seed": 2042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed3042",
+      "variant": "no_target",
+      "training_seed": 3042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed4042",
+      "variant": "no_target",
+      "training_seed": 4042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed5042",
+      "variant": "no_target",
+      "training_seed": 5042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed6042",
+      "variant": "no_target",
+      "training_seed": 6042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_target_seed7042",
+      "variant": "no_target",
+      "training_seed": 7042,
+      "owner": "A",
+      "changes": {
+        "use_target": false
+      },
+      "missing_agent_switches": []
+    },
+    {
+      "job_id": "no_replay_seed42",
+      "variant": "no_replay",
+      "training_seed": 42,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed1042",
+      "variant": "no_replay",
+      "training_seed": 1042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed2042",
+      "variant": "no_replay",
+      "training_seed": 2042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed3042",
+      "variant": "no_replay",
+      "training_seed": 3042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed4042",
+      "variant": "no_replay",
+      "training_seed": 4042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed5042",
+      "variant": "no_replay",
+      "training_seed": 5042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed6042",
+      "variant": "no_replay",
+      "training_seed": 6042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_replay_seed7042",
+      "variant": "no_replay",
+      "training_seed": 7042,
+      "owner": "B",
+      "changes": {
+        "use_replay": false,
+        "effective_batch_size": 1
+      },
+      "missing_agent_switches": [
+        "use_replay"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed42",
+      "variant": "no_exploration",
+      "training_seed": 42,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed1042",
+      "variant": "no_exploration",
+      "training_seed": 1042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed2042",
+      "variant": "no_exploration",
+      "training_seed": 2042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed3042",
+      "variant": "no_exploration",
+      "training_seed": 3042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed4042",
+      "variant": "no_exploration",
+      "training_seed": 4042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed5042",
+      "variant": "no_exploration",
+      "training_seed": 5042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed6042",
+      "variant": "no_exploration",
+      "training_seed": 6042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    },
+    {
+      "job_id": "no_exploration_seed7042",
+      "variant": "no_exploration",
+      "training_seed": 7042,
+      "owner": "C",
+      "changes": {
+        "use_exploration": false
+      },
+      "missing_agent_switches": [
+        "use_exploration"
+      ]
+    }
+  ],
+  "job_count": 32,
+  "maximum_training_steps": 9600000,
+  "note": "Planning only; no agents constructed or trained. Reserved evaluation seeds remain unused."
+}

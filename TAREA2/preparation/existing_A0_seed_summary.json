@@ -1,0 +1,86 @@
+{
+  "protocol_status": "draft_for_team_discussion",
+  "variants": {
+    "full": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": 167.22493629702802,
+          "successes": 113,
+          "evaluation_episodes": 200,
+          "training_steps": 152500,
+          "training_seconds": 31.565494250000484
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": 209.75854529259703,
+          "successes": 146,
+          "evaluation_episodes": 200,
+          "training_steps": 136486,
+          "training_seconds": 83.25895058300011
+        }
+      ],
+      "mean_across_training_seeds": 188.49174079481253,
+      "training_seed_sample_sd": 30.075803349103985,
+      "missing_training_seeds": [
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    },
+    "no_target": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    },
+    "no_replay": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    },
+    "no_exploration": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    }
+  },
+  "sources": [
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261027T001236_958528Z/A0_seed42",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261029T233234_746501Z/A0_seed1042"
+  ],
+  "complete": false,
+  "statistical_tests": "Not performed; choose test and assumptions with the team. Evaluation episodes are not independent trained policies."
+}

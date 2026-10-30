@@ -1,0 +1,29 @@
+Episodio     1 | Recompensa media (100 ep):   -81.49 | Longitud media:   80.0 | epsilon: 0.995 |     0s
+Episodio     2 | Recompensa media (100 ep):  -185.85 | Longitud media:   87.5 | epsilon: 0.991 |     0s
+Episodio     3 | Recompensa media (100 ep):  -192.83 | Longitud media:   91.3 | epsilon: 0.986 |     0s
+Episodio     4 | Recompensa media (100 ep):  -232.77 | Longitud media:   95.5 | epsilon: 0.981 |     0s
+Episodio     5 | Recompensa media (100 ep):  -214.88 | Longitud media:   91.0 | epsilon: 0.976 |     0s
+Episodio     6 | Recompensa media (100 ep):  -203.78 | Longitud media:   88.7 | epsilon: 0.972 |     0s
+Episodio     7 | Recompensa media (100 ep):  -189.23 | Longitud media:   88.1 | epsilon: 0.967 |     0s
+Episodio     8 | Recompensa media (100 ep):  -177.72 | Longitud media:   87.9 | epsilon: 0.962 |     0s
+Episodio     9 | Recompensa media (100 ep):  -195.64 | Longitud media:   91.4 | epsilon: 0.957 |     0s
+Episodio    10 | Recompensa media (100 ep):  -204.24 | Longitud media:   96.1 | epsilon: 0.953 |     0s
+Episodio    11 | Recompensa media (100 ep):  -225.24 | Longitud media:   97.1 | epsilon: 0.948 |     0s
+Episodio    12 | Recompensa media (100 ep):  -215.58 | Longitud media:   97.9 | epsilon: 0.943 |     0s
+Episodio    13 | Recompensa media (100 ep):  -209.78 | Longitud media:   98.2 | epsilon: 0.938 |     0s
+Episodio    14 | Recompensa media (100 ep):  -201.61 | Longitud media:   96.3 | epsilon: 0.933 |     0s
+Episodio    15 | Recompensa media (100 ep):  -192.05 | Longitud media:   94.5 | epsilon: 0.929 |     0s
+Episodio    16 | Recompensa media (100 ep):  -185.41 | Longitud media:   94.1 | epsilon: 0.924 |     0s
+Episodio    17 | Recompensa media (100 ep):  -190.38 | Longitud media:   93.7 | epsilon: 0.919 |     0s
+Episodio    18 | Recompensa media (100 ep):  -184.11 | Longitud media:   91.8 | epsilon: 0.914 |     0s
+Episodio    19 | Recompensa media (100 ep):  -189.23 | Longitud media:   94.2 | epsilon: 0.910 |     0s
+Episodio    20 | Recompensa media (100 ep):  -191.59 | Longitud media:   94.4 | epsilon: 0.905 |     0s
+Tiempo total de entrenamiento: 0s
+
+A0_no_replay semilla 7 - Resultados de evaluación:
+Tasa de éxito (R ≥ 200): 0.0%
+Recompensa promedio: -698.42
+Recompensa mediana:  -643.01
+Desviación estándar: 127.15
+Total de éxitos: 0 / 10
+Guardado en results/pilot_20261030T204412_152427Z/A0_no_replay_seed7; 5879 pasos/s

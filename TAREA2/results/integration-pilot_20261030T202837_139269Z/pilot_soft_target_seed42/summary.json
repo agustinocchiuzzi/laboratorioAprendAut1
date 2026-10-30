@@ -1,0 +1,18 @@
+{
+  "configuration": "pilot_soft_target",
+  "training_seed": 42,
+  "completed_episodes": 20,
+  "total_steps": 1850,
+  "optimizer_updates": 213,
+  "training_seconds": 0.2164684169983957,
+  "steps_per_second": 8546.281372832836,
+  "final_epsilon": 0.905,
+  "online_parameters": 4996,
+  "evaluation_seconds": 0.39906491700094193,
+  "mean_return": -142.9036469981852,
+  "median_return": -105.17582828084645,
+  "std_return": 78.93967607818594,
+  "std_ddof": 0,
+  "successes": 0,
+  "evaluated": 10
+}

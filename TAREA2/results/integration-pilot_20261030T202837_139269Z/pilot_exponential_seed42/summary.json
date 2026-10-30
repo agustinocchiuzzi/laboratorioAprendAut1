@@ -1,0 +1,18 @@
+{
+  "configuration": "pilot_exponential",
+  "training_seed": 42,
+  "completed_episodes": 20,
+  "total_steps": 1959,
+  "optimizer_updates": 240,
+  "training_seconds": 0.5291642500014859,
+  "steps_per_second": 3702.0641511487197,
+  "final_epsilon": 0.9046104802746175,
+  "online_parameters": 4996,
+  "evaluation_seconds": 0.31762575000175275,
+  "mean_return": -288.51706709220974,
+  "median_return": -303.52575900482526,
+  "std_return": 60.37249651108109,
+  "std_ddof": 0,
+  "successes": 0,
+  "evaluated": 10
+}

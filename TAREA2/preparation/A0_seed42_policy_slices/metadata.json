@@ -1,0 +1,55 @@
+{
+  "checkpoint": "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261027T001236_958528Z/A0_seed42/online_weights.pt",
+  "checkpoint_sha256": "49c4b10aac1ebd8aa0599676ea8b4938de6bccfe71d245c7b08c4a5d1b35d489",
+  "source_notebook_sha256": "a26d4b0af5f28d0c5a3dde93ae3fc0d02dfce47959cb96e6b6ed36673547bd1d",
+  "fixed_state": [
+    0.0,
+    0.800000011920929,
+    0.0,
+    -0.30000001192092896,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "slices": [
+    {
+      "x_index": 0,
+      "y_index": 2,
+      "x_range": [
+        -1,
+        1
+      ],
+      "y_range": [
+        -1.5,
+        1.5
+      ]
+    },
+    {
+      "x_index": 4,
+      "y_index": 5,
+      "x_range": [
+        -0.7,
+        0.7
+      ],
+      "y_range": [
+        -1.5,
+        1.5
+      ]
+    },
+    {
+      "x_index": 1,
+      "y_index": 3,
+      "x_range": [
+        0.1,
+        1.5
+      ],
+      "y_range": [
+        -2,
+        1
+      ]
+    }
+  ],
+  "training_performed": false,
+  "caveat": "Synthetic states may be unreachable or outside training experience. Q-values are estimates, not probabilities."
+}
