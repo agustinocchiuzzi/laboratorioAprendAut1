@@ -50,6 +50,9 @@ a actualizar en todos los pasos. La versión común conserva `learning_starts` y
 `train_frequency` en ambos modos. El batch efectivo cambia de 64 a 1; debe
 declararse como parte de la definición de esa ablación.
 
+Los CSV se guardan en Git sin normalizar sus saltos de línea, para conservar
+los hashes de los manifiestos de evidencia existentes después de un checkout.
+
 Los exports ahora guardan switches, esquema de epsilon, batch efectivo, tipo de
 actualización objetivo, revisión Git y SHA-256 del notebook. El CSV registra el
 epsilon del esquema seleccionado. El agregador rechaza esquemas de exploración

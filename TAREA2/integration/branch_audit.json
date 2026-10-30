@@ -170,12 +170,13 @@
   },
   "preexisting_file_count": 238,
   "intentionally_updated_preexisting_files": [
-    "TAREA2/TEAM_AGREEMENT.md",
-    "TAREA2/scripts/study_tools.py",
-    "TAREA2/tests/test_study_tools.py",
+    "TAREA2/.gitattributes",
     "TAREA2/README.md",
+    "TAREA2/TEAM_AGREEMENT.md",
     "TAREA2/lander.ipynb",
-    "TAREA2/scripts/run_notebook.py"
+    "TAREA2/scripts/run_notebook.py",
+    "TAREA2/scripts/study_tools.py",
+    "TAREA2/tests/test_study_tools.py"
   ],
   "assignment_1_unchanged": true
 }
