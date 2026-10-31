@@ -4,3 +4,4 @@ matplotlib
 ipykernel
 nbformat
 nbclient
+scipy
