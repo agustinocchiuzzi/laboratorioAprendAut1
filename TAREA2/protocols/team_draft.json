@@ -1,6 +1,6 @@
 {
-  "status": "draft_for_team_discussion",
-  "reference_candidate": "A0; compare all peers' evidence before choosing",
+  "status": "approved_by_fran_pending_team_confirmation",
+  "reference_candidate": "A0 (aprobada por Fran el 30/10; confirmar con Thiago y Agustín)",
   "reference": {
     "environment": "LunarLander-v3",
     "continuous": false,
@@ -63,24 +63,25 @@
   },
   "variants": {
     "full": {
-      "owner": "agree tomorrow",
+      "owner": "Fran: 42, 1042, 2042; Thiago: 3 semillas; Agustín: 2 semillas",
       "changes": {}
     },
     "no_target": {
-      "owner": "A",
+      "owner": "Thiago",
       "changes": {
         "use_target": false
       }
     },
     "no_replay": {
-      "owner": "B",
+      "owner": "Fran",
       "changes": {
         "use_replay": false,
         "effective_batch_size": 1
-      }
+      },
+      "definition": "Sin memoria: cada actualización usa solo la transición actual (batch efectivo 1). Se conservan learning_starts=1000 y train_frequency=4 de la referencia, así que solo 1 de cada 4 transiciones se usa para aprender y la red hace la misma cantidad de actualizaciones que la referencia. Esto se declara en el informe."
     },
     "no_exploration": {
-      "owner": "C",
+      "owner": "Agustín",
       "changes": {
         "use_exploration": false
       }
@@ -94,10 +95,7 @@
     "online_weights.pt"
   ],
   "decisions_pending": [
-    "Choose the reference using evidence from A, B and C, then freeze it",
-    "Confirm the common budget and training seed list before the full study",
-    "Agree whether replay-off uses current-transition updates (effective batch size 1)",
-    "Assign a single owner to the full-reference runs",
-    "Choose statistical test, assumptions and multiple-comparison correction before analysis"
+    "Thiago y Agustín confirman este protocolo",
+    "Agustín propone test estadístico y corrección por las tres comparaciones"
   ]
 }
