@@ -1,9 +1,11 @@
-# Corridas de Fran (31/10)
+# Corridas de Fran (31/10 y 2/11)
 
 Protocolo: `protocols/team_draft.json` (A0, 300 episodios, evaluación greedy en
 semillas 10000–10199). Lanzadas con `scripts/run_notebook.py --mode comparison
 --config A0`, en Windows 11, Python 3.12.10, torch 2.15.0+cpu, un hilo por corrida.
-Las 11 corridas en paralelo tardaron 148 s en total.
+Las 11 corridas del 31/10 en paralelo tardaron 148 s en total. El 2/11 se agregaron
+las 5 semillas restantes del completo (3042–7042), así el completo queda entero en
+esta máquina; hay que coordinarlo con el equipo para no duplicar semillas.
 
 | Variante | Semilla | Carpeta | Pasos | Entrenamiento | Recompensa media | Éxitos /200 |
 |---|---|---|---|---|---|---|
@@ -18,6 +20,15 @@ Las 11 corridas en paralelo tardaron 148 s en total.
 | completo | 42 | `results/comparison_20261031T172948_767233Z` | 158659 | 104 s | 174.9 | 68 |
 | completo | 1042 | `results/comparison_20261031T172950_978673Z` | 153312 | 100 s | 183.2 | 85 |
 | completo | 2042 | `results/comparison_20261031T172952_979246Z` | 159763 | 105 s | 80.6 | 63 |
+| completo | 3042 | `results/comparison_20261102T170815_908499Z` | 155482 | 112 s | 69.5 | 7 |
+| completo | 4042 | `results/comparison_20261102T170553_264685Z` | 165167 | 104 s | 60.5 | 69 |
+| completo | 5042 | `results/comparison_20261102T170553_263692Z` | 143546 | 90 s | 121.9 | 72 |
+| completo | 6042 | `results/comparison_20261102T170553_722082Z` | 155138 | 97 s | 203.2 | 143 |
+| completo | 7042 | `results/comparison_20261102T170555_369328Z` | 126703 | 80 s | 208.7 | 140 |
+
+La semilla 3042 se lanzó primero junto con las otras cuatro, pero falló al arrancar
+porque su carpeta de resultados tomó el mismo nombre (fecha y hora) que la de 5042.
+No llegó a escribir nada; se volvió a correr sola.
 
 ## Definición de "sin replay"
 
@@ -38,12 +49,13 @@ entre las máquinas de cada uno. Para el estudio se usan las corridas nuevas.
 ## Comparación estadística
 
 `scripts/ablation_stats.py` valida las corridas contra el protocolo y compara cada
-ablación con el completo: Wilcoxon de rangos con signo pareado por semilla (dos
-colas) y corrección de Holm por las tres comparaciones. Es una propuesta; el test
-lo confirma el equipo. Con las 8 semillas el p mínimo posible es 0.0078.
+ablación con el completo semilla a semilla (diferencia media y en cuántas semillas
+gana el completo), además de armar el gráfico. Todavía no aplica ningún test: el
+método estadístico lo propone Agustín (plan del 30/10) y se agrega cuando el equipo
+lo confirme.
 
 ```sh
-python scripts/ablation_stats.py --runs results/comparison_2026103*/A0*_seed* --output ablacion/
+python scripts/ablation_stats.py --runs results/comparison_20261*/A0*_seed* --output ablacion/
 ```
 
 Hace falta que estén las 32 corridas en la misma carpeta `results/`.

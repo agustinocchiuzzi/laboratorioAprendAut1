@@ -1,9 +1,9 @@
 """Compara cada ablación contra el DQN completo usando las corridas guardadas.
 
-Unidad estadística: la recompensa media de evaluación de cada política entrenada
-(una por semilla de entrenamiento). Como todas las condiciones usan las mismas
-semillas, se comparan en pares: test de Wilcoxon de rangos con signo (dos colas)
-y corrección de Holm por las tres comparaciones.
+Unidad: la recompensa media de evaluación de cada política entrenada (una por
+semilla de entrenamiento). Como todas las condiciones usan las mismas semillas, se
+comparan semilla a semilla. El test estadístico todavía no está: lo propone Agustín
+y se agrega en `comparar` cuando el equipo lo confirme.
 
 Uso, desde TAREA2/:
     python scripts/ablation_stats.py --runs results/comparison_*/A0*_seed* --output ablacion/
@@ -14,7 +14,6 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import stats
 
 from study_tools import DEFAULT_PROTOCOL, aggregate, read_json
 
@@ -23,39 +22,22 @@ NOMBRES = {'full': 'DQN completo', 'no_target': 'Sin red objetivo',
            'no_replay': 'Sin replay', 'no_exploration': 'Sin exploración'}
 
 
-def holm(p_valores):
-    """Corrección de Holm: devuelve los p-valores ajustados en el mismo orden."""
-    orden = np.argsort(p_valores)
-    m = len(p_valores)
-    ajustados = np.empty(m)
-    maximo = 0.0
-    for rango, i in enumerate(orden):
-        maximo = max(maximo, min(1.0, (m - rango) * p_valores[i]))
-        ajustados[i] = maximo
-    return ajustados
-
-
 def comparar(variantes):
-    """Wilcoxon pareado de cada ablación contra el completo, sobre las semillas comunes."""
+    """Diferencias semilla a semilla de cada ablación contra el completo (sin test todavía)."""
     completo = {r['training_seed']: r['mean_return'] for r in variantes['full']['per_training_seed']}
     filas = []
     for nombre in ABLACIONES:
         ablacion = {r['training_seed']: r['mean_return'] for r in variantes[nombre]['per_training_seed']}
         semillas = sorted(set(completo) & set(ablacion))
-        if len(semillas) < 2:
+        if not semillas:
             continue
         a = np.array([ablacion[s] for s in semillas])
         c = np.array([completo[s] for s in semillas])
-        test = stats.wilcoxon(a, c, alternative='two-sided')
         filas.append(dict(variante=nombre, semillas=semillas, n=len(semillas),
                           media_ablacion=float(a.mean()), media_completo=float(c.mean()),
                           diferencia_media=float((a - c).mean()),
                           diferencia_mediana=float(np.median(a - c)),
-                          completo_gana=int((c > a).sum()),
-                          wilcoxon_W=float(test.statistic), p=float(test.pvalue)))
-    for fila, p_holm in zip(filas, holm(np.array([f['p'] for f in filas]))):
-        fila['p_holm'] = float(p_holm)
-        fila['significativo_0.05'] = bool(p_holm < 0.05)
+                          completo_gana=int((c > a).sum())))
     return filas
 
 
@@ -91,8 +73,7 @@ def main():
     comparaciones = comparar(resumen['variants'])
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / 'ablacion.json').write_text(json.dumps(
-        dict(resumen=resumen, comparaciones=comparaciones,
-             test='Wilcoxon de rangos con signo, pareado por semilla, dos colas; corrección de Holm'),
+        dict(resumen=resumen, comparaciones=comparaciones),
         indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     graficar(resumen['variants'], args.output / 'ablacion.png')
 
@@ -101,10 +82,10 @@ def main():
         filas = resumen['variants'][nombre]['per_training_seed']
         valores = '  '.join(f"{r['training_seed']}:{r['mean_return']:7.1f}" for r in filas)
         print(f"  {NOMBRES[nombre]:<16} {valores or '(sin corridas)'}")
-    print('\nComparación contra el DQN completo (Wilcoxon pareado, Holm):')
+    print('\nComparación contra el DQN completo (semillas en común):')
     for f in comparaciones:
         print(f"  {NOMBRES[f['variante']]:<16} n={f['n']}  dif. media={f['diferencia_media']:8.1f}  "
-              f"completo gana {f['completo_gana']}/{f['n']}  p={f['p']:.4f}  p_holm={f['p_holm']:.4f}")
+              f"completo gana {f['completo_gana']}/{f['n']}")
     if not resumen['complete']:
         print('\nAtención: faltan semillas; los resultados son parciales.')
 
