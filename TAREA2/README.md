@@ -1,5 +1,15 @@
 # LunarLander DQN — integración de Tarea 2
 
+## Cierre integrado del 2/11
+
+- [Estado actual y próximos pasos](CIERRE_02_11.md).
+- [Notebook candidato ejecutado y autocontenido](entrega_borrador.ipynb): 32 políticas, curvas, GIF, cortes y tests. Revisión final del equipo pendiente.
+- [Resultados conjuntos y selección de corridas](analysis/team_study/README.md).
+- [Informe IEEE editable](informe/informe.tex): tablas actualizadas; el texto debe ser escrito por el equipo y aún hay marcadores `REDACTAR`.
+- [Protocolo de entrenamiento integrado](protocols/team_final.json): método estadístico propuesto ejecutado para revisión, sin afirmar aprobación de supuestos.
+
+La documentación que sigue describe la integración inicial; para el estado actual usar los enlaces anteriores. Los archivos de `preparation/thiago_*` y `preparation/reunion_20261102/` son instantáneas parciales anteriores.
+
 El trabajo de Thiago (A), Fran (B) y Agustín (C) está reunido en la rama
 `integration/assignment-2`. La integración modifica únicamente `TAREA2/`.
 

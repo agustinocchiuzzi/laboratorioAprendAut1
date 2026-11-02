@@ -1,4 +1,6 @@
-# Reunión del 2/11 — estado de Thiago y decisiones de cierre
+# Reunión del 2/11 — instantánea previa a integrar Agustín
+
+**Histórico:** el estado actualizado está en [CIERRE_02_11.md](CIERRE_02_11.md). Ya se integraron las corridas, cortes y tests de Agustín.
 
 Estado comprobado en archivos locales al preparar la reunión. Un faltante local no significa que el compañero no haya hecho su trabajo.
 

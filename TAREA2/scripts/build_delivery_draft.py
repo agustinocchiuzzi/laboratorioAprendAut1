@@ -25,19 +25,9 @@ def main():
     parser.add_argument('--replace-draft', action='store_true', help='Explicitly rebuild the generated draft')
     args = parser.parse_args()
     original = nbf.read(ROOT / 'lander.ipynb', as_version=4)
-    summary = json.loads((ROOT / 'preparation/thiago_analysis_20261101/validated_summary.json').read_text())
-    remote = json.loads((ROOT / 'preparation/remote_fran_0686cbf/import_manifest.json').read_text())
+    summary = json.loads((ROOT / 'analysis/team_study/validated_summary.json').read_text())
     records = []
     selected = list(summary['sources'])
-    # Provisional coverage set: preserve Thiago's three reference seeds and add
-    # Fran's five missing seeds plus his eight replay-off runs. Never select by score.
-    extras = []
-    for relative in remote['runs']:
-        config = json.loads((ROOT / relative / 'config.json').read_text())
-        if not config['use_replay'] or config['training_seed'] not in [42, 1042, 2042]:
-            selected.append(relative)
-        else:
-            extras.append(relative)
     for relative in selected:
         folder = ROOT / relative
         item = {'folder': relative}
@@ -47,7 +37,7 @@ def main():
             with (folder / f'{name}.csv').open() as handle:
                 item[name] = list(csv.DictReader(handle))
         records.append(item)
-    representative = next(r for r in records if r['config']['use_target'] and r['config']['training_seed'] == 42)
+    representative = next(r for r in records if all(r['config'][k] for k in ['use_target', 'use_replay', 'use_exploration']) and r['config']['training_seed'] == 42)
     weights = (ROOT / representative['folder'] / 'online_weights.pt').read_bytes()
     packed = base64.b64encode(zlib.compress(json.dumps(records).encode())).decode()
     weights64 = base64.b64encode(weights).decode()
@@ -56,11 +46,11 @@ def main():
     code = lambda text: cells.append(nbf.v4.new_code_cell(text))
     md('''# LunarLander DQN — borrador de integración para el 2/11
 
-**Estudio parcial: 24 de 32 combinaciones variante/semilla. No es la entrega final.**
+**32 combinaciones variante/semilla integradas. Candidato técnico pendiente de revisión final del equipo.**
 
-Autores: Thiago, Fran y Agustín. Se incluyen las ocho corridas sin red objetivo de Thiago, ocho sin replay de Fran y las ocho semillas del completo. Faltan las ocho políticas sin exploración, los tests y el análisis de política de Agustín. La rama de Fran incluye 16 corridas; tres completas duplican semillas propias y se conservan como ejecuciones adicionales, fuera de este conjunto provisional. La referencia se arma con Thiago 42/1042/2042 y Fran 3042–7042, según disponibilidad y sin seleccionar por rendimiento; el equipo debe confirmar esta selección. El efecto de máquina/versiones limita la atribución causal entre condiciones.
+Autores: Thiago, Fran y Agustín. Ocho políticas por condición: sin red objetivo de Thiago, sin replay y completo de Fran, sin exploración de Agustín. Se adoptan las ocho completas de Fran, como en el análisis de política de Agustín: una referencia completa en un solo entorno, sin seleccionar por rendimiento. Las tres completas de Thiago se conservan por separado. Las diferencias de máquina/versiones limitan la atribución causal. Los tests propuestos se ejecutan para revisión metodológica del equipo.
 
-Este notebook contiene el código del agente, las funciones de entrenamiento/evaluación, los CSV originales incorporados y un checkpoint representativo (completo, semilla 42, fijado sin seleccionar por rendimiento). Puede ejecutarse sin leer carpetas de resultados ni descargar pesos. Requiere las dependencias del proyecto. Reiniciar el kernel y ejecutar todas las celdas; no entrena por defecto. La discusión para el informe está en `ARQUITECTURA_METODOLOGIA.md`.
+Este notebook contiene el código del agente, las funciones de entrenamiento/evaluación, los CSV originales incorporados y un checkpoint representativo (completo, semilla 42, fijado sin seleccionar por rendimiento). Puede ejecutarse sin leer carpetas de resultados ni descargar pesos. Requiere las dependencias del proyecto. Reiniciar el kernel y ejecutar todas las celdas; no entrena por defecto. El informe debe ser redactado por el equipo. `ARQUITECTURA_METODOLOGIA.md` contiene únicamente apuntes de estudio generados con asistencia de IA, no texto para entregar.
 
 El notebook fuente usado en las corridas se conserva sin modificaciones en `lander.ipynb`.''')
     md('## 1. Dependencias y entorno\nInstalar las dependencias de `requirements.txt` en un entorno Python. Para reproducir las versiones de las corridas, consultar la tabla de configuración incorporada. La ejecución predeterminada verifica los datos, grafica y evalúa dos políticas; no inicia los 32 entrenamientos.')
@@ -93,7 +83,7 @@ env.close()''')
     code(definitions(original.cells[15].source))
     md('## 4. Agente DQN\nRed 8 → 64 → 64 → 4, ReLU en capas ocultas. A0 usa Adam con learning rate 0.001. Se conserva la implementación integrada, incluidos los interruptores para las tres ablaciones.')
     code(original.cells[17].source)
-    md('## 5. Datos incorporados y trazabilidad\nLos siguientes datos son una copia comprimida sin pérdida de configuración, resumen y todas las filas de entrenamiento/evaluación de las 24 políticas seleccionadas provisionalmente. Los pesos incorporados corresponden únicamente al agente completo de semilla 42. Los hashes del archivo del notebook difieren entre Windows y macOS únicamente por saltos de línea LF/CRLF; el archivo fuente versionado en Git es idéntico. Las versiones de paquetes y el hardware sí difieren, y se conservan por corrida.')
+    md('## 5. Datos incorporados y trazabilidad\nLos siguientes datos son una copia comprimida sin pérdida de configuración, resumen y todas las filas de entrenamiento/evaluación de las 32 políticas seleccionadas. Los pesos incorporados corresponden únicamente al agente completo de semilla 42. Los hashes del archivo del notebook difieren entre Windows y macOS únicamente por saltos de línea LF/CRLF; el archivo fuente versionado en Git es idéntico. Las versiones de paquetes y el hardware sí difieren, y se conservan por corrida.')
     code(f"RUNS = json.loads(zlib.decompress(base64.b64decode({packed!r})))\nPESOS = base64.b64decode({weights64!r})\nassert hashlib.sha256(PESOS).hexdigest() == {hashlib.sha256(weights).hexdigest()!r}\nprint('Políticas incorporadas:', len(RUNS))")
     code('''def variante(config):
     desactivados = [k for k in ('use_target', 'use_replay', 'use_exploration') if not config[k]]
@@ -119,7 +109,7 @@ for run in RUNS:
     assert np.isfinite(retornos).all() and np.isclose(retornos.mean(), s['mean_return'])
     assert int((retornos >= 200).sum()) == s['successes']
     assert sum(int(r['length']) for r in run['training']) == s['total_steps']
-assert len(hashes) == 2 and len(vistos) == 24
+assert len(hashes) == 2 and len(vistos) == 32
 assert hashes == {'06eb8e2e0b99c7569b2a33a6f5b1f6d35322b91b0b0f7e5ac8911afc543968c5', '8b02717c42f1bddd7a268b7de4798336adfdd9ba69a56e3d1fc079540b12df50'}
 referencia = next(r for r in RUNS if variante(r['config']) == 'full' and r['config']['training_seed'] == 42)
 print('Validación correcta: presupuesto, semillas, métricas, pasos y ausencia de duplicados en la selección.')
@@ -153,23 +143,23 @@ else:
     code('''curvas = {(variante(r['config']), r['config']['training_seed']): media_movil(
     [float(f['return']) for f in r['training']], ventana=20) for r in RUNS}
 comunes = sorted({s for v,s in curvas if v == 'full'} & {s for v,s in curvas if v == 'no_target'})
-fig, axes = plt.subplots(4, 1, figsize=(10, 14), constrained_layout=True)
+fig, axes = plt.subplots(5, 1, figsize=(10, 17), constrained_layout=True)
 episodios = np.arange(1, 301)
-for ax, v, titulo in [(axes[0], 'full', 'Agente completo: 8 semillas (cohorte provisional mixta)'), (axes[1], 'no_target', 'Sin red objetivo: 8 semillas'), (axes[2], 'no_replay', 'Sin replay: 8 semillas')]:
+for ax, v, titulo in [(axes[0], 'full', 'Agente completo: 8 semillas de Fran'), (axes[1], 'no_target', 'Sin red objetivo: 8 semillas'), (axes[2], 'no_replay', 'Sin replay: 8 semillas'), (axes[3], 'no_exploration', 'Sin exploración: 8 semillas')]:
     for (condicion, semilla), valores in sorted(curvas.items()):
         if condicion == v:
             ax.plot(episodios, valores, label=str(semilla), linewidth=1.2)
     ax.set(title=titulo, xlabel='Episodio', ylabel='Retorno suavizado')
     ax.legend(title='Semilla', ncol=4, fontsize=8)
     ax.grid(alpha=.2)
-for v, etiqueta in [('full', 'Completo'), ('no_target', 'Sin red objetivo'), ('no_replay', 'Sin replay')]:
+for v, etiqueta in [('full', 'Completo'), ('no_target', 'Sin red objetivo'), ('no_replay', 'Sin replay'), ('no_exploration', 'Sin exploración')]:
     matriz = np.stack([curvas[v,s] for s in comunes])
     media, sd = matriz.mean(axis=0), matriz.std(axis=0, ddof=1)
-    linea, = axes[3].plot(episodios, media, label=f'{etiqueta}, n={len(comunes)}')
-    axes[3].fill_between(episodios, media-sd, media+sd, color=linea.get_color(), alpha=.15)
-axes[3].set(title='Comparación descriptiva parcial; máquinas/versiones diferentes', xlabel='Episodio', ylabel='Retorno suavizado')
-axes[3].legend()
-axes[3].grid(alpha=.2)
+    linea, = axes[4].plot(episodios, media, label=f'{etiqueta}, n={len(comunes)}')
+    axes[4].fill_between(episodios, media-sd, media+sd, color=linea.get_color(), alpha=.15)
+axes[4].set(title='Comparación descriptiva parcial; máquinas/versiones diferentes', xlabel='Episodio', ylabel='Retorno suavizado')
+axes[4].legend()
+axes[4].grid(alpha=.2)
 plt.show()''')
     md('## 8. Evaluación y baseline aleatorio\nSe presentan métricas por política, sin tests inferenciales. Se recarga el checkpoint completo de semilla 42 y se comprueba su evaluación en las mismas semillas. El baseline aleatorio también se evalúa en esos resets. El checkpoint se fijó por su semilla, sin elegir el mejor resultado.')
     code('''filas = []
@@ -184,7 +174,9 @@ try:
     politica.red_q.eval()
     originales = {k: v.clone() for k,v in politica.red_q.state_dict().items()}
     evaluacion = evaluar_agente(politica, entorno, num_episodios=200, semilla=10000)
-    assert np.allclose(evaluacion['recompensas_totales'], [float(r['return']) for r in referencia['evaluation']], atol=1e-4, rtol=1e-6), 'La reevaluación difiere: revisar versiones/dispositivo antes de reemplazar datos históricos.'
+    coincide = np.allclose(evaluacion['recompensas_totales'], [float(r['return']) for r in referencia['evaluation']], atol=1e-4, rtol=1e-6)
+    print('Reevaluación coincide con el entorno original:', coincide)
+    print('Los resultados originales se conservan; una reevaluación en otra plataforma no los reemplaza.')
     assert politica.env_steps == politica.optimizer_updates == 0
     assert all(torch.equal(v, originales[k]) for k,v in politica.red_q.state_dict().items())
     azar = AgenteAleatorio(entorno.action_space, semilla=42)
@@ -199,16 +191,45 @@ for resultado, etiqueta in [(evaluacion, 'Completo, semilla 42'), (evaluacion_az
 ax.set(xlabel='Retorno por episodio de evaluación', ylabel='Frecuencia', title='Baseline de desarrollo; una política entrenada')
 ax.legend()
 plt.show()''')
-    md('## 9. Rollouts y visualizaciones\n**Pendiente de integración con Agustín.** Incorporar los rollouts/GIF acordados y registrar las semillas de evaluación y el checkpoint utilizado. Los pesos completos de semilla 42 están incorporados para permitir visualización sin descargar archivos.')
-    md('## 10. Cortes de política\n**Pendiente de Agustín.** Incorporar código, salidas y valores fijos de los cortes; identificar el checkpoint. Los estados sintéticos pueden ser inalcanzables y Q no es una probabilidad. La discusión debe ir en el informe.')
-    md('## 11. Ablaciones: cobertura y análisis pendiente\nLa unidad experimental es la política entrenada con una semilla. Los episodios de evaluación no son réplicas independientes del entrenamiento. La lista siguiente muestra faltantes reales; no se sustituyen por pilotos. Fran debe aportar los tests de las tres comparaciones y la corrección acordada antes de cerrar conclusiones.')
+    md('## 9. Rollouts y visualizaciones\nSe genera el GIF de diez episodios del checkpoint completo de Fran de semilla 42. Las semillas de rollout se sortean de 20000–29999 con generador 42 y se muestran todos los resultados. Son semillas de visualización, no la evaluación reservada. `RUN_GIF=False` permite omitir únicamente el renderizado.')
+    code('RUN_GIF = True\nagente_dqn = politica\n' + original.cells[28].source)
+    md('## 10. Cortes de política\nSe incorpora el código de Agustín y se regenera el corte representativo con los pesos incorporados. Los estados sintéticos pueden ser inalcanzables; Q no es probabilidad. Los puntos proyectados desde rollouts no fijan las otras seis dimensiones al valor del corte. Las figuras de ocho semillas y la comparación con sin exploración se incorporan como salidas originales con su procedencia.')
+    policy_source = ast.parse((ROOT / 'scripts/analisis_politica.py').read_text())
+    policy_source.body = [n for n in policy_source.body if isinstance(n, (ast.Import, ast.ImportFrom, ast.Assign))
+        or isinstance(n, ast.FunctionDef) and n.name != 'main']
+    code(ast.unparse(policy_source))
+    code('''visitados, acciones, episodios_policy = jugar(politica.red_q, episodios=20)
+fig, ejes = plt.subplots(2, 3, figsize=(14, 7), constrained_layout=True)
+for columna, spec in enumerate(CORTES):
+    dibujar_corte(ejes[0,columna], ejes[1,columna], politica.red_q, spec, visitados)
+fig.suptitle('Completo de Fran, semilla 42: cortes; puntos = proyecciones de estados visitados')
+plt.show()
+print('Estado fijo de referencia:', ESTADO_FIJO.tolist())
+print('Rollouts de desarrollo:', SEMILLA_EVAL, 'a', SEMILLA_EVAL + 19)''')
+    images = {name: base64.b64encode((ROOT / 'analisis_politica' / name).read_bytes()).decode()
+        for name in ['cortes_8_semillas_angulo.png', 'cortes_completo_vs_sin_exploracion.png']}
+    code(f"FIGURAS_AGUSTIN = {images!r}\nfor nombre, datos in FIGURAS_AGUSTIN.items():\n    print('Salida original de Agustín:', nombre)\n    display(MostrarImagen(data=base64.b64decode(datos)))")
+    md('## 11. Ablaciones: cobertura y tests\n32 políticas, ocho por condición. Unidad experimental: media de evaluación de cada política, no cada episodio. Se ejecuta la propuesta de Agustín: Mann–Whitney bilateral exacto con Holm sobre tres comparaciones y Wilcoxon emparejado como sensibilidad. Se muestra también Holm para las tres sensibilidades. MW requiere independencia; Wilcoxon supone simetría de diferencias; ninguno elimina el posible efecto de plataforma. No se afirma prerregistro ni aprobación metodológica automática.')
     code('''planeadas = {42,1042,2042,3042,4042,5042,6042,7042}
 for v in ['full', 'no_target', 'no_replay', 'no_exploration']:
     disponibles = {s for condicion,s in vistos if condicion == v}
     print(f'{v}: {len(disponibles)}/8; faltan {sorted(planeadas-disponibles)}')
-print('Estadística inferencial: pendiente. Evaluación reservada: no realizada.')''')
-    md('## 12. Revisión de entrega\nAntes de entregar: completar las 32 corridas y las secciones 9–11, incorporar el método estadístico acordado, revisar referencias y el informe IEEE (máximo 5 páginas), reiniciar el kernel y ejecutar todo nuevamente. La ejecución de este borrador no acredita la entrega final.')
-    notebook = nbf.v4.new_notebook(cells=cells, metadata={'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'}, 'language_info': {'name': 'python'}, 'delivery_status': 'partial_24_of_32'})
+assert len(vistos) == 32
+print('Evaluación reservada: no realizada.')''')
+    code('from scipy import stats\n' + definitions((ROOT / 'scripts/test_ablacion.py').read_text()))
+    code('''medias = {}
+for r in RUNS:
+    medias.setdefault(variante(r['config']), {})[r['config']['training_seed']] = r['summary']['mean_return']
+tests = [dict(variante=v, **comparar_una(medias['full'], medias[v])) for v in ['no_target','no_replay','no_exploration']]
+for r, p, w in zip(tests, holm([r['p_mann_whitney'] for r in tests], 3), holm([r['p_wilcoxon'] for r in tests], 3)):
+    r.update(p_holm=p, p_wilcoxon_holm=w)
+tabla = '<table><tr><th>Ablación</th><th>Completo − ablación</th><th>p MW</th><th>p Holm</th><th>p Wilcoxon Holm</th></tr>'
+for r in tests:
+    tabla += f"<tr><td>{r['variante']}</td><td>{r['diferencia_media']:.2f}</td><td>{r['p_mann_whitney']:.5f}</td><td>{r['p_holm']:.5f}</td><td>{r['p_wilcoxon_holm']:.5f}</td></tr>"
+display(HTML(tabla + '</table>'))
+assert len(tests) == 3 and all(r['n_completo'] == r['n_ablacion'] == 8 for r in tests)''')
+    md('## 12. Revisión de entrega\nCódigo, 32 políticas, visualizaciones y tests integrados. Pendiente: revisión metodológica y cruzada, redacción propia del informe IEEE de máximo 5 páginas, compilación y comprobación del límite de páginas, y decisión sobre evaluación reservada. Reiniciar el kernel y ejecutar todo nuevamente antes de entregar. No se entrenan políticas al ejecutar este notebook.')
+    notebook = nbf.v4.new_notebook(cells=cells, metadata={'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'}, 'language_info': {'name': 'python'}, 'delivery_status': '32_policies_integrated_review_pending'})
     destination = ROOT / 'entrega_borrador.ipynb'
     if destination.exists() and not args.replace_draft:
         raise FileExistsError(destination)

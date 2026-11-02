@@ -20,6 +20,18 @@ Contenido:
 11. [Cómo correrlo](#11-cómo-correrlo)
 12. [Preguntas probables y cómo responderlas](#12-preguntas-probables-y-cómo-responderlas)
 
+**Parte 2: trabajo en el estudio del equipo (30/10 al 2/11)**
+
+13. [Dónde estamos: el estudio del equipo y en qué se diferencia de mi agente](#13-dónde-estamos-el-estudio-del-equipo-y-en-qué-se-diferencia-de-mi-agente)
+14. [30/10: protocolo y método estadístico](#14-3010-protocolo-y-método-estadístico)
+15. [31/10: las 8 corridas sin exploración](#15-3110-las-8-corridas-sin-exploración)
+16. [El script `test_ablacion.py`, línea por línea](#16-el-script-test_ablacionpy-línea-por-línea)
+17. [1/11: análisis de la política (cortes y visualizaciones)](#17-111-análisis-de-la-política-cortes-y-visualizaciones)
+18. [El script `analisis_politica.py`, por bloques](#18-el-script-analisis_politicapy-por-bloques)
+19. [2/11: plantilla IEEE y qué tengo que escribir yo](#19-211-plantilla-ieee-y-qué-tengo-que-escribir-yo)
+20. [Estado al 2/11 y pendientes](#20-estado-al-211-y-pendientes)
+21. [Más preguntas probables (parte 2)](#21-más-preguntas-probables-parte-2)
+
 ---
 
 ## 1. Qué se pidió y qué se entrega
@@ -955,3 +967,610 @@ semillas nuevas mide la política real.
 
 **¿Cómo sé que es reproducible?** La sección 11.1 entrena dos veces con la misma semilla y compara
 recompensas y pesos con igualdad exacta; un `assert` corta el cuaderno si no coinciden.
+
+---
+
+# Parte 2: trabajo en el estudio del equipo (30/10 al 2/11)
+
+Todo lo de esta parte está en la rama **`AgustinAblacion`**, que sale de `FranAblacion`
+(la última versión del equipo, con el código integrado, el protocolo y las corridas de Fran).
+
+| Archivo nuevo o modificado | Qué es |
+|---|---|
+| `protocols/team_draft.json` | Mi confirmación del protocolo y la propuesta estadística (campo `statistics`) |
+| `scripts/test_ablacion.py` | El test propuesto, listo para que Fran lo use o lo integre en `ablation_stats.py` |
+| `results/comparison_20261102T2108*` y `T2109*` | Mis 8 corridas sin exploración (una carpeta por semilla) |
+| `scripts/analisis_politica.py` | Genera los cortes de política y las métricas de episodios reales |
+| `analisis_politica/` | Las figuras y `metricas_politica.json` |
+| `informe/informe.tex` + `informe/figuras/` | Plantilla IEEE para Overleaf (estructura, tablas y figuras; **sin texto redactado**) |
+
+---
+
+## 13. Dónde estamos: el estudio del equipo y en qué se diferencia de mi agente
+
+El plan del equipo:
+
+| Día | Mi tarea | Estado |
+|---|---|---|
+| 30/10 | Proponer semillas, evaluación y método estadístico | Hecho (sección 14) |
+| 31/10 | 8 semillas sin exploración (+ 2 del completo) | Hechas las 8 (sección 15). Las 2 del completo ya las corrió Fran: no se repiten |
+| 1/11 | Cortes de política y visualizaciones | Hecho (secciones 17 y 18) |
+| 2/11 | Análisis de política, limitaciones, formato IEEE | Formato IEEE hecho; **el texto lo tengo que escribir yo** (sección 19) |
+
+**El estudio usa el agente integrado (`lander.ipynb`), no el mío.** Thiago integró las tres
+contribuciones (A, B y C) en un solo `AgenteDQN` con tres interruptores (`use_target`,
+`use_replay`, `use_exploration`). La configuración de referencia es **A0**:
+
+| | Mi agente (Parte 1) | A0, el del estudio |
+|---|---|---|
+| Red | 128 × 128 | 64 × 64 |
+| `lr` | 5·10⁻⁴ | 10⁻³ |
+| Memoria | 100 000, arreglos de NumPy, muestreo **con** reemplazo | 50 000, `deque`, `random.sample` (**sin** reemplazo) |
+| Red objetivo | Suave, τ = 0,001 | **Copia completa cada 1000 pasos** (como el artículo) |
+| Exploración | Exponencial por episodio (0,995) | **Lineal por episodio**: 1 → 0,05 en 200 episodios |
+| Presupuesto | 1200 episodios | **300 episodios** |
+| Evaluación | 200 ep., semillas 10 000+ | Igual: 200 ep., semillas 10 000–10 199 |
+
+Lo que sí viene de mi foco: el interruptor `use_exploration`, los esquemas de ε alternativos
+(`linear_steps`, `exponential_episodes`) y la idea de medir ε en **episodios**, que es justo
+lo que usa A0. Mi experimento de la Parte 1 (sección 9.3) es la evidencia de calibración de
+esa decisión.
+
+**Cómo funciona `use_exploration=False` en el código integrado** (celda del agente en `lander.ipynb`):
+
+```python
+self.epsilon = epsilon_start if use_exploration else 0.0
+...
+if explorar and self.use_exploration and random.random() < self.epsilon:
+    return int(self.accion_space.sample())
+...
+def epsilon_en(self, episodios, pasos):
+    if not self.use_exploration:
+        return 0.0
+```
+
+* ε arranca en 0 y `epsilon_en` (que actualiza ε al final de cada episodio) siempre devuelve 0.
+* En `elegir_accion`, el `and self.use_exploration` hace que ni siquiera se tire la moneda: el
+  agente es greedy siempre, también durante el entrenamiento.
+* Todo lo demás (red, memoria, red objetivo, semillas) queda idéntico al completo: **la
+  ablación cambia una sola cosa**.
+
+---
+
+## 14. 30/10: protocolo y método estadístico
+
+### 14.1 Qué confirmé del protocolo
+
+El protocolo (`protocols/team_draft.json`) ya lo había aprobado Fran. Lo confirmé tal cual:
+
+* **Referencia A0**, 300 episodios de hasta 1000 pasos, sin parada temprana. Se evalúa el
+  modelo final, no el mejor punto de la curva, para no favorecer a ninguna variante.
+* **Semillas de entrenamiento**: 42, 1042, 2042, …, 7042 (8 por condición, las mismas para todas).
+* **Evaluación**: greedy, sin aprender, 200 episodios en las semillas 10 000–10 199
+  (*desarrollo*). Las semillas **30 000–30 199 quedan reservadas** y nadie las mira hasta que
+  todo esté congelado.
+* **Unidad estadística**: la recompensa media de evaluación de cada política. 200 episodios de
+  una política no son 200 réplicas independientes; las réplicas son las semillas de entrenamiento.
+
+El estado quedó en `approved_by_fran_and_agustin_pending_thiago`.
+
+### 14.2 La propuesta estadística
+
+Quedó escrita en el campo `statistics` del protocolo:
+
+| Pieza | Elección |
+|---|---|
+| Test principal | **U de Mann-Whitney bilateral, exacto**: completo contra cada ablación, 8 contra 8 |
+| Comparaciones múltiples | **Holm-Bonferroni** sobre las 3 comparaciones planeadas, α = 0,05 |
+| Sensibilidad | Wilcoxon de rangos con signo emparejado por semilla (solo se reporta) |
+| Tamaños de efecto | Diferencia de medias y de medianas, Hodges-Lehmann, probabilidad de superioridad |
+
+**Por qué Mann-Whitney** (lo mismo que en la sección 4.6, ahora con 8 semillas):
+
+* No supone normalidad. Con 8 valores no se puede verificar, y las recompensas son bimodales
+  (políticas que aterrizan ≈ 200, políticas que se estrellan ≈ −150).
+* Con 8 contra 8 hay $\binom{16}{8} = 12\,870$ formas de repartir los rangos; el p mínimo es
+  2/12 870 ≈ 0,0002. Hay potencia para detectar separaciones claras aun después de corregir.
+* Ya lo había elegido el **29/10** (Parte 1 de este documento, commit `0c593eb`), antes de ver
+  ninguna corrida del estudio. Eso importa: el test se fija **antes** de mirar los datos.
+
+**Por qué corregir por comparaciones múltiples.** Si hago 3 tests a α = 0,05 y ninguna ablación
+tiene efecto, la probabilidad de que al menos uno salga significativo por azar es
+1 − 0,95³ ≈ 14 %, no 5 %. Holm controla eso:
+
+1. Ordeno los 3 p de menor a mayor: p₍₁₎ ≤ p₍₂₎ ≤ p₍₃₎.
+2. Comparo p₍₁₎ con 0,05/3; si pasa, p₍₂₎ con 0,05/2; si pasa, p₍₃₎ con 0,05/1.
+3. En cuanto uno no pasa, ese y los siguientes no son significativos.
+
+Equivale a un "p ajustado" = (3 − rango) × p, tomando el máximo acumulado para que sea monótono.
+Es menos conservador que Bonferroni (que multiplica todos por 3) y sigue controlando el error.
+
+Ejemplo con números inventados: p = 0,004; 0,020; 0,300.
+Ajustados: 3·0,004 = 0,012 ✓; 2·0,020 = 0,040 ✓; 1·0,300 = 0,300 ✗ ⇒ dos significativas.
+Con Bonferroni: 0,012 ✓; 0,060 ✗; 0,900 ✗ ⇒ solo una.
+
+**Por qué Wilcoxon solo como sensibilidad.** Las semillas emparejan las condiciones (misma
+semilla ⇒ mismos pesos iniciales y misma secuencia de `reset`), así que un test emparejado es
+defendible. Pero el emparejamiento es débil: las trayectorias divergen en pocos pasos, y Fran
+comprobó que la misma semilla ni siquiera reproduce el mismo resultado en dos máquinas
+distintas (`NOTAS_FRAN.md`). Por eso el principal es el no emparejado.
+
+**Tamaños de efecto** (un p chico no dice cuánto empeora; esto sí):
+
+* *Hodges-Lehmann*: la mediana de las 64 diferencias (completo − ablación) entre todos los pares.
+  Es el estimador que acompaña naturalmente a Mann-Whitney.
+* *Probabilidad de superioridad* = U / 64: la probabilidad de que una política completa
+  elegida al azar supere a una de la ablación elegida al azar. 0,5 = sin diferencia; 1 = siempre.
+
+### 14.3 Resultado parcial (falta "sin red objetivo")
+
+Salida de `scripts/test_ablacion.py` con las corridas actuales:
+
+| Variante | Media | Dif. de medias | HL | P(sup.) | U | p MW | p Holm (*) | p Wilcoxon | Completo gana |
+|---|---|---|---|---|---|---|---|---|---|
+| Completo | 137,8 | — | | | | | | | |
+| Sin replay | −0,8 | 138,7 | 140,7 | 0,89 | 57 | **0,0070** | 0,021 | 0,0078 | 8/8 |
+| Sin exploración | 25,8 | 112,0 | 99,2 | 0,78 | 50 | **0,0650** | 0,130 | 0,0391 | 7/8 |
+
+(*) Los p de Holm no son finales hasta que estén las tres comparaciones.
+
+Lectura:
+
+* **Sin replay** es peor que el completo de forma clara y significativa incluso con la corrección.
+* **Sin exploración** es peor en promedio (−112) y pierde en 7 de 8 semillas, pero con 8 semillas
+  y Mann-Whitney **no alcanza significancia** (p = 0,065). La razón es la dispersión: sin
+  exploración hay semillas que andan bien (7042: 180; 2042: 151) y otras que fracasan del todo
+  (42: −169). El Wilcoxon emparejado da p = 0,039, **pero no corresponde cambiar de test después
+  de ver los resultados**: sería elegir el análisis que da lo que uno quiere (*p-hacking*). En el
+  informe se reporta el test fijado de antemano, y el Wilcoxon como sensibilidad.
+
+---
+
+## 15. 31/10: las 8 corridas sin exploración
+
+### 15.1 Cómo se corrieron
+
+Desde `TAREA2/`, una corrida por semilla, en paralelo:
+
+```bash
+PYTHONUTF8=1 python scripts/run_notebook.py --mode comparison --config A0 --variant no_exploration --seed 42
+```
+
+* `run_notebook.py` ejecuta solo las celdas de definiciones de `lander.ipynb` y llama a
+  `entrenar_y_guardar`. Así todos usamos **exactamente el mismo código** (cada `config.json`
+  guarda la revisión de git; `lander.ipynb` no cambió desde la integración del 30/10).
+* Cada corrida crea `results/comparison_<fecha-hora>/A0_no_exploration_seed<s>/` con los cinco
+  archivos del protocolo: `config.json`, `training.csv`, `evaluation.csv`, `summary.json` y
+  `online_weights.pt`.
+* Se validaron con `ablation_stats.py` de Fran: el script rechaza semillas no planeadas,
+  duplicadas o configuraciones distintas a la del protocolo, y las aceptó.
+
+### 15.2 Dos problemas que aparecieron (y cómo se resolvieron)
+
+1. **`UnicodeEncodeError` al imprimir "≥"**. En Windows, el archivo `runner.log` se abre con la
+   codificación del sistema (cp1252), que no tiene el carácter ≥. La corrida fallaba al imprimir
+   el resumen final. Solución: `PYTHONUTF8=1`, que obliga a Python a usar UTF-8. Las corridas
+   fallidas se borraron (no habían terminado limpias) y se volvieron a correr.
+2. **Dos corridas con la misma carpeta**. La carpeta se nombra con la fecha y hora; si dos procesos
+   arrancan en el mismo instante, el segundo falla con `FileExistsError` (a Fran le pasó lo mismo con
+   3042). Solución: lanzar cada corrida 10 segundos después de la anterior.
+
+**Para avisar al equipo**: ambos problemas le pueden pasar a Thiago con sus corridas.
+
+### 15.3 Resultados
+
+| Semilla | Pasos de entorno | Entrenamiento | Recompensa media (200 ep.) | Éxitos / 200 |
+|---|---|---|---|---|
+| 42 | 32 968 | 18 s | −168,7 | 0 |
+| 1042 | 228 980 | 227 s | 62,6 | 15 |
+| 2042 | 241 521 | 245 s | 150,7 | 74 |
+| 3042 | 215 083 | 222 s | −70,2 | 0 |
+| 4042 | 116 643 | 122 s | −133,3 | 0 |
+| 5042 | 175 372 | 188 s | 65,9 | 33 |
+| 6042 | 184 590 | 198 s | 119,2 | 42 |
+| 7042 | 167 025 | 180 s | 180,3 | 123 |
+| **Media** | | | **25,8** | **36 (18 %)** |
+
+Comparación: el completo (8 semillas de Fran) tiene media 137,8 y 81 éxitos de 200 en promedio (40 %).
+
+Las 8 corrieron en paralelo en unos 5 minutos de reloj, en Windows 11 con 8 núcleos y
+torch 2.14.1 (Fran usó 2.15.0). No cambia el código, pero las corridas no son reproducibles bit
+a bit entre versiones ni entre máquinas, como ya documentó Fran.
+
+**Interpretación:**
+
+* La **semilla 42** es el caso extremo: solo 33 000 pasos en 300 episodios (≈ 110 pasos por
+  episodio). Se estrella en cada episodio y nunca ve otra cosa; sin ε no hay ningún mecanismo que
+  le haga probar algo distinto.
+* Las semillas que **sí** aprenden (7042, 2042) lo logran porque el entorno ya tiene variedad
+  propia: cada episodio arranca con un empujón al azar y la red inicial elige acciones casi
+  arbitrarias. Esa "exploración implícita" a veces alcanza y a veces no.
+* Esa es la diferencia con quitar la memoria de repetición: sin exploración el resultado es una
+  **lotería** (mucha varianza entre semillas); sin replay es **consistentemente malo**.
+* Sin exploración los entrenamientos son **más largos** (≈ 170 000 pasos contra ≈ 152 000 del
+  completo) porque muchas políticas aprenden a flotar hasta el paso 1000.
+
+---
+
+## 16. El script `test_ablacion.py`, línea por línea
+
+```python
+from study_tools import DEFAULT_PROTOCOL, aggregate, read_json
+```
+Reutiliza las funciones de Thiago: `aggregate` lee las carpetas de corridas, las valida contra el
+protocolo y devuelve, por variante, la recompensa media de cada semilla. Así el test usa
+**exactamente** los mismos números que la tabla de Fran.
+
+```python
+ABLACIONES = ['no_target', 'no_replay', 'no_exploration']
+ALFA = 0.05
+```
+Las tres comparaciones planeadas. Que estén fijas en el código (y no "las que haya") es lo que
+hace que Holm use siempre m = 3.
+
+```python
+def holm(pvalores, m):
+    orden = sorted(range(len(pvalores)), key=lambda i: pvalores[i])
+    ajustados = [None] * len(pvalores)
+    maximo = 0.0
+    for rango, i in enumerate(orden):
+        maximo = max(maximo, min(1.0, (m - rango) * pvalores[i]))
+        ajustados[i] = maximo
+    return ajustados
+```
+* `orden`: los índices de los p de menor a mayor.
+* El p de rango 0 (el más chico) se multiplica por m = 3, el siguiente por 2, el último por 1.
+* `min(1.0, …)`: un p no puede pasar de 1.
+* `max(maximo, …)`: el ajustado nunca puede ser menor que el de un p más chico (monotonía); si no,
+  podría rechazarse una hipótesis "más débil" sin rechazar una "más fuerte".
+* Se devuelven en el orden original para asociarlos con cada variante.
+
+```python
+def comparar_una(completo, ablacion):
+    c = np.array(list(completo.values()))
+    a = np.array(list(ablacion.values()))
+    u = stats.mannwhitneyu(c, a, alternative='two-sided', method='exact')
+```
+`completo` y `ablacion` son diccionarios `{semilla: recompensa media}`. `method='exact'` calcula el
+p enumerando las repartijas de rangos en vez de usar la aproximación normal, que con 8 por grupo
+no es buena. El orden `(c, a)` hace que **U cuente cuántos pares gana el completo**.
+
+```python
+        diferencia_media=float(c.mean() - a.mean()),
+        diferencia_mediana=float(np.median(c) - np.median(a)),
+        hodges_lehmann=float(np.median(np.subtract.outer(c, a))),
+        U=float(u.statistic), p_mann_whitney=float(u.pvalue),
+        prob_superioridad=float(u.statistic / (len(c) * len(a))),
+```
+* `np.subtract.outer(c, a)` arma la matriz 8 × 8 de todas las diferencias cᵢ − aⱼ; su mediana es
+  el estimador de Hodges-Lehmann.
+* La probabilidad de superioridad es U sobre los 64 pares.
+
+```python
+    comunes = sorted(set(completo) & set(ablacion))
+    if len(comunes) >= 5:
+        dif = np.array([completo[s] - ablacion[s] for s in comunes])
+        w = stats.wilcoxon(dif, alternative='two-sided', method='exact')
+```
+El análisis de sensibilidad: empareja por semilla. Con menos de 5 pares el Wilcoxon no puede dar
+p < 0,05 nunca, así que no se calcula. `completo_gana` cuenta en cuántas semillas el completo
+supera a la ablación.
+
+```python
+    completas = len(filas) == len(ABLACIONES)
+    for fila, p_holm in zip(filas, holm([f['p_mann_whitney'] for f in filas], m=len(ABLACIONES))):
+        fila['p_holm'] = p_holm
+        fila['significativo'] = bool(p_holm < ALFA)
+```
+Holm sobre los p de Mann-Whitney (el test principal, no el Wilcoxon). Si falta una variante,
+`completas` es falso y el script avisa que los p de Holm no son finales.
+
+El resto escribe `tests.json` e imprime la tabla.
+
+---
+
+## 17. 1/11: análisis de la política (cortes y visualizaciones)
+
+La letra pide "cortes que fijen algunas dimensiones del estado y muestren la acción elegida o el
+valor Q en función de las demás". Se hizo eso y se le agregaron dos cosas que hacen el análisis
+más honesto: los **estados que el agente realmente visita** y **episodios reales**.
+
+### 17.1 Método
+
+* **Estado fijo**: x = 0, y = 0,8, vx = 0, vy = −0,3, θ = ω = 0, sin patas apoyadas. Es "la nave
+  sobre la plataforma, a media altura, bajando despacio y derecha". Es el mismo que usa
+  `study_tools.py slices`, para que las figuras sean comparables.
+* **Tres cortes**, cada uno varía dos dimensiones en una grilla de 101 × 101 y deja las otras seis
+  fijas: (x, vx), (θ, ω) y (y, vy).
+* En cada punto se evalúa la red: **acción greedy** (argmax Q) y **max Q** (lo que la red cree que
+  vale ese estado).
+* **Puntos negros**: estados visitados en 20 episodios greedy reales (semillas 10 000–10 019, de
+  desarrollo). Advertencia: un punto negro tiene las *otras seis* dimensiones con otros valores,
+  así que no está exactamente en el corte. Sirven para ver **qué zonas del plano importan** y
+  cuáles son estados sintéticos que el agente nunca encuentra (donde la red puede decir cualquier cosa).
+* **Qué hace cada acción** (medido en el entorno, no supuesto): la 1 empuja la nave a la izquierda
+  y la gira en sentido antihorario (sube θ); la 3 la empuja a la derecha y la gira en sentido
+  horario (baja θ); la 2 frena la caída.
+
+### 17.2 Figura `cortes_completo_s42.png` (completo, semilla 42)
+
+Se usa la semilla 42 porque es la primera del protocolo, **no** porque sea la mejor: elegir la
+mejor sería hacer trampa.
+
+* **Corte altura – velocidad vertical** (arriba a la derecha). Debajo de una frontera inclinada
+  la red usa el **motor principal**. La frontera va de vy ≈ −0,2 cerca del suelo a vy ≈ −0,85 a
+  altura 1,5: **cuanto más cerca del suelo, menos velocidad de caída tolera**. Es lo que haría un
+  piloto: a mucha altura puede caer rápido y frenar después; cerca del suelo no. Por encima de esa
+  frontera (bajando despacio o subiendo) no hace nada. Las trayectorias negras muestran el patrón
+  de aterrizaje: caer acelerando, frenar con el motor y "rebotar" sobre la frontera hasta llegar
+  al suelo.
+* **Corte ángulo – velocidad angular** (arriba al centro). La frontera entre motor izquierdo
+  (naranja) y derecho (azul) es una línea inclinada que pasa cerca del origen con pendiente ≈ −1:
+  la red dispara el motor derecho (que baja θ) cuando **θ + ω > 0** y el izquierdo cuando es
+  negativo. Es un **controlador proporcional-derivativo**: corrige según cuánto está inclinada
+  (θ) y según hacia dónde está girando (ω). El controlador heurístico de Gymnasium tiene la misma
+  forma con pendiente 0,5 (dispara cuando 0,5·θ + ω > 0,05). Los puntos negros se concentran en
+  θ ∈ [−0,3; 0,4], ω ≈ 0: la nave casi nunca se inclina mucho.
+* **Corte posición – velocidad horizontal** (arriba a la izquierda). Si va rápido a la derecha
+  (vx > 0,45) usa el motor izquierdo, que la empuja a la izquierda. **No es simétrico**: por
+  debajo de vx ≈ 0,45 usa el derecho, incluso con vx = 0. Una hipótesis: en el estado fijo la nave
+  baja (vy = −0,3) y la red prefiere ese motor por defecto. Los estados visitados se concentran a
+  la derecha de la plataforma (x ∈ [0; 0,45]), coherente con esa tendencia. Es una
+  **limitación** a mencionar: la política aprendida no respeta la simetría del problema.
+* **Fila de abajo (max Q)**: los valores van de ≈ −50 a ≈ 150. Q es el **retorno descontado
+  esperado**, no una probabilidad. Que Q sea alto con vy = −2 a mucha altura (abajo a la derecha)
+  parece raro, pero es una zona que el agente no visita: la red extrapola.
+
+### 17.3 Figura `cortes_8_semillas_angulo.png`
+
+El corte θ – ω para las **8 semillas** del completo. En **las 8** aparece la misma estructura:
+motor izquierdo abajo, derecho arriba, frontera inclinada cerca del origen. Cambian la pendiente y
+dónde aparecen las zonas de motor principal y de "nada", casi siempre en regiones que no se
+visitan. **Conclusión: la regla de control del ángulo es una propiedad robusta de lo que aprende
+DQN, no un accidente de una semilla.** La figura `cortes_8_semillas_altura.png` hace lo mismo
+para altura – vy.
+
+### 17.4 Figura `cortes_completo_vs_sin_exploracion.png`
+
+Semillas 42 y 7042 (la primera y la última del protocolo), completo contra sin exploración:
+
+* **Sin exploración, semilla 42** (la que se estrella siempre): en el corte de altura usa motor
+  principal para cualquier vy < 0, sin depender de la altura, y los estados visitados muestran
+  caídas mucho más rápidas (vy hasta −1,7) que el completo nunca alcanza. Los 20 episodios terminan
+  en choque. En el corte del ángulo la frontera izquierda/derecha es mucho más plana y aparece una
+  banda ancha de motor principal donde el completo corrige el giro.
+* **Sin exploración, semilla 7042** (la mejor sin exploración): la estructura se parece a la del
+  completo. Aprendió algo razonable **a pesar** de no explorar.
+
+Esto ilustra la sección 15.3: sin exploración, a veces se aprende y a veces no.
+
+### 17.5 Episodios reales: cómo termina cada uno (`metricas_politica.json`)
+
+20 episodios greedy por política (semillas 10 000–10 019), sumados sobre las 8 semillas
+(160 episodios por variante):
+
+| Variante | Posa (+100) | Choca (−100) | Flota hasta el paso 1000 |
+|---|---|---|---|
+| Completo | **101** (63 %) | **7** (4 %) | 52 (33 %) |
+| Sin exploración | 35 (22 %) | 49 (31 %) | 76 (48 %) |
+| Sin replay | 23 (14 %) | **135** (84 %) | 2 (1 %) |
+
+Cómo se clasifica: Gymnasium reemplaza la recompensa del último paso por exactamente +100 si la
+nave queda quieta y −100 si choca o sale; si el episodio se trunca, flotó hasta el paso 1000.
+
+**El hallazgo más útil para el informe**: los fracasos del completo **no son choques**, son
+episodios en los que la nave queda flotando cerca del suelo sin terminar de posarse (y pierde
+puntos por gastar combustible). Las semillas más débiles del completo (3042, 4042, 5042) son las que
+más flotan. Cada ablación falla de forma distinta: sin replay se estrella, sin exploración mezcla
+los dos fracasos.
+
+**Uso de acciones según la altura** (`acciones_por_altura.png`): el completo usa el motor principal
+en ≈ 60 % de los pasos entre altura 0,2 y 1,2, y casi nada arriba de 1,3 (al principio deja caer la
+nave). Cerca del suelo (y < 0,1) aumentan "nada" y el motor izquierdo: son los pasos con las patas
+apoyadas, corrigiendo el equilibrio.
+
+### 17.6 Acuerdo con el controlador heurístico: lo que **no** funcionó
+
+Se midió en qué fracción de los estados visitados la acción del DQN coincide con `heuristic` de
+Gymnasium (un controlador escrito a mano que aterriza bien). Resultado: **≈ 30 %** para el
+completo (23–35 % según la semilla), y valores parecidos o incluso mayores para políticas que se
+estrellan (sin replay 7042: 54 %). **No sirve como medida de calidad**: hay muchas formas distintas
+de aterrizar bien, y el DQN usa el motor principal mucho más seguido que la heurística, que muchas
+veces no hace nada. Queda en las métricas, pero no se usa como argumento en el informe.
+
+---
+
+## 18. El script `analisis_politica.py`, por bloques
+
+```python
+ACCIONES = ['Nada', 'Motor izq. (gira +)', 'Motor principal', 'Motor der. (gira −)']
+ESTADO_FIJO = np.array([0, .8, 0, -.3, 0, 0, 0, 0], dtype=np.float32)
+CORTES = [(0, 2, (-1, 1), (-1.5, 1.5), ...), (4, 5, ...), (1, 3, ...)]
+SEMILLA_EVAL, EPISODIOS = 10_000, 20
+```
+Constantes: nombres de las acciones (con su efecto medido), el estado fijo y los tres cortes
+(índice de la dimensión en x, en y, sus rangos y etiquetas). Los rangos cubren la zona donde vuela
+la nave. Los episodios reales usan semillas de desarrollo y **nunca** las reservadas 30 000+.
+
+```python
+def variante(config):
+    if not config.get('use_target', True): return 'no_target'
+    ...
+```
+Deduce la variante de los interruptores guardados en `config.json` de cada corrida, en vez de
+confiar en el nombre de la carpeta.
+
+```python
+def cargar_red(carpeta):
+    h1, h2 = config['hidden_dims']
+    red = nn.Sequential(nn.Linear(8, h1), nn.ReLU(), nn.Linear(h1, h2), nn.ReLU(), nn.Linear(h2, 4))
+    red.load_state_dict(torch.load(carpeta / 'online_weights.pt', map_location='cpu', weights_only=True))
+    red.eval()
+```
+Reconstruye la red con la misma forma que `AgenteDQN` (las claves `0.weight`, `2.weight` y
+`4.weight` coinciden porque los ReLU ocupan las posiciones 1 y 3) y carga los pesos finales.
+`weights_only=True` evita ejecutar código arbitrario al cargar el archivo. **No se entrena nada.**
+
+```python
+def corte(red, ix, iy, rx, ry):
+    x, y = np.linspace(*rx, RESOLUCION), np.linspace(*ry, RESOLUCION)
+    xx, yy = np.meshgrid(x, y)
+    estados = np.tile(ESTADO_FIJO, (xx.size, 1))
+    estados[:, ix], estados[:, iy] = xx.ravel(), yy.ravel()
+    q = q_de(red, estados).reshape(RESOLUCION, RESOLUCION, 4)
+```
+`meshgrid` arma la grilla de 101 × 101 puntos; `np.tile` repite el estado fijo 10 201 veces y se
+pisan las dos columnas que varían. Una sola pasada de la red evalúa los 10 201 estados, y el
+resultado se vuelve a dar forma de grilla con 4 Q por punto.
+
+```python
+def jugar(red, episodios=EPISODIOS):
+    ...
+            a = int(q_de(red, s[None])[0].argmax())
+    ...
+            fin = 'posado' if terminado and r == 100 else 'choque' if terminado else 'flotando'
+```
+Juega episodios greedy y guarda cada estado y acción. `s[None]` agrega la dimensión de lote. La
+clasificación del final usa que Gymnasium pone exactamente ±100 en el último paso (sección 17.5).
+
+```python
+def acuerdo_heuristica(estados, acciones):
+    env = gym.make('LunarLander-v3').unwrapped
+    esperadas = np.array([heuristic(env, s) for s in estados])
+    return float((esperadas == acciones).mean()), esperadas
+```
+`heuristic(env, s)` es la función de Gymnasium; solo usa `env` para saber si es la versión continua.
+
+```python
+def dibujar_corte(ax_a, ax_q, red, spec, visitados=None, titulo=''):
+    ax_a.pcolormesh(x, y, q.argmax(axis=2), shading='auto', cmap=COLORES, norm=NORMA)
+    if visitados is not None:
+        ax_a.scatter(visitados[:, ix], visitados[:, iy], s=1, c='black', alpha=.15)
+```
+`pcolormesh` pinta cada celda con el color de la acción ganadora (`BoundaryNorm` asigna un color a
+cada entero 0–3). Los estados visitados van encima, semitransparentes, para que se vea dónde se
+concentran.
+
+```python
+    for (var, semilla), (red, carpeta) in sorted(politicas.items()):
+        estados, acciones, finales = jugar(red)
+        ...
+        metricas.append(dict(..., posado=..., choque=..., flotando=..., uso_acciones=..., ...))
+```
+`main` primero juega los episodios de todas las políticas (24: 8 por variante) y guarda las
+métricas. Después arma las cuatro figuras con esos mismos episodios, así los puntos negros y la
+tabla salen de los mismos datos.
+
+```python
+        tramo = np.clip(np.digitize(est[:, 1], bordes) - 1, 0, len(bordes) - 2)
+        fracciones = np.array([[np.mean(acc[tramo == t] == a) ...
+```
+Para `acciones_por_altura.png`: `np.digitize` asigna cada estado a un tramo de altura (15 tramos
+entre 0 y 1,5) y se calcula qué fracción de los pasos de cada tramo usó cada acción. Se dibuja como
+barras horizontales apiladas.
+
+Uso (desde `TAREA2/`, tarda unos 2 minutos):
+
+```bash
+python scripts/analisis_politica.py --runs results/comparison_20261031*/A0*_seed* results/comparison_20261102*/A0*_seed* --output analisis_politica
+```
+
+---
+
+## 19. 2/11: plantilla IEEE y qué tengo que escribir yo
+
+**La letra prohíbe usar IA para redactar el informe** ("No está permitido utilizar herramientas
+de IA para la redacción del informe"). Por eso `informe/informe.tex` tiene:
+
+* El preámbulo IEEE de la Tarea 1 (mismos autores), en español.
+* Las secciones en el orden de los puntos a–e de la letra, con quién escribe cada una.
+* **Tablas con datos** (hiperparámetros de A0, cómo terminan los episodios, ablación parcial) y
+  las figuras de política ya incluidas.
+* Las referencias (Mnih 2015, Sutton y Barto, Gymnasium, Mann-Whitney, Holm).
+* Marcadores rojos `[REDACTAR: …]` con los puntos que debe cubrir cada sección. **Son una guía,
+  no texto para copiar**: hay que borrarlos y escribir con nuestras palabras. Antes de entregar,
+  buscar "REDACTAR" y verificar que no quede ninguno.
+* Un presupuesto de palabras por sección para no pasar las 5 páginas.
+
+No hay LaTeX instalado en esta máquina: compilar en Overleaf (subir `informe.tex` y la carpeta
+`figuras/`). La plantilla todavía no se compiló nunca.
+
+**Lo que me toca escribir a mí** (secciones V y VII), con el material de este documento:
+
+| Sección | Material |
+|---|---|
+| V. Análisis de la política | 17.1 (método), 17.2–17.4 (lectura de figuras), 17.5 (cómo terminan los episodios); aclarar que los cortes son estados sintéticos |
+| VII. Limitaciones | La lista de abajo |
+
+Limitaciones a cubrir (todas verificadas en los datos):
+
+1. **8 semillas**: el efecto de quitar la exploración (−112) no llega a ser significativo; con
+   más semillas podría serlo. "No significativo" no quiere decir "sin efecto".
+2. **300 episodios**: los agentes siguen mejorando (mi agente de 1200 episodios pasa de 219 a 247
+   entre los episodios 600 y 1200). Comparamos políticas "a mitad de camino".
+3. **Reproducibilidad entre máquinas**: misma semilla, distinta máquina o versión de torch ⇒
+   distinto resultado (comprobado por Fran). Cada corrida sigue siendo válida como réplica.
+4. **Semillas de evaluación de desarrollo** (10 000–10 199) también se usaron para calibrar; la
+   evaluación independiente en 30 000+ no se hizo todavía.
+5. **Cortes sintéticos**: estados con seis dimensiones fijas pueden no ser alcanzables; por eso se
+   superponen los estados visitados.
+6. **Definición de "sin replay"** (minilote efectivo 1): otra definición podría dar otro resultado.
+7. **Asimetría de la política** en el corte x – vx, y fracasos por flotar en lugar de posarse.
+
+---
+
+## 20. Estado al 2/11 y pendientes
+
+| | Estado |
+|---|---|
+| Protocolo | Confirmado por Fran y por mí; **falta Thiago** |
+| Test estadístico | Propuesto y programado (`scripts/test_ablacion.py`); falta que el equipo lo confirme y que Fran lo use |
+| Completo (8) | Hecho (Fran) |
+| Sin replay (8) | Hecho (Fran) |
+| Sin exploración (8) | **Hecho (yo)** |
+| Sin red objetivo (8) | **Falta (Thiago)**: no está en GitHub. Hasta que esté, los p de Holm no son finales |
+| Cortes y visualizaciones | **Hecho (yo)** |
+| Plantilla IEEE | **Hecha (yo)**, sin texto y sin compilar |
+| Redactar análisis de política y limitaciones | **Pendiente (yo)**, a mano |
+| Evaluación en semillas reservadas 30 000+ | No se hizo; decidir en equipo si se hace al congelar todo |
+
+Cuando Thiago suba sus corridas, volver a correr los dos scripts agregando sus carpetas:
+
+```bash
+python scripts/test_ablacion.py --runs results/comparison_20261031*/A0*_seed* results/comparison_20261102*/A0*_seed* <carpetas de Thiago> --output ablacion
+python scripts/analisis_politica.py --runs <las mismas carpetas> --output analisis_politica
+```
+
+y completar las filas "pendiente" de las tablas del informe.
+
+---
+
+## 21. Más preguntas probables (parte 2)
+
+**¿Por qué Mann-Whitney y no t de Student?** No supone normalidad; con 8 valores bimodales no se
+puede verificar. Además lo fijamos antes de ver los datos.
+
+**¿Por qué corregir por tres comparaciones?** Con tres tests a 5 % la chance de al menos un falso
+positivo es ≈ 14 %. Holm la baja a 5 % y es menos conservador que Bonferroni.
+
+**Wilcoxon da significativo para "sin exploración", ¿por qué no lo usan?** Porque el test se
+fijó antes, y cambiarlo después de ver cuál da p < 0,05 invalida el p. Se reporta como sensibilidad
+y se discute.
+
+**Entonces, ¿la exploración no sirve?** No es eso. En promedio es 112 puntos peor y pierde en 7 de
+8 semillas; con 8 semillas y esa variabilidad no alcanza para descartar el azar. Además, en la
+Parte 1 (5 semillas, 600 episodios, otra configuración) sí fue significativo (p = 0,016).
+
+**¿Por qué sin exploración a veces aprende?** El entorno da variedad propia (empujón inicial al
+azar) y la red inicial actúa casi al azar. Es exploración "gratis" pero no controlada: depende de
+la suerte de la semilla.
+
+**¿Qué aprendió la política?** Un controlador proporcional-derivativo para el ángulo
+(θ + ω > 0 ⇒ motor que baja θ) y un freno con el motor principal cuya velocidad límite depende de
+la altura. La regla del ángulo aparece en las 8 semillas.
+
+**¿Los cortes muestran estados reales?** No necesariamente: fijan seis dimensiones. Por eso
+superponemos los estados visitados y solo interpretamos las zonas donde hay puntos.
+
+**¿Por qué fallan los episodios del completo?** Dos de cada tres fracasos son flotar hasta el paso
+1000 sin posarse, no choques (7 choques en 160 episodios).

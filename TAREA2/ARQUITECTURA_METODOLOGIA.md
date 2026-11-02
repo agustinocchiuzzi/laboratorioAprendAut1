@@ -1,4 +1,6 @@
-# Arquitectura y metodología — texto base para el informe
+# Arquitectura y metodología — apuntes de estudio asistidos por IA
+
+**No usar este archivo como texto del informe.** Se conserva como material explicativo del código. La consigna original, página 2, indica: «No está permitido utilizar herramientas de IA para la redacción del informe». El equipo debe escribir sus propias secciones; este archivo no forma parte del informe IEEE. Fuente: `Tarea - Aprendizaje por Refuerzos (2026).pdf`.
 
 Texto basado en la implementación y las corridas validadas de Thiago y Fran. Describe el protocolo ejecutado; el equipo debe confirmar que sus demás corridas coincidan antes de redactarlo como un estudio completo de 32 políticas. Adaptar su extensión al informe IEEE de hasta 5 páginas.
 
@@ -48,14 +50,6 @@ Las curvas conservan el retorno original por episodio y muestran una media móvi
 
 Cada corrida guarda configuración, versiones de paquetes, revisión Git, hash SHA-256 del notebook fuente, datos de entrenamiento y evaluación, métricas y pesos finales. Se valida que las métricas coincidan con los retornos originales, que el presupuesto y las semillas sean correctos y que no existan duplicados en el conjunto seleccionado. Las corridas de bajo rendimiento se conservan. Repeticiones por fallos técnicos deben justificarse y documentarse.
 
-## Estado al 2/11
+## Estado actualizado al cierre del 2/11
 
-Después de actualizar Git, están verificadas las 11 corridas de Thiago y 16 de Fran: ocho sin red objetivo, ocho sin replay y once ejecuciones del completo, con tres semillas repetidas entre máquinas. El notebook integra provisionalmente 24 combinaciones únicas: conserva las tres completas de Thiago y agrega las cinco semillas restantes de Fran, además de las dos ablaciones completas. La selección sigue disponibilidad y el reparto previo, sin usar el rendimiento. Las tres ejecuciones adicionales del completo de Fran se conservan y permiten una comparación de replay dentro de su propio entorno. El equipo debe confirmar qué conjunto de referencia adoptará para los contrastes finales.
-
-La referencia provisional mezcla ejecuciones macOS ARM/PyTorch 2.14.1 y Windows/PyTorch 2.15.0+cpu. Las semillas iguales no producen necesariamente las mismas trayectorias entre plataformas y no eliminan ese posible factor de confusión. Las comparaciones deben identificar esa limitación; conviene presentar también las ocho comparaciones replay/completo ejecutadas enteramente por Fran. Los tiempos de Fran incluyen procesos concurrentes y no son medidas aisladas de eficiencia.
-
-El archivo fuente `lander.ipynb` es idéntico en Git entre la integración y la rama de Fran. Los distintos hashes SHA-256 registrados corresponden exactamente a codificaciones de saltos de línea LF y CRLF, lo que se verificó con el contenido fuente. No se interpreta esa diferencia de archivo como un cambio de algoritmo.
-
-Faltan en Git las ocho corridas finales sin exploración de Agustín. `entrega_borrador.ipynb` integra código y datos disponibles de forma autocontenida, pero sigue siendo un borrador: faltan esa condición, los tests estadísticos, el análisis definitivo de política y la revisión conjunta. El script de Fran produce comparaciones descriptivas y todavía no aplica tests. Su protocolo registra aprobación de Fran y espera confirmación del equipo; A0 fue seleccionada también por Thiago en esta conversación.
-
-El informe necesita las referencias bibliográficas que revise Agustín; este texto no sustituye su integración al formato IEEE ni la verificación del límite de páginas.
+Las 32 políticas están integradas: completo y sin replay de Fran, sin red objetivo de Thiago y sin exploración de Agustín, ocho semillas por condición. Las tres completas de Thiago se conservan aparte. El notebook incorpora las cuatro condiciones, cortes, GIF y los métodos estadísticos propuestos. La revisión metodológica, la redacción propia del informe y la verificación de sus cinco páginas siguen pendientes. Ver `CIERRE_02_11.md` y `analysis/team_study/README.md` para los artefactos actuales.

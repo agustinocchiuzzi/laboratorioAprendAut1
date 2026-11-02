@@ -31,7 +31,7 @@ def main():
             nbformat.write(notebook, path)
         assert not any(output.output_type == 'error' for cell in notebook.cells if cell.cell_type == 'code'
             for output in cell.get('outputs', []))
-        output = ROOT / 'preparation/reunion_20261102'
+        output = ROOT / 'analysis/team_study'
         output.mkdir(parents=True, exist_ok=True)
         plots = []
         for cell in notebook.cells:
@@ -41,6 +41,8 @@ def main():
                     dest = output / f'notebook_figure_{len(plots)+1}.png'
                     dest.write_bytes(base64.b64decode(data['image/png']))
                     plots.append(str(dest))
+                if 'image/gif' in data:
+                    (output / 'notebook_rollouts.gif').write_bytes(base64.b64decode(data['image/gif']))
         print('OK: execution in a fresh kernel from an empty temporary directory; embedded data/weights only.')
         print('Figures:', plots)
 
