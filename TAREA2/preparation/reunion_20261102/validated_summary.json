@@ -1,0 +1,261 @@
+{
+  "protocol_status": "draft_for_team_discussion",
+  "variants": {
+    "full": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": 167.22493629702802,
+          "successes": 113,
+          "evaluation_episodes": 200,
+          "training_steps": 152500,
+          "training_seconds": 33.62864929200441
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": 209.75854529259703,
+          "successes": 146,
+          "evaluation_episodes": 200,
+          "training_steps": 136486,
+          "training_seconds": 30.55979420800577
+        },
+        {
+          "training_seed": 2042,
+          "mean_return": 191.32405793224228,
+          "successes": 105,
+          "evaluation_episodes": 200,
+          "training_steps": 160541,
+          "training_seconds": 36.89109279200784
+        },
+        {
+          "training_seed": 3042,
+          "mean_return": 69.52493558416161,
+          "successes": 7,
+          "evaluation_episodes": 200,
+          "training_steps": 155482,
+          "training_seconds": 111.94811510000727
+        },
+        {
+          "training_seed": 4042,
+          "mean_return": 60.49713230725268,
+          "successes": 69,
+          "evaluation_episodes": 200,
+          "training_steps": 165167,
+          "training_seconds": 103.95413289999124
+        },
+        {
+          "training_seed": 5042,
+          "mean_return": 121.94483585226064,
+          "successes": 72,
+          "evaluation_episodes": 200,
+          "training_steps": 143546,
+          "training_seconds": 90.28796830002102
+        },
+        {
+          "training_seed": 6042,
+          "mean_return": 203.1536865236737,
+          "successes": 143,
+          "evaluation_episodes": 200,
+          "training_steps": 155138,
+          "training_seconds": 96.9358213999949
+        },
+        {
+          "training_seed": 7042,
+          "mean_return": 208.70298285198322,
+          "successes": 140,
+          "evaluation_episodes": 200,
+          "training_steps": 126703,
+          "training_seconds": 79.85521280000103
+        }
+      ],
+      "mean_across_training_seeds": 154.0163890801499,
+      "training_seed_sample_sd": 62.09653201733429,
+      "missing_training_seeds": []
+    },
+    "no_target": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": 140.2766868575271,
+          "successes": 108,
+          "evaluation_episodes": 200,
+          "training_steps": 135349,
+          "training_seconds": 29.892167750003864
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": -211.87771860427947,
+          "successes": 0,
+          "evaluation_episodes": 200,
+          "training_steps": 98035,
+          "training_seconds": 20.366817875008564
+        },
+        {
+          "training_seed": 2042,
+          "mean_return": 189.31836771273248,
+          "successes": 118,
+          "evaluation_episodes": 200,
+          "training_steps": 166553,
+          "training_seconds": 37.16990416600311
+        },
+        {
+          "training_seed": 3042,
+          "mean_return": 20.619465149454733,
+          "successes": 6,
+          "evaluation_episodes": 200,
+          "training_steps": 126227,
+          "training_seconds": 47.12062541600608
+        },
+        {
+          "training_seed": 4042,
+          "mean_return": 0.698526515811606,
+          "successes": 5,
+          "evaluation_episodes": 200,
+          "training_steps": 155550,
+          "training_seconds": 32.995298000008916
+        },
+        {
+          "training_seed": 5042,
+          "mean_return": 81.69904993080287,
+          "successes": 38,
+          "evaluation_episodes": 200,
+          "training_steps": 126589,
+          "training_seconds": 26.821688458003337
+        },
+        {
+          "training_seed": 6042,
+          "mean_return": 149.74570031615985,
+          "successes": 69,
+          "evaluation_episodes": 200,
+          "training_steps": 153485,
+          "training_seconds": 32.37581120899995
+        },
+        {
+          "training_seed": 7042,
+          "mean_return": 7.025100123170327,
+          "successes": 8,
+          "evaluation_episodes": 200,
+          "training_steps": 159814,
+          "training_seconds": 49.73247720800282
+        }
+      ],
+      "mean_across_training_seeds": 47.188147250172435,
+      "training_seed_sample_sd": 126.58757712673359,
+      "missing_training_seeds": []
+    },
+    "no_replay": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": -28.178479341462968,
+          "successes": 1,
+          "evaluation_episodes": 200,
+          "training_steps": 91990,
+          "training_seconds": 52.49485249999998
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": 122.84725689962164,
+          "successes": 86,
+          "evaluation_episodes": 200,
+          "training_steps": 63829,
+          "training_seconds": 36.52982350000093
+        },
+        {
+          "training_seed": 2042,
+          "mean_return": 6.176773550732372,
+          "successes": 0,
+          "evaluation_episodes": 200,
+          "training_steps": 106776,
+          "training_seconds": 60.14504200000374
+        },
+        {
+          "training_seed": 3042,
+          "mean_return": -129.49044486113416,
+          "successes": 0,
+          "evaluation_episodes": 200,
+          "training_steps": 66230,
+          "training_seconds": 38.02499569999782
+        },
+        {
+          "training_seed": 4042,
+          "mean_return": -129.23664931537166,
+          "successes": 0,
+          "evaluation_episodes": 200,
+          "training_steps": 97625,
+          "training_seconds": 55.15729110000393
+        },
+        {
+          "training_seed": 5042,
+          "mean_return": 107.60823491289999,
+          "successes": 67,
+          "evaluation_episodes": 200,
+          "training_steps": 75651,
+          "training_seconds": 42.94301149999956
+        },
+        {
+          "training_seed": 6042,
+          "mean_return": 38.342202260098546,
+          "successes": 31,
+          "evaluation_episodes": 200,
+          "training_steps": 94588,
+          "training_seconds": 52.89507329999469
+        },
+        {
+          "training_seed": 7042,
+          "mean_return": 5.141555062381358,
+          "successes": 4,
+          "evaluation_episodes": 200,
+          "training_steps": 88765,
+          "training_seconds": 49.35047639999539
+        }
+      ],
+      "mean_across_training_seeds": -0.8486938540293615,
+      "training_seed_sample_sd": 94.4637834058833,
+      "missing_training_seeds": []
+    },
+    "no_exploration": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    }
+  },
+  "sources": [
+    "results/comparison_20261101T220036_407013Z/A0_no_target_seed42",
+    "results/comparison_20261101T220308_894362Z/A0_seed42",
+    "results/comparison_20261101T220354_300376Z/A0_no_target_seed1042",
+    "results/comparison_20261101T220420_336130Z/A0_no_target_seed2042",
+    "results/comparison_20261101T220507_516940Z/A0_no_target_seed3042",
+    "results/comparison_20261101T220609_838850Z/A0_no_target_seed4042",
+    "results/comparison_20261101T220648_523949Z/A0_no_target_seed5042",
+    "results/comparison_20261101T220727_859502Z/A0_no_target_seed6042",
+    "results/comparison_20261101T220812_457694Z/A0_no_target_seed7042",
+    "results/comparison_20261101T220918_008885Z/A0_seed1042",
+    "results/comparison_20261101T220958_025937Z/A0_seed2042",
+    "results/comparison_20261031T172932_700486Z/A0_no_replay_seed42",
+    "results/comparison_20261031T172934_265556Z/A0_no_replay_seed1042",
+    "results/comparison_20261031T172936_332164Z/A0_no_replay_seed2042",
+    "results/comparison_20261031T172938_474464Z/A0_no_replay_seed3042",
+    "results/comparison_20261031T172940_323746Z/A0_no_replay_seed4042",
+    "results/comparison_20261031T172942_212531Z/A0_no_replay_seed5042",
+    "results/comparison_20261031T172944_154688Z/A0_no_replay_seed6042",
+    "results/comparison_20261031T172946_364487Z/A0_no_replay_seed7042",
+    "results/comparison_20261102T170553_263692Z/A0_seed5042",
+    "results/comparison_20261102T170553_264685Z/A0_seed4042",
+    "results/comparison_20261102T170553_722082Z/A0_seed6042",
+    "results/comparison_20261102T170555_369328Z/A0_seed7042",
+    "results/comparison_20261102T170815_908499Z/A0_seed3042"
+  ],
+  "complete": false,
+  "statistical_tests": "Not performed; choose test and assumptions with the team. Evaluation episodes are not independent trained policies."
+}

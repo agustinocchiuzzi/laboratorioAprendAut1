@@ -1,0 +1,18 @@
+{
+  "configuration": "A0_no_target",
+  "training_seed": 2042,
+  "completed_episodes": 300,
+  "total_steps": 166553,
+  "optimizer_updates": 41389,
+  "training_seconds": 37.16990416600311,
+  "steps_per_second": 4480.856320106825,
+  "final_epsilon": 0.050000000000000044,
+  "online_parameters": 4996,
+  "evaluation_seconds": 6.310346166006639,
+  "mean_return": 189.31836771273248,
+  "median_return": 218.54721178195192,
+  "std_return": 94.27795492501173,
+  "std_ddof": 0,
+  "successes": 118,
+  "evaluated": 200
+}

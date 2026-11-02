@@ -1,0 +1,50 @@
+{
+  "status": "partial_24_of_32_provisional_selection",
+  "source_remote": "origin/FranAblacion",
+  "remote_commit": "0686cbf5979b5569578905d83af53410653d257b",
+  "selected_runs": [
+    "results/comparison_20261101T220036_407013Z/A0_no_target_seed42",
+    "results/comparison_20261101T220308_894362Z/A0_seed42",
+    "results/comparison_20261101T220354_300376Z/A0_no_target_seed1042",
+    "results/comparison_20261101T220420_336130Z/A0_no_target_seed2042",
+    "results/comparison_20261101T220507_516940Z/A0_no_target_seed3042",
+    "results/comparison_20261101T220609_838850Z/A0_no_target_seed4042",
+    "results/comparison_20261101T220648_523949Z/A0_no_target_seed5042",
+    "results/comparison_20261101T220727_859502Z/A0_no_target_seed6042",
+    "results/comparison_20261101T220812_457694Z/A0_no_target_seed7042",
+    "results/comparison_20261101T220918_008885Z/A0_seed1042",
+    "results/comparison_20261101T220958_025937Z/A0_seed2042",
+    "results/comparison_20261031T172932_700486Z/A0_no_replay_seed42",
+    "results/comparison_20261031T172934_265556Z/A0_no_replay_seed1042",
+    "results/comparison_20261031T172936_332164Z/A0_no_replay_seed2042",
+    "results/comparison_20261031T172938_474464Z/A0_no_replay_seed3042",
+    "results/comparison_20261031T172940_323746Z/A0_no_replay_seed4042",
+    "results/comparison_20261031T172942_212531Z/A0_no_replay_seed5042",
+    "results/comparison_20261031T172944_154688Z/A0_no_replay_seed6042",
+    "results/comparison_20261031T172946_364487Z/A0_no_replay_seed7042",
+    "results/comparison_20261102T170553_263692Z/A0_seed5042",
+    "results/comparison_20261102T170553_264685Z/A0_seed4042",
+    "results/comparison_20261102T170553_722082Z/A0_seed6042",
+    "results/comparison_20261102T170555_369328Z/A0_seed7042",
+    "results/comparison_20261102T170815_908499Z/A0_seed3042"
+  ],
+  "additional_reference_duplicates": [
+    "results/comparison_20261031T172948_767233Z/A0_seed42",
+    "results/comparison_20261031T172950_978673Z/A0_seed1042",
+    "results/comparison_20261031T172952_979246Z/A0_seed2042"
+  ],
+  "missing": [
+    "no_exploration_seed42",
+    "no_exploration_seed1042",
+    "no_exploration_seed2042",
+    "no_exploration_seed3042",
+    "no_exploration_seed4042",
+    "no_exploration_seed5042",
+    "no_exploration_seed6042",
+    "no_exploration_seed7042"
+  ],
+  "selection_rule": "Keep Thiago full seeds 42/1042/2042; add Fran full 3042..7042. No selection by score. Team confirmation pending.",
+  "platform_limitation": "Mixed macOS ARM/PyTorch 2.14.1 and Windows/PyTorch 2.15.0+cpu. Same-platform replay comparison retained separately.",
+  "verification": "25 notebook cells executed in a fresh kernel from an empty directory. No training or reserved evaluation performed.",
+  "notebook_sha256": "163abaabe307fc50d2046bccc60cc7e255c9a8e4f2d136266ff00887d85a2320"
+}

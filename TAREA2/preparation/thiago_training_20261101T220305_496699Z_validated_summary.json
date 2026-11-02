@@ -1,0 +1,158 @@
+{
+  "protocol_status": "draft_for_team_discussion",
+  "variants": {
+    "full": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": 167.22493629702802,
+          "successes": 113,
+          "evaluation_episodes": 200,
+          "training_steps": 152500,
+          "training_seconds": 33.62864929200441
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": 209.75854529259703,
+          "successes": 146,
+          "evaluation_episodes": 200,
+          "training_steps": 136486,
+          "training_seconds": 30.55979420800577
+        },
+        {
+          "training_seed": 2042,
+          "mean_return": 191.32405793224228,
+          "successes": 105,
+          "evaluation_episodes": 200,
+          "training_steps": 160541,
+          "training_seconds": 36.89109279200784
+        }
+      ],
+      "mean_across_training_seeds": 189.43584650728909,
+      "training_seed_sample_sd": 21.329579938104267,
+      "missing_training_seeds": [
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    },
+    "no_target": {
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "mean_return": 140.2766868575271,
+          "successes": 108,
+          "evaluation_episodes": 200,
+          "training_steps": 135349,
+          "training_seconds": 29.892167750003864
+        },
+        {
+          "training_seed": 1042,
+          "mean_return": -211.87771860427947,
+          "successes": 0,
+          "evaluation_episodes": 200,
+          "training_steps": 98035,
+          "training_seconds": 20.366817875008564
+        },
+        {
+          "training_seed": 2042,
+          "mean_return": 189.31836771273248,
+          "successes": 118,
+          "evaluation_episodes": 200,
+          "training_steps": 166553,
+          "training_seconds": 37.16990416600311
+        },
+        {
+          "training_seed": 3042,
+          "mean_return": 20.619465149454733,
+          "successes": 6,
+          "evaluation_episodes": 200,
+          "training_steps": 126227,
+          "training_seconds": 47.12062541600608
+        },
+        {
+          "training_seed": 4042,
+          "mean_return": 0.698526515811606,
+          "successes": 5,
+          "evaluation_episodes": 200,
+          "training_steps": 155550,
+          "training_seconds": 32.995298000008916
+        },
+        {
+          "training_seed": 5042,
+          "mean_return": 81.69904993080287,
+          "successes": 38,
+          "evaluation_episodes": 200,
+          "training_steps": 126589,
+          "training_seconds": 26.821688458003337
+        },
+        {
+          "training_seed": 6042,
+          "mean_return": 149.74570031615985,
+          "successes": 69,
+          "evaluation_episodes": 200,
+          "training_steps": 153485,
+          "training_seconds": 32.37581120899995
+        },
+        {
+          "training_seed": 7042,
+          "mean_return": 7.025100123170327,
+          "successes": 8,
+          "evaluation_episodes": 200,
+          "training_steps": 159814,
+          "training_seconds": 49.73247720800282
+        }
+      ],
+      "mean_across_training_seeds": 47.188147250172435,
+      "training_seed_sample_sd": 126.58757712673359,
+      "missing_training_seeds": []
+    },
+    "no_replay": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    },
+    "no_exploration": {
+      "per_training_seed": [],
+      "mean_across_training_seeds": null,
+      "training_seed_sample_sd": null,
+      "missing_training_seeds": [
+        42,
+        1042,
+        2042,
+        3042,
+        4042,
+        5042,
+        6042,
+        7042
+      ]
+    }
+  },
+  "sources": [
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220036_407013Z/A0_no_target_seed42",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220308_894362Z/A0_seed42",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220354_300376Z/A0_no_target_seed1042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220420_336130Z/A0_no_target_seed2042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220507_516940Z/A0_no_target_seed3042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220609_838850Z/A0_no_target_seed4042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220648_523949Z/A0_no_target_seed5042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220727_859502Z/A0_no_target_seed6042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220812_457694Z/A0_no_target_seed7042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220918_008885Z/A0_seed1042",
+    "/Users/thiago.rivas/Documents/varios/FING/aprendaut/laboratorioAprendAut2/laboratorioAprendAut1/TAREA2/results/comparison_20261101T220958_025937Z/A0_seed2042"
+  ],
+  "complete": false,
+  "statistical_tests": "Not performed; choose test and assumptions with the team. Evaluation episodes are not independent trained policies."
+}
