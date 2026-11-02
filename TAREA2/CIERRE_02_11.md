@@ -52,3 +52,7 @@ python -m unittest discover -s TAREA2/tests -v
 ```
 
 `assemble_team_study.py` no entrena. Las salidas de las ejecuciones originales se conservan; una reevaluación en otra plataforma no las reemplaza. `requirements-analysis-lock.txt` registra el entorno de la verificación actual; el lock anterior corresponde al entorno histórico de A.
+
+## Limpieza y plataformas
+
+Ver `REFERENCIAS_LIMPIEZA.md` para el historial retirado y `PLATAFORMAS.md` para las diferencias documentadas entre macOS y Windows y su efecto sobre la interpretación.

@@ -1,63 +1,33 @@
-# LunarLander DQN — integración de Tarea 2
+# Tarea 2 — LunarLander DQN
 
-## Cierre integrado del 2/11
+Entrada para la entrega y su reproducción. La limpieza afecta únicamente a `TAREA2/` del repositorio.
 
-- [Estado actual y próximos pasos](CIERRE_02_11.md).
-- [Notebook candidato ejecutado y autocontenido](entrega_borrador.ipynb): 32 políticas, curvas, GIF, cortes y tests. Revisión final del equipo pendiente.
-- [Resultados conjuntos y selección de corridas](analysis/team_study/README.md).
-- [Informe IEEE editable](informe/informe.tex): tablas actualizadas; el texto debe ser escrito por el equipo y aún hay marcadores `REDACTAR`.
-- [Protocolo de entrenamiento integrado](protocols/team_final.json): método estadístico propuesto ejecutado para revisión, sin afirmar aprobación de supuestos.
+- [Notebook integrado ejecutado](entrega_borrador.ipynb): candidato autocontenido con resultados, pesos, curvas, GIF y cortes.
+- [Informe IEEE](informe/informe.tex): todavía requiere redacción del equipo, compilación y revisión de los marcadores `REDACTAR`.
+- [Estado y pendientes](CIERRE_02_11.md).
+- [Resultados conjuntos](analysis/team_study/README.md) y [protocolo](protocols/team_final.json): 32 políticas seleccionadas, ocho por condición.
+- [Diferencias entre plataformas](PLATAFORMAS.md): procedencia y límites para interpretar las ablaciones.
+- [Apuntes de arquitectura](ARQUITECTURA_METODOLOGIA.md).
+- [Referencias históricas y registro de limpieza](REFERENCIAS_LIMPIEZA.md): documentos anteriores íntegros, inventario y recuperación desde Git.
 
-La documentación que sigue describe la integración inicial; para el estado actual usar los enlaces anteriores. Los archivos de `preparation/thiago_*` y `preparation/reunion_20261102/` son instantáneas parciales anteriores.
+Se conservan `results/` con datos y pesos originales, `preparation/` con procedencia y fuentes del ensamblado, `analisis_politica/`, figuras del informe, protocolos, scripts y tests. No borrar esas fuentes: permiten reproducir y auditar el estudio. `lander.ipynb` es el cuaderno común para entrenamiento; `course_template.ipynb` conserva la plantilla docente. `AgustinAgente/EXPLICACION_AgenteDQN.md` se conserva porque el informe lo referencia.
 
-El trabajo de Thiago (A), Fran (B) y Agustín (C) está reunido en la rama
-`integration/assignment-2`. La integración modifica únicamente `TAREA2/`.
-
-- [Integración, ramas revisadas, evidencia y plan de cierre](INTEGRATION.md)
-- [Cuaderno común editable](lander.ipynb)
-- [Piloto de integración ejecutado](integration-pilot_results.ipynb)
-- [Original de Fran: replay](LunarLander_DQN_B.ipynb)
-- [Original de Agustín: exploración](AgustinAgente/LunarLander_DQN_AgustinAgente.ipynb)
-- [Propuesta para el estudio final](protocols/team_draft.json)
-- [Herramientas y decisiones pendientes del equipo](TEAM_AGREEMENT.md)
-
-Desde `TAREA2/`, usando el entorno ya instalado en esta máquina:
+Desde `TAREA2/`, crear un entorno con Python 3.12 e instalar dependencias:
 
 ```sh
-../../.venv/bin/python scripts/run_notebook.py --mode integration-pilot
-../../.venv/bin/python -m unittest discover -s tests -v
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
-En otra máquina, crear un entorno e instalar `requirements.txt`; usar su Python
-en lugar de `../../.venv/bin/python`. `requirements-lock.txt` conserva las versiones
-del entorno de A. El notebook original de C instala además SciPy para sus tests
-estadísticos; la integración común no depende de SciPy.
+En Windows usar `.venv\Scripts\python.exe`. En esta máquina también está disponible el entorno `../../.venv`. `requirements-analysis-lock.txt` registra el entorno de análisis actual; `requirements-lock.txt`, el entorno histórico de A.
 
-El agente común permite desactivar red objetivo, replay o exploración por separado.
-También admite capacidades distintas de replay, exploración lineal por episodios,
-lineal por pasos o exponencial por episodios, y red objetivo dura o suave. Los defaults
-conservan A0. El piloto usa 20 episodios de entrenamiento y 10 de evaluación por
-condición; comprueba funcionamiento, no rendimiento final.
-
-Para una corrida seleccionada de 300 episodios y 200 evaluaciones, indicar
-`--mode comparison` explícitamente:
+Reproducir el ensamblado y verificar el notebook sin entrenar:
 
 ```sh
-../../.venv/bin/python scripts/run_notebook.py --mode comparison --config A0 --seed 42 --variant full
-../../.venv/bin/python scripts/run_notebook.py --mode comparison --config A0 --seed 42 --variant no_replay
+python scripts/assemble_team_study.py
+python scripts/build_delivery_draft.py --replace-draft
+python scripts/verify_delivery_draft.py
 ```
 
-Las otras variantes son `no_target` y `no_exploration`. `--mode pilot --config A0`
-respeta el presupuesto corto. Las opciones `--epsilon-schedule`, `--replay-capacity`
-y `--target-update` requieren `--config` y quedan registradas en `config.json`.
-Cada ejecución crea una carpeta nueva. No ejecutar varios experimentos en el mismo
-proceso/kernel: el constructor fija generadores globales.
-
-Los resultados históricos tienen presupuestos y configuraciones diferentes.
-El estudio final con una referencia común, las comparaciones estadísticas y el
-informe IEEE siguen pendientes. Los cortes de política de A están disponibles en
-`preparation/A0_seed42_policy_slices/` y pueden regenerarse con
-`scripts/study_tools.py slices`.
-
-Documentación histórica de A: [introducción](START_HERE_A.md),
-[resultados iniciales](RUN_STATUS_A.md), [comandos originales](README_A.md).
+Estos comandos actualizan los artefactos generados. Para nuevas corridas, consultar `python scripts/run_notebook.py --help`; cada corrida guarda configuración, semillas y versiones. El paquete a entregar debe incluir el notebook y el informe definitivo según la consigna. El estado actual aún requiere revisión del equipo.
