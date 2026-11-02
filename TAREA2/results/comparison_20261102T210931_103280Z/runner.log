@@ -1,0 +1,29 @@
+Episodio    15 | Recompensa media (100 ep):  -631.86 | Longitud media:   70.0 | epsilon: 0.000 |     0s
+Episodio    30 | Recompensa media (100 ep):  -424.98 | Longitud media:   73.1 | epsilon: 0.000 |     2s
+Episodio    45 | Recompensa media (100 ep):  -336.20 | Longitud media:   83.3 | epsilon: 0.000 |     3s
+Episodio    60 | Recompensa media (100 ep):  -314.17 | Longitud media:  221.7 | epsilon: 0.000 |    14s
+Episodio    75 | Recompensa media (100 ep):  -279.51 | Longitud media:  364.7 | epsilon: 0.000 |    29s
+Episodio    90 | Recompensa media (100 ep):  -255.27 | Longitud media:  438.0 | epsilon: 0.000 |    42s
+Episodio   105 | Recompensa media (100 ep):  -208.28 | Longitud media:  430.8 | epsilon: 0.000 |    47s
+Episodio   120 | Recompensa media (100 ep):  -150.86 | Longitud media:  470.9 | epsilon: 0.000 |    52s
+Episodio   135 | Recompensa media (100 ep):  -142.33 | Longitud media:  509.8 | epsilon: 0.000 |    58s
+Episodio   150 | Recompensa media (100 ep):  -132.24 | Longitud media:  567.5 | epsilon: 0.000 |    69s
+Episodio   165 | Recompensa media (100 ep):  -127.16 | Longitud media:  530.9 | epsilon: 0.000 |    78s
+Episodio   180 | Recompensa media (100 ep):  -123.58 | Longitud media:  499.5 | epsilon: 0.000 |    89s
+Episodio   195 | Recompensa media (100 ep):  -119.80 | Longitud media:  529.8 | epsilon: 0.000 |   102s
+Episodio   210 | Recompensa media (100 ep):  -114.56 | Longitud media:  629.8 | epsilon: 0.000 |   118s
+Episodio   225 | Recompensa media (100 ep):   -90.72 | Longitud media:  714.9 | epsilon: 0.000 |   135s
+Episodio   240 | Recompensa media (100 ep):   -71.95 | Longitud media:  750.0 | epsilon: 0.000 |   146s
+Episodio   255 | Recompensa media (100 ep):   -47.99 | Longitud media:  797.1 | epsilon: 0.000 |   158s
+Episodio   270 | Recompensa media (100 ep):   -12.77 | Longitud media:  805.0 | epsilon: 0.000 |   169s
+Episodio   285 | Recompensa media (100 ep):    30.00 | Longitud media:  781.5 | epsilon: 0.000 |   175s
+Episodio   300 | Recompensa media (100 ep):    76.80 | Longitud media:  696.1 | epsilon: 0.000 |   180s
+Tiempo total de entrenamiento: 180s
+
+A0_no_exploration semilla 7042 - Resultados de evaluación:
+Tasa de éxito (R ≥ 200): 61.5%
+Recompensa promedio: 180.33
+Recompensa mediana:  219.27
+Desviación estándar: 108.53
+Total de éxitos: 123 / 200
+Guardado en results\comparison_20261102T210931_103280Z\A0_no_exploration_seed7042; 926 pasos/s
