@@ -1,0 +1,17 @@
+{
+  "notebook_sha256": "2e729b7a65bc2540e01e32815cbeb14af1bd78a6c88a455f3ecef19b2a619dca",
+  "notebook_schema_valid": true,
+  "notebook_cells": 68,
+  "code_cells": 36,
+  "fresh_kernel_execution": "pending_C01",
+  "validation_scope": "H01: new cells executed in isolation with all file/network/process I/O denied; ordinary Python traversal in temporary cwd with repository reads/network/processes forbidden; original outputs preserved",
+  "static_evidence": "seguimiento/H01_validacion.json",
+  "historical_verification": "verificacion_pre_H01.json",
+  "historical_notebook_sha256": "5fa7879fa8f9b4dcf717b392f8f71d0319143ddb2ff7f17724a95e7a39f218bd",
+  "stored_outputs_provenance": "H01 outputs freshly computed from embedded originals; replay outputs copied from historical source. Other outputs preserved; ordinary traversal outputs were not substituted.",
+  "manifest_matches": true,
+  "pdf_sha256": "8c4f69838c781340d02e50c24cf7b1cc2683c065f7d347bfa2bb01e6fb8476b6",
+  "pdf_validation": "Unchanged; see historical verification.",
+  "checked_date_local": "2026-11-04",
+  "ordinary_traversal_evidence": "seguimiento/H01_recorrido.json"
+}

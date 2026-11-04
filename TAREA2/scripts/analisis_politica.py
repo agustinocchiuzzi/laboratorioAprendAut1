@@ -43,9 +43,9 @@ NOMBRES = {'full': 'Completo', 'no_exploration': 'Sin exploración',
 # Mismos cortes y estado fijo que `study_tools.py slices`, para que sean comparables.
 ESTADO_FIJO = np.array([0, .8, 0, -.3, 0, 0, 0, 0], dtype=np.float32)
 CORTES = [  # (índice x, índice y, rango x, rango y, etiqueta x, etiqueta y)
-    (0, 2, (-1, 1), (-1.5, 1.5), 'x (posición horizontal)', 'vx (velocidad horizontal)'),
-    (4, 5, (-.7, .7), (-1.5, 1.5), 'θ (ángulo)', 'ω (velocidad angular)'),
-    (1, 3, (.1, 1.5), (-2, 1), 'y (altura)', 'vy (velocidad vertical)'),
+    (0, 2, (-1, 1), (-1.5, 1.5), 'x (obs. escalada)', 'vx (obs. escalada)'),
+    (4, 5, (-.7, .7), (-1.5, 1.5), 'θ (rad)', 'ω (obs. escalada)'),
+    (1, 3, (.1, 1.5), (-2, 1), 'y (obs. escalada)', 'vy (obs. escalada)'),
 ]
 SEMILLA_EVAL, EPISODIOS = 10_000, 20
 RESOLUCION = 101

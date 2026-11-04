@@ -4,11 +4,14 @@ Unidad de análisis: la recompensa media de evaluación (200 episodios greedy,
 semillas 10000-10199) de cada política entrenada. Cada condición aporta 8 números,
 uno por semilla de entrenamiento.
 
-Test principal: U de Mann-Whitney bilateral, completo contra cada ablación.
+Propuesta original: U de Mann-Whitney bilateral, completo contra cada ablación.
+Revisión R01 posterior: interpretar Wilcoxon por bloques de semilla, condicionado
+a independencia entre bloques y simetría; MW queda complementario condicionado.
 Corrección: Holm-Bonferroni sobre las 3 comparaciones planeadas (alfa = 0.05).
-Análisis de sensibilidad: Wilcoxon de rangos con signo emparejando por semilla.
+Wilcoxon se había presentado originalmente como sensibilidad; no es prerregistro.
 Tamaños de efecto: diferencia de medias, de medianas, estimador de Hodges-Lehmann
-y probabilidad de superioridad P(completo > ablación) = U / (n1 * n2).
+y proporción descriptiva de superioridad entre todos los cruces = U / (n1 * n2).
+HL aquí usa diferencias cruzadas (dos muestras), no un estimador emparejado.
 
 Uso, desde TAREA2/:
     python scripts/test_ablacion.py --runs results/comparison_20261031*/A0*_seed* \
@@ -43,11 +46,19 @@ def holm(pvalores, m):
 
 def comparar_una(completo, ablacion):
     """Compara dos diccionarios {semilla: media} y devuelve estadísticos y efectos."""
-    c = np.array(list(completo.values()))
-    a = np.array(list(ablacion.values()))
+    if set(completo) != set(ablacion):
+        raise ValueError('Se requieren los mismos bloques por semilla; no descartar pares.')
+    semillas = sorted(completo)
+    c = np.array([completo[s] for s in semillas], dtype=float)
+    a = np.array([ablacion[s] for s in semillas], dtype=float)
+    if not len(c) or not np.isfinite(np.r_[c, a]).all():
+        raise ValueError('Medias vacías o no finitas')
+    empates = len(c) + len(a) - len(np.unique(np.r_[c, a]))
+    if empates:
+        raise ValueError('MW exacto sin corrección de empates no es válido aquí')
     u = stats.mannwhitneyu(c, a, alternative='two-sided', method='exact')
     fila = dict(
-        n_completo=len(c), n_ablacion=len(a),
+        n_completo=len(c), n_ablacion=len(a), empates_mw=int(empates),
         media_completo=float(c.mean()), media_ablacion=float(a.mean()),
         diferencia_media=float(c.mean() - a.mean()),
         diferencia_mediana=float(np.median(c) - np.median(a)),
@@ -58,10 +69,34 @@ def comparar_una(completo, ablacion):
     comunes = sorted(set(completo) & set(ablacion))
     if len(comunes) >= 5:
         dif = np.array([completo[s] - ablacion[s] for s in comunes])
+        ceros = int((dif == 0).sum())
+        empates_abs = len(dif) - len(np.unique(np.abs(dif)))
+        if ceros or empates_abs:
+            raise ValueError('Wilcoxon exacto requiere revisar ceros/empates de magnitud')
         w = stats.wilcoxon(dif, alternative='two-sided', method='exact')
         fila.update(n_pares=len(comunes), W=float(w.statistic), p_wilcoxon=float(w.pvalue),
-                    completo_gana=int((dif > 0).sum()))
+                    completo_gana=int((dif > 0).sum()), semillas=comunes,
+                    diferencias=dif.tolist(), ceros=ceros, empates_abs=int(empates_abs),
+                    sd_diferencias=float(dif.std(ddof=1)),
+                    mediana_diferencias=float(np.median(dif)),
+                    minimo_diferencias=float(dif.min()), maximo_diferencias=float(dif.max()))
     return fila
+
+
+def ajustar_familias(filas, completas=True):
+    """Dos familias de tres; Holm no requiere independencia entre contrastes.
+
+    p_holm conserva el nombre histórico de MW para compatibilidad.
+    No se produce una etiqueta genérica de significación.
+    """
+    pm = holm([f['p_mann_whitney'] for f in filas], 3)
+    paired = all('p_wilcoxon' in f for f in filas)
+    pw = holm([f['p_wilcoxon'] for f in filas], 3) if paired else [None]*len(filas)
+    final = completas and len(filas) == 3 and paired
+    for f, m, w in zip(filas, pm, pw):
+        f.update(p_holm=m, p_wilcoxon_holm=w,
+                 significativo_mw_condicionado=m < .05 if final else None,
+                 significativo_wilcoxon_condicionado=w < .05 if final else None)
 
 
 def main():
@@ -80,9 +115,7 @@ def main():
         if medias.get(nombre):
             filas.append(dict(variante=nombre, **comparar_una(medias['full'], medias[nombre])))
     completas = resumen['complete'] and len(filas) == len(ABLACIONES)
-    for fila, p_holm in zip(filas, holm([f['p_mann_whitney'] for f in filas], m=len(ABLACIONES))):
-        fila['p_holm'] = p_holm
-        fila['significativo'] = bool(p_holm < ALFA) if completas else None
+    ajustar_familias(filas, completas)
 
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / 'tests.json').write_text(json.dumps(
@@ -90,11 +123,11 @@ def main():
         indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
     print(f"{'variante':<16}{'dif. media':>11}{'HL':>8}{'P(sup)':>8}{'U':>6}"
-          f"{'p MW':>9}{'p Holm':>9}{'p Wilc.':>9}  gana")
+          f"{'p MW':>9}{'MW/H':>9}{'W/H':>9}  gana")
     for f in filas:
         print(f"{f['variante']:<16}{f['diferencia_media']:11.1f}{f['hodges_lehmann']:8.1f}"
               f"{f['prob_superioridad']:8.2f}{f['U']:6.0f}{f['p_mann_whitney']:9.4f}"
-              f"{f['p_holm']:9.4f}{f.get('p_wilcoxon', float('nan')):9.4f}"
+              f"{f['p_holm']:9.4f}{f.get('p_wilcoxon_holm', float('nan')):9.4f}"
               f"  {f.get('completo_gana', '-')}/{f.get('n_pares', '-')}")
     if not completas:
         print('\nAtención: faltan comparaciones; los p de Holm se calcularon con m = 3 pero '

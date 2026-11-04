@@ -1,0 +1,7 @@
+gymnasium[box2d]>=1.0
+torch
+matplotlib
+ipykernel
+nbformat
+nbclient
+scipy>=1.18,<1.19

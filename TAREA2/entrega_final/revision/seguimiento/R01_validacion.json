@@ -1,0 +1,21 @@
+{
+  "scope": "R01 only: statistics cells, CLI in temporary output, independent exact enumerations, guards, notebook schema/copies; not full execution",
+  "hashes": {
+    "entrega_borrador.ipynb": "5fa7879fa8f9b4dcf717b392f8f71d0319143ddb2ff7f17724a95e7a39f218bd",
+    "entrega_final/para_entregar/LunarLander_DQN.ipynb": "5fa7879fa8f9b4dcf717b392f8f71d0319143ddb2ff7f17724a95e7a39f218bd",
+    "scripts/test_ablacion.py": "19f5a393c346134e97baf1fcf7ef3cb70afb76158ceb34482c8d7d81045ec2e1",
+    "scripts/review_r01.py": "fe3f8e50c0672d93ff18c5ca7b0733b331fe36c7bbde230eaa73f10ef68186a1",
+    "scripts/assemble_team_study.py": "ed033292f9bdca99b91bc472deb825454eb3841705b0cce34c2450997825023e",
+    "scripts/build_delivery_draft.py": "935b3d361fdc6586aef6fc5b95bb58e032c6aab0ff59dae430a8adec41e61a24",
+    "informe/informe.tex": "10a687ee041ba391aed1d17434794ae753a6c647bef84b3c15a5351a8368bad6",
+    "informe/informe.pdf": "8c4f69838c781340d02e50c24cf7b1cc2683c065f7d347bfa2bb01e6fb8476b6"
+  },
+  "cells": 58,
+  "statistical_cells": [
+    54,
+    55,
+    56
+  ],
+  "full_execution": "pending C01",
+  "report": "unchanged; pending authors/H03"
+}

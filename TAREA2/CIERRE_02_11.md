@@ -56,3 +56,9 @@ python -m unittest discover -s TAREA2/tests -v
 ## Limpieza y plataformas
 
 Ver `REFERENCIAS_LIMPIEZA.md` para el historial retirado y `PLATAFORMAS.md` para las diferencias documentadas entre macOS y Windows y su efecto sobre la interpretación.
+
+## Actualización de estado R02 — 4/11/2026
+
+El texto anterior conserva el registro del 2/11 y sus planes, no una lista vigente de pendientes. Ya existe informe redactado y PDF compilado de cinco páginas (3/11), idéntico al de `entrega_final/para_entregar/`; la fuente LaTeX actual tiene fecha anterior al PDF. Quedan cerrados los pendientes iniciales de redacción, existencia, primera compilación y comprobación del número de páginas. Esto no acredita aprobación del contenido, autoría ni cumplimiento de IA.
+
+H01 está resuelto en su alcance; H02 tiene validación estática. H03 sigue no verificable y C01 pendiente para los hashes actuales. El acuerdo metodológico y la revisión cruzada siguen sin confirmación; la evaluación reservada no se realizó. La portada identifica a Thiago Rivas, Juan Duarte y Agustin Occhiuzzi; las corridas conservan Thiago, Fran y Agustín. El equipo confirmó el 4/11 que Fran es Juan Duarte. Se conserva ese nombre de portada y se explica el alias; «Juan Francisco» sigue siendo tentativo. Ver `entrega_final/revision/seguimiento/R02.md`. No regenerar el notebook con los comandos históricos anteriores: la fuente vigente se mantiene manualmente para preservar H01/H02. No está listo para entregar.

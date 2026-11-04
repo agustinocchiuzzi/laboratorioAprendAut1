@@ -2117,3 +2117,49 @@ Aim for 5–7 minutes. Rephrase each prompt in your own words. Keep the detailed
 Practice from memory: define each term before using it, point to the method implementing it, label numbers as observations, proposed causes as hypotheses, and conclusions with their limits.
 
 Full explanations and evidence links: [learning guide](LEARNING_GUIDE_A.md).
+
+
+## Auditoría posterior a la limpieza (2/11/2026)
+
+Revisión sobre el commit local `c120939`, en `integration/assignment-2`. Este apartado contiene evidencia y orientación para preparar el informe; no es redacción para entregar.
+
+### Comprobaciones del registro
+
+- Las 42 entradas del inventario coinciden en bytes y SHA-256 con sus versiones en `2643141`.
+- Los 12 documentos Markdown retirados aparecen completos en este registro.
+- Los archivos fuente registrados por `analysis/team_study/manifest.json` para las 32 políticas seleccionadas existen y conservan sus hashes. Las tres ejecuciones completas adicionales siguen identificadas aparte.
+- Los 16 tests de `python -m unittest discover -s tests -v` pasaron en esta auditoría. No se reejecutó el notebook completo ni se recompiló el informe.
+- Los notebooks individuales retirados no están transcritos en este MD. Su código y sus salidas siguen recuperables desde Git; no confundir el inventario con una copia completa de esos notebooks.
+
+### Dependencias que deben conservarse
+
+Para reconstruir los análisis con los scripts actuales, mantener:
+
+- `lander.ipynb`: fuente del agente para tests, herramientas y construcción del notebook de entrega.
+- `preparation/thiago_analysis_20261101/validated_summary.json` y `preparation/remote_fran_0686cbf/import_manifest.json`: entradas leídas directamente por `scripts/assemble_team_study.py` para seleccionar las corridas. Aunque sean históricas, no son prescindibles con el código actual.
+- `results/`: configuraciones, retornos originales, resúmenes y pesos de las corridas seleccionadas y adicionales; también evidencia de calibración usada para justificar decisiones.
+- `protocols/team_final.json`, `analysis/team_study/manifest.json`, `validated_summary.json`, `metrics.csv` y `tests.json`: protocolo, procedencia y resultados integrados.
+- `scripts/`, `tests/` y dependencias. `study_tools.py` usa por defecto `protocols/team_draft.json`; retirarlo requiere ajustar explícitamente ese default y sus consumidores.
+- Consigna, fuentes y figuras de `informe/`, y `AgustinAgente/EXPLICACION_AgenteDQN.md`, que la plantilla referencia para calibración.
+
+Ejecutar el notebook autocontenido y reconstruirlo desde las fuentes son comprobaciones distintas. Sus datos incorporados permiten ejecutarlo sin `results/`, pero eso no vuelve innecesarios los originales para auditar o reconstruir el estudio. `verify_delivery_draft.py` reejecuta y escribe el notebook y figuras; no es una comprobación de solo lectura.
+
+### Evidencia de calibración de Fran retirada del árbol de archivos
+
+Fuente: `2643141:TAREA2/LunarLander_DQN_B.ipynb`, celda de código 24 (índice desde cero), comparación histórica de replay. Este contenido no debe confundirse con las 32 políticas finales.
+
+- Entrenamiento: 500 episodios por configuración; semilla del agente `SEMILLA`; evaluación de 50 episodios greedy con resets desde 10000.
+- Configuraciones: replay de 100000 transiciones, replay de 10000 y prototipo sin replay. No es una comparación de tamaños de minilote.
+- Salidas impresas, redondeadas por el notebook: replay 100000, retorno medio 247.7 y 86.0% de éxito; replay 10000, 223.6 y 80.0%; prototipo sin replay, -87.7 y 0.0%.
+- El agente histórico usa por defecto red 128/128 y learning rate 0.0005. No atribuir esas cifras a A0 ni compararlas directamente con sus resultados como si el presupuesto y la implementación fueran iguales.
+- Esta comparación aislada no demuestra superioridad general ni justifica por sí sola elegir la capacidad final de 50000. Confirmar con Fran la razón de la decisión integrada. La indicación de la plantilla sobre calibrar “replay y minilote” debe contrastarse con lo que efectivamente se ejecutó.
+
+Para consultar el notebook retirado sin restaurarlo en la rama:
+
+```sh
+git show 2643141:TAREA2/LunarLander_DQN_B.ipynb > /tmp/LunarLander_DQN_B_historico.ipynb
+```
+
+### Cómo usar este registro al preparar el informe
+
+Leer primero la consigna, `CIERRE_02_11.md`, `protocols/team_final.json`, la plantilla y los análisis integrados. Consultar los documentos históricos de este MD para reconstruir decisiones y calibraciones, respetando su fecha. Los estados antiguos “pendiente” y sus presupuestos no sustituyen al cierre integrado. Cuando una afirmación dependa de un notebook retirado, consultar su versión Git y registrar la celda y el commit; no inventar resultados ni iniciar nuevos entrenamientos.

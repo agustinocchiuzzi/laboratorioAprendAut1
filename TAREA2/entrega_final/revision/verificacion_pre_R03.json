@@ -1,0 +1,17 @@
+{
+  "checked_at_utc": "2026-11-04T17:34:13.121014+00:00",
+  "notebook_sha256": "5fa7879fa8f9b4dcf717b392f8f71d0319143ddb2ff7f17724a95e7a39f218bd",
+  "notebook_schema_valid": true,
+  "notebook_cells": 58,
+  "code_cells": 30,
+  "fresh_kernel_execution": "pending_C01",
+  "validation_scope": "H02: schema, compile, AST, default switches, preservation and copy equality; notebook not executed",
+  "static_evidence": "seguimiento/H02_validacion.json",
+  "historical_verification": "verificacion_pre_H02.json",
+  "historical_notebook_sha256": "d73dc13c806b4cdd0da0b9a0a6ad59ebc82d72a3abeeead7bc4d943046a5cfda",
+  "stored_outputs_provenance": "Preserved from previous notebook; not a new execution of current hash.",
+  "manifest_matches": true,
+  "pdf_sha256": "8c4f69838c781340d02e50c24cf7b1cc2683c065f7d347bfa2bb01e6fb8476b6",
+  "pdf_validation": "Unchanged; see historical verification.",
+  "concurrent_changes": "R01 cells 54, 56, 57 preserved; static H02 checks repeated. Statistical outputs refreshed by concurrent R01."
+}

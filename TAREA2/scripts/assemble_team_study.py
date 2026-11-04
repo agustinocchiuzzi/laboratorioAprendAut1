@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 
 from study_tools import aggregate, read_json
-from test_ablacion import comparar_una, holm, ABLACIONES
+from test_ablacion import comparar_una, holm, ABLACIONES, ajustar_familias
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'analysis/team_study'
@@ -46,12 +46,11 @@ def main():
     means = {v: {r['training_seed']: r['mean_return'] for r in item['per_training_seed']}
         for v, item in summary['variants'].items()}
     tests = [dict(variante=v, **comparar_una(means['full'], means[v])) for v in ABLACIONES]
-    for row, p, w in zip(tests, holm([r['p_mann_whitney'] for r in tests], 3), holm([r['p_wilcoxon'] for r in tests], 3)):
-        row.update(p_holm=p, p_wilcoxon_holm=w, significativo=p < .05)
+    ajustar_familias(tests)
     assert all(r['n_completo'] == r['n_ablacion'] == 8 for r in tests)
     result = dict(completo=True, alfa=.05, filas=tests,
         method_status='Agustin proposal executed for review; not a claim of preregistration or automatic satisfaction of assumptions.',
-        limitations='Conditions were trained on different machines/package versions. MW assumes independence; shared seed design also motivates the paired sensitivity analysis. Wilcoxon assumes symmetry of paired differences. Neither test removes platform confounding.')
+        limitations='Conditions were trained on different machines/package versions. MW assumes independence; R01 now prioritizes paired interpretation because of shared seed blocks; originally Wilcoxon was sensitivity, MW the proposal. Wilcoxon assumes symmetry of paired differences. Neither test removes platform confounding.')
     (OUT / 'tests.json').write_text(json.dumps(result, indent=2) + '\n')
     manifest = dict(status='32_validated_policies_review_pending', selected_runs=selected,
         additional_full_runs=extra, reference_selection='All eight full runs from Fran, as used by Agustin policy analysis. Selection based on provenance/completeness, never score.',
