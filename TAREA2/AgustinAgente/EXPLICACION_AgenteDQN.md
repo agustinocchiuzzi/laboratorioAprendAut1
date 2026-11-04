@@ -1574,3 +1574,13 @@ superponemos los estados visitados y solo interpretamos las zonas donde hay punt
 
 **¿Por qué fallan los episodios del completo?** Dos de cada tres fracasos son flotar hasta el paso
 1000 sin posarse, no choques (7 choques en 160 episodios).
+
+---
+
+## 22. Actualización del 4/11: el informe
+
+Thiago integró el estudio completo (32 políticas, con sus 8 sin red objetivo), escribió y compiló el
+informe (5 páginas) y armó `entrega_final/` con una revisión. Mis 8 corridas, el test y los cortes
+están incorporados. Lo que me queda (redactar con mis palabras las secciones V y VII, aportar a
+resumen y conclusiones, revisar referencias y el cierre) está en
+[GUIA_INFORME_AGUSTIN.md](GUIA_INFORME_AGUSTIN.md), junto con el problema pendiente de la regla de IA.
