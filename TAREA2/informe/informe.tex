@@ -186,7 +186,7 @@ La figura~\ref{fig:curvas} muestra que el agente completo mejora: sus primeros 2
 
 El agente completo tuvo 647 éxitos en 1600 evaluaciones (40,44\%). Siete de los ocho agentes superan el 10\%. La excepción es la semilla 3042, con 7 éxitos de 200 (3,5\%). Las tasas van de 3,5\% a 71,5\%, así que cumplir el criterio en promedio no garantiza cumplirlo en todos los entrenamientos.
 
-Para comparar con un agente que elige al azar en la misma máquina, se usó el notebook final. Ahí se volvió a evaluar el agente completo de semilla 42 en 200 episodios: obtuvo $168{,}86\pm81{,}11$ de retorno y 63 éxitos de 200 (31,5\%). El agente aleatorio, con su generador fijado en 42 y en los mismos escenarios, obtuvo $-183{,}17\pm111{,}96$ y ningún éxito. Acá $\pm$ es la desviación estándar de los 200 retornos. Esta evaluación da un poco distinto que la original de esa red (174,90 y 68/200), así que no se usó para reemplazar los datos del estudio.
+Para comparar con un agente que elige al azar en la misma máquina, se usó el notebook final. Ahí se volvió a entrenar el agente completo de semilla 42 y se evaluó en 200 episodios: obtuvo $174{,}90\pm76{,}90$ de retorno y 68 éxitos de 200 (34\%), igual que en el estudio. El agente aleatorio, con su generador fijado en 42 y en los mismos escenarios, obtuvo $-183{,}17\pm111{,}96$ y ningún éxito. Acá $\pm$ es la desviación estándar de los 200 retornos.
 
 \section{Análisis de la política}
 \label{sec:politica}
