@@ -98,10 +98,9 @@ def main():
     ]
     colors = ListedColormap(["#bbbbbb", "#e69f00", "#009e73", "#0072b2"])
     norm = BoundaryNorm(np.arange(-0.5, 4.5, 1), 4)
-    fig, axes = plt.subplots(2, 3, figsize=(7.16, 3.45))
-    fig.subplots_adjust(left=0.09, right=0.935, bottom=0.19, top=0.94,
-                        wspace=0.42, hspace=0.53)
-    for col, (ix, iy, rx, ry, lx, ly, title) in enumerate(cuts):
+    fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.05))
+    fig.subplots_adjust(left=0.07, right=0.98, bottom=0.31, top=0.89, wspace=0.32)
+    for ax, (ix, iy, rx, ry, lx, ly, title) in zip(axes, cuts):
         x = np.linspace(*rx, 101)
         y = np.linspace(*ry, 101)
         xx, yy = np.meshgrid(x, y)
@@ -109,21 +108,17 @@ def main():
         states[:, ix], states[:, iy] = xx.ravel(), yy.ravel()
         with torch.no_grad():
             q = net(torch.from_numpy(states)).numpy().reshape(101, 101, 4)
-        axes[0, col].pcolormesh(x, y, q.argmax(axis=2), cmap=colors,
-                               norm=norm, shading="auto", rasterized=True)
-        im = axes[1, col].pcolormesh(x, y, q.max(axis=2), cmap="viridis",
-                                    shading="auto", rasterized=True)
-        fig.colorbar(im, ax=axes[1, col], fraction=0.045, pad=0.035)
-        axes[0, col].set_title(title)
-        for ax in axes[:, col]:
-            ax.set(xlabel=lx, ylabel=ly, xlim=rx, ylim=ry)
-            ax.set_xticks([rx[0], 0 if ix != 1 else 0.8, rx[1]])
-            ax.set_yticks([ry[0], 0, ry[1]])
-            ax.tick_params(length=2.5, pad=2)
+        ax.pcolormesh(x, y, q.argmax(axis=2), cmap=colors,
+                      norm=norm, shading="auto", rasterized=True)
+        ax.set_title(title)
+        ax.set(xlabel=lx, ylabel=ly, xlim=rx, ylim=ry)
+        ax.set_xticks([rx[0], 0 if ix != 1 else 0.8, rx[1]])
+        ax.set_yticks([ry[0], 0, ry[1]])
+        ax.tick_params(length=2.5, pad=2)
     action_names = ["0: nada", "1: motor izquierdo", "2: motor principal", "3: motor derecho"]
     fig.legend(handles=[Patch(color=colors(i), label=label)
                         for i, label in enumerate(action_names)],
-               loc="lower center", bbox_to_anchor=(0.5, 0.015), ncol=4, frameon=False)
+               loc="lower center", bbox_to_anchor=(0.5, 0.01), ncol=4, frameon=False)
     fig.savefig(OUT / "cortes_politica.pdf")
     plt.close(fig)
     print("Figuras generadas desde las 32 políticas del manifiesto. No se ejecutó el entorno.")
