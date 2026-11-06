@@ -17,7 +17,7 @@ pdfLaTeX). Hay que comprobar que tenga como máximo 5 páginas.
 - **Calibración**: A0 contra 9 alternativas, 3 semillas cada una, en escenarios de validación.
   Solo se adoptó explorar durante 100 episodios en lugar de 200.
 - **Ablación**: 4 condiciones × 8 semillas, todas en la misma computadora. El completo supera en
-  promedio a las tres variantes, pero ninguna diferencia es significativa con Wilcoxon pareado y
+  promedio a las tres variantes, pero ninguna diferencia es significativa con Mann–Whitney y
   corrección de Holm.
 
 ## Cómo ejecutar el notebook
@@ -28,12 +28,13 @@ python -m venv .venv
 ```
 
 Abrir `LunarLander_DQN.ipynb` con ese entorno y ejecutar todas las celdas. El notebook trae
-adentro los resultados de las 63 corridas (celda *Datos guardados*, sección 7), así que **no
-reentrena** y tarda unos 2 minutos. Al ejecutarse escribe `resultados/` y `aterrizaje_dqn.gif`
-(ignorados por git) y regenera las figuras de `informe/figuras/`.
+adentro los resultados de las 63 corridas (celda *Datos guardados*, sección 7.1), así que con
+`REENTRENAR = False` **no reentrena** y tarda un par de minutos. Al ejecutarse escribe
+`aterrizaje_dqn.gif` (ignorado por git) y regenera las figuras de `informe/figuras/`.
 
-Para reentrenar todo desde cero: borrar `resultados/` y la celda *Datos guardados*. Las 63
-corridas tardan cerca de 1 hora con 8 núcleos.
+Para reentrenar todo desde cero, poner `REENTRENAR = True` en la celda de bibliotecas adicionales.
+Las 63 corridas tardan más de 1 hora con 8 núcleos y guardan sus resultados en `resultados/`. En
+otra computadora los números no van a ser exactamente los mismos.
 
 ## Otros archivos
 
