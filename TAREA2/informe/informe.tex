@@ -51,7 +51,7 @@ agustin.occhiuzzi@fing.edu.uy}
 \maketitle
 
 \begin{abstract}
-Se implementó un agente DQN para LunarLander-v3 y se estudió cómo aprende, qué política obtiene y qué pasa al quitarle tres partes al algoritmo. Después de algunas pruebas de calibración se eligió una red con dos capas ocultas de 64 neuronas y una tasa de aprendizaje de $10^{-3}$. El estudio final tiene 32 agentes, ocho por condición, entrenados durante 300 episodios cada uno. El agente completo obtuvo un retorno medio de 137,8 y logró un retorno de al menos 200 en el 40,44\% de los episodios, mientras que el agente aleatorio no lo logró en ninguno. Los cortes de la política muestran que el agente aprendió a frenar la caída y a corregir el giro. Para comparar las variantes se usó el test de Mann--Whitney con la corrección de Holm, y solo quitar el replay dio una diferencia significativa. Estos resultados tienen límites: se usaron máquinas distintas, se evaluó en escenarios ya usados en la calibración y se usaron pocas semillas.
+Se implementó un agente DQN para LunarLander-v3 y se estudió cómo aprende, qué política obtiene y qué pasa al quitarle tres partes al algoritmo. Después de algunas pruebas de calibración se eligió una red con dos capas ocultas de 64 neuronas y una tasa de aprendizaje de $10^{-3}$. El estudio final tiene 32 agentes, ocho por condición, entrenados durante 300 episodios cada uno. El agente completo obtuvo un retorno medio de 137,8 y logró un retorno de al menos 200 en el 40,44\% de los episodios. Entrenado durante 1200 episodios, el agente principal llegó al 66\% de éxito, mientras que el agente aleatorio no tuvo ninguno. Los cortes de la política muestran que el agente aprendió a frenar la caída y a corregir el giro. Para comparar las variantes se usó el test de Mann--Whitney con la corrección de Holm, y solo quitar el replay dio una diferencia significativa. Estos resultados tienen límites: se usaron máquinas distintas, se evaluó en escenarios ya usados en la calibración y se usaron pocas semillas.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -105,12 +105,12 @@ Inicio / frecuencia & 1000 pasos / cada 4 pasos \\
 Copia a red objetivo & Cada 1000 pasos de entorno \\
 Exploración & Lineal por episodio, $1\to0{,}05$ \\
 Pérdida / gradiente & Huber ($\beta=1$) / norma $\leq10$ \\
-Presupuesto & 300 episodios, hasta 1000 pasos \\
+Presupuesto & 1200 ep. (principal), 300 (estudio) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La tabla~\ref{tab:hiper} resume la configuración. Siempre se entrenan los 300 episodios completos y se evalúan los pesos del final, sin quedarse con el mejor momento del entrenamiento.
+La tabla~\ref{tab:hiper} resume la configuración. Los episodios tienen hasta 1000 pasos. El agente principal se entrena 1200 episodios, como sugiere la plantilla. En la calibración y en el estudio de ablación cada agente se entrena 300 episodios: la consigna recomienda usar menos episodios en la ablación porque requiere muchos entrenamientos, y así las 32 corridas del estudio tienen el mismo presupuesto que la calibración con la que se eligió A0. Siempre se entrenan todos los episodios y se evalúan los pesos del final, sin quedarse con el mejor momento del entrenamiento.
 
 \section{Selección de hiperparámetros}
 \label{sec:calibracion}
@@ -186,7 +186,7 @@ La figura~\ref{fig:curvas} muestra que el agente completo mejora: sus primeros 2
 
 El agente completo tuvo 647 éxitos en 1600 evaluaciones (40,44\%). Siete de los ocho agentes superan el 10\%. La excepción es la semilla 3042, con 7 éxitos de 200 (3,5\%). Las tasas van de 3,5\% a 71,5\%, así que cumplir el criterio en promedio no garantiza cumplirlo en todos los entrenamientos.
 
-Para comparar con un agente que elige al azar en la misma máquina, se usó el notebook final. Ahí se volvió a entrenar el agente completo de semilla 42 y se evaluó en 200 episodios: obtuvo $174{,}90\pm76{,}90$ de retorno y 68 éxitos de 200 (34\%), igual que en el estudio. El agente aleatorio, con su generador fijado en 42 y en los mismos escenarios, obtuvo $-183{,}17\pm111{,}96$ y ningún éxito. Acá $\pm$ es la desviación estándar de los 200 retornos.
+Para comparar con un agente que elige al azar en la misma máquina, se usó el notebook final. Ahí se entrenó el agente principal, con la configuración A0 y la semilla 42, durante 1200 episodios (490 segundos), y se evaluó en 200 episodios: obtuvo $223{,}75\pm66{,}51$ de retorno y 132 éxitos de 200 (66\%), sin ningún episodio por debajo de 0. Con la misma semilla y los mismos escenarios, el agente del estudio entrenado 300 episodios había obtenido 174,90 y 68 éxitos (34\%). El agente aleatorio, con su generador fijado en 42 y en los mismos escenarios, obtuvo $-183{,}17\pm111{,}96$ y ningún éxito. Acá $\pm$ es la desviación estándar de los 200 retornos.
 
 \section{Análisis de la política}
 \label{sec:politica}
@@ -259,16 +259,17 @@ Sin red objetivo y sin exploración también tienen medias más bajas, pero sus 
 
 \balance
 \section{Limitaciones}
-Todas las corridas tienen los mismos 300 episodios, pero no la misma cantidad de pasos ni de actualizaciones: usaron entre 32\,968 y 241\,521 pasos, según cuánto duraron sus episodios. Por eso los resultados se comparan después de 300 episodios, sin decir que el entrenamiento haya terminado de mejorar ni que todas las corridas costaran lo mismo. Además, ocho semillas son pocas para saber bien cuánto varían los resultados. También se usaron máquinas distintas (Windows y macOS) con el mismo código, y no todas las condiciones se corrieron en todas las máquinas. Por eso los tests no pueden separar el efecto de la parte quitada del efecto de la máquina.
+Todas las corridas del estudio tienen los mismos 300 episodios, pero no la misma cantidad de pasos ni de actualizaciones: usaron entre 32\,968 y 241\,521 pasos, según cuánto duraron sus episodios. Por eso los resultados se comparan después de 300 episodios, sin decir que el entrenamiento haya terminado de mejorar ni que todas las corridas costaran lo mismo. De hecho, con la semilla 42 el éxito pasó de 34\% a 66\% al entrenar 1200 episodios en lugar de 300, así que las diferencias de la ablación podrían cambiar con entrenamientos más largos. Además, ocho semillas son pocas para saber bien cuánto varían los resultados. También se usaron máquinas distintas (Windows y macOS) con el mismo código, y no todas las condiciones se corrieron en todas las máquinas. Por eso los tests no pueden separar el efecto de la parte quitada del efecto de la máquina.
 
 La evaluación final usa los mismos escenarios que la calibración, lo que puede favorecer a la configuración elegida. Como no se hizo la evaluación con los escenarios reservados (30000 a 30199), los resultados no muestran cómo le iría al agente en escenarios totalmente nuevos. Las evaluaciones extra sirven para analizar los agentes guardados, pero no cuentan como entrenamientos nuevos. Por último, los cortes muestran solo tres planos, y la conclusión sobre el replay vale para esta forma de quitarlo.
 
 \section{Conclusiones}
-Se implementó un agente DQN que cumple el criterio de éxito de la tarea en promedio y en siete de sus ocho entrenamientos completos. También es mucho mejor que el agente aleatorio. En los cortes se ve que aprendió a frenar y a corregir el ángulo, con algunas asimetrías y diferencias entre semillas.
+Se implementó un agente DQN que cumple el criterio de éxito de la tarea en promedio y en siete de sus ocho entrenamientos completos. Entrenado 1200 episodios, el agente principal llega al 66\% de éxito, muy por encima del agente aleatorio. En los cortes se ve que aprendió a frenar y a corregir el ángulo, con algunas asimetrías y diferencias entre semillas.
 
 El resultado más claro del estudio es el del replay: sin él, el agente empeora y la diferencia sigue siendo significativa después de corregir por las tres comparaciones. Con estas corridas no se puede concluir nada firme sobre la red objetivo ni sobre la exploración. Para eso haría falta usar más semillas, correr todas las condiciones en máquinas parecidas y evaluar con los escenarios reservados.
 
 \section*{Uso de Inteligencia Artificial}
+Se usaron herramientas de IA para desarrollar y revisar el código, organizar y verificar los resultados, y para la redacción de este informe. Todas las cifras se contrastaron con los datos guardados de las corridas.
 
 
 \begin{thebibliography}{00}
