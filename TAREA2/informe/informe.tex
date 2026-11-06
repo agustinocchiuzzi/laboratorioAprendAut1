@@ -51,7 +51,7 @@ agustin.occhiuzzi@fing.edu.uy}
 \maketitle
 
 \begin{abstract}
-Se implementó un agente DQN para LunarLander-v3 y se estudió cómo aprende, qué política obtiene y qué pasa al quitarle tres partes al algoritmo. En la calibración se comparó una configuración de referencia con nueve alternativas, y solo se cambió la duración de la exploración. El agente principal, entrenado durante 1200 episodios, logró un retorno de al menos 200 en el 81\% de 200 escenarios de test, mientras que el agente aleatorio no lo logró en ninguno. Los cortes de la política muestran que el agente aprendió a frenar la caída y a corregir el giro. El estudio de ablación tiene 32 agentes, ocho por condición, entrenados durante 300 episodios cada uno en la misma computadora. Para comparar las variantes se usó el test de Mann--Whitney con la corrección de Holm: el agente completo tuvo mejor promedio que las tres variantes, pero ninguna diferencia fue significativa. Estos resultados tienen límites: se usaron pocas semillas y entrenamientos cortos en la ablación.
+Se implementó un agente DQN para LunarLander-v3 y se estudió cómo aprende, qué política obtiene y qué pasa al quitarle tres partes al algoritmo. En la calibración se comparó una configuración de referencia con nueve alternativas, y solo se cambió la duración de la exploración. El agente principal, entrenado durante 1200 episodios, logró un retorno de al menos 200 en el 81\% de 200 escenarios de test (30000 a 30199); en la evaluación de la plantilla (10000 a 10199), lo logró en el 77,5\%, frente al 0\% del agente aleatorio. Los cortes de la política muestran que el agente aprendió a frenar la caída y a corregir el giro. El estudio de ablación tiene 32 agentes, ocho por condición, entrenados durante 300 episodios cada uno en la misma computadora. Para comparar las variantes se usó el test exacto bilateral de signos emparejado con la corrección de Holm: el agente completo tuvo mejor promedio que las tres variantes, pero ningún contraste fue significativo. Estos resultados tienen límites: se usaron pocas semillas y entrenamientos cortos en la ablación.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -214,29 +214,31 @@ Truncado & 723 & 216 & 28 & 776 \\
 \parbox{\columnwidth}{\footnotesize Las tres últimas filas cuentan cómo terminan los 1600 episodios de cada condición.}
 \end{table}
 
-Para comparar cada variante con el agente completo se usó el test U de Mann--Whitney bilateral exacto~\cite{mann1947}, con las ocho medias de cada condición. Este test no necesita que los datos sigan una distribución normal, y compara si los dos grupos vienen de la misma distribución, no solo sus medias. Como se hacen tres comparaciones, los valores $p$ se corrigen con el método de Holm~\cite{holm1979}, con un nivel de significación de $\alpha=0{,}05$ para el conjunto.
+Para comparar cada variante con el completo se emparejaron los agentes por semilla de entrenamiento. Para cada semilla $s$ se calculó $D_s=\bar R_{\mathrm{completo},s}-\bar R_{\mathrm{variante},s}$, donde cada $\bar R$ es el promedio de sus 200 retornos de test. Se usó el test exacto bilateral de signos, implementado con \texttt{scipy.stats.binomtest}. Se cuentan las diferencias positivas ($k$) entre las no nulas ($n$); los empates exactos se excluyen antes de calcular el test. En estos datos no hubo empates.
 
-La hipótesis nula es que quitar esa parte no cambia nada, o sea, que las medias de las dos condiciones vienen de la misma distribución. El valor $p$ es la probabilidad de ver una diferencia igual o más grande que la observada si la hipótesis nula fuera cierta. Si $p$ es menor que $\alpha$, se rechaza la hipótesis nula. Cuantos más tests se hacen, más fácil es que alguno dé significativo por casualidad, igual que al tirar muchas monedas es más fácil que alguna salga varias veces seguidas del mismo lado. La corrección de Holm ajusta los valores $p$ para que la chance de encontrar por error una diferencia en alguna de las tres comparaciones siga siendo de 0,05 como máximo. El test supone que los grupos son independientes, lo que hay que tomar con cuidado porque las variantes usan las mismas semillas.
+La hipótesis nula es $P(D_s>0\mid D_s\ne0)=0{,}5$: una diferencia no nula tiene igual probabilidad de favorecer a cualquiera de las dos condiciones. Bajo esa hipótesis, $k$ sigue una distribución binomial con $n$ ensayos y probabilidad $0{,}5$. El valor $p$ bilateral mide cuán extremo es el conteo observado bajo ese modelo. El test requiere independencia entre pares, pero permite dependencia dentro de cada par y no exige normalidad. Solo usa los signos: no contrasta la igualdad de medias ni tiene en cuenta el tamaño de las diferencias. Por eso se informa también su media, $\Delta$, como descripción de magnitud.
+
+Como hay tres comparaciones, se aplica la corrección de Holm~\cite{holm1979}, con $\alpha=0{,}05$ para el conjunto. Se rechaza cada hipótesis si su $p$ ajustado es menor o igual a $\alpha$. Bajo los supuestos del test, esta corrección limita a 0,05 la probabilidad de al menos un rechazo falso. La reutilización de tres semillas de calibración, discutida en las limitaciones, hace que el análisis sea exploratorio.
 
 \begin{table}[t]
-\caption{Comparaciones contra el agente completo (ocho agentes por condición)}
+\caption{Test exacto bilateral de signos contra el completo (ocho pares por comparación)}
 \label{tab:tests}
 \centering
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-Ablación & $\Delta$ & U & $p$ MW & $p$ Holm \\
+Ablación & $\Delta$ & $k/n$ & $p$ signos & $p$ Holm \\
 \midrule
-Sin objetivo & 126,4 & 42 & 0,3282 & 0,3282 \\
-Sin replay & 115,3 & 51 & 0,0499 & 0,1497 \\
-Sin explor. & 95,8 & 46 & 0,1605 & 0,3211 \\
+Sin objetivo & 126,4 & 5/8 & 0,7265625 & 0,7265625 \\
+Sin replay & 115,3 & 7/8 & 0,0703125 & 0,2109375 \\
+Sin explor. & 95,8 & 7/8 & 0,0703125 & 0,2109375 \\
 \bottomrule
 \end{tabular}
 \smallskip
-\parbox{\columnwidth}{\footnotesize $\Delta$: retorno medio del agente completo menos el de la ablación. U corresponde al agente completo.}
+\parbox{\columnwidth}{\footnotesize $\Delta$: media de las diferencias emparejadas (completo menos variante), descriptiva. $k/n$: diferencias positivas/no nulas. Sin empates; los ceros se excluyen de $n$. Holm: tres comparaciones, $\alpha=0{,}05$.}
 \end{table}
 
 \subsection{Resultados}
-La tabla~\ref{tab:tests} muestra que el agente completo tiene mejor promedio que las tres variantes, pero ninguna diferencia es significativa después de corregir con Holm. La que más cerca queda es sin replay: su $p$ sin corregir es 0,0499, pero corregido es 0,1497. Eso no quiere decir que las variantes sean iguales al completo ni que esas partes no sirvan. Con ocho semillas y tanta variación entre ellas, diferencias de 95,8 a 126,4 puntos no alcanzan para ser significativas.
+La tabla~\ref{tab:tests} muestra que el agente completo tiene mejor promedio que las tres variantes. Supera a la variante sin objetivo en cinco de ocho pares, y a las variantes sin replay y sin exploración en siete de ocho. Estas dos últimas tienen el mismo $p$ sin corregir, $0{,}0703125$, y ajustado, $0{,}2109375$; para la variante sin objetivo, ambos valores son $0{,}7265625$. Ningún contraste rechaza la hipótesis nula tras Holm. Esto no demuestra equivalencia entre condiciones ni que los componentes no sirvan. Las diferencias medias de 95,8 a 126,4 puntos son descriptivas: el test solo contrasta el signo de las diferencias, no su magnitud.
 
 Los finales de los episodios (tabla~\ref{tab:resultados}) muestran que cada variante falla de una forma distinta. Sin replay, 1218 de sus 1600 episodios terminan en choque o salida, contra 55 del completo. Cada actualización depende de una transición muy parecida a las anteriores, así que los ajustes de la red son muy irregulares y la red se adapta a lo último que vio. Esto sugiere que no llega a aprender bien a frenar antes de tocar el suelo. Sin exploración, la diferencia con el completo está en los choques (410 contra 55) y en los posados (414 contra 822). Los truncados son parecidos en las dos (776 y 723), así que no la distinguen. Sin red objetivo, el resultado cambia mucho según la semilla: en algunas iguala o supera al completo y en otras obtiene resultados muy malos (semilla 7042: $-524{,}6$). Por eso su DE es más del doble que la del completo, como se esperaba sin red objetivo.
 
@@ -246,12 +248,12 @@ Estos finales describen el comportamiento, pero no son tasas de éxito. Por ejem
 \section{Limitaciones}
 Todas las corridas del estudio tienen los mismos 300 episodios, pero no la misma cantidad de pasos ni de actualizaciones: usaron entre 32\,968 y 241\,521 pasos, según cuánto duraron sus episodios. Además, con 300 episodios los agentes todavía están aprendiendo. Con la semilla 42, el agente completo de la ablación es el mismo entrenamiento que los primeros 300 episodios del agente principal. A los 300 episodios obtiene $-2{,}1$ en test, y el principal, después de 1200, 240,2. Que el promedio de entrenamiento de los episodios 201 a 300 sea 145 no lo contradice: ese promedio mezcla muchas redes distintas, porque la red cambia cada cuatro pasos, y la red exacta del episodio 300 llega al límite de pasos en 189 de los 200 episodios de test. Por eso las diferencias de la ablación podrían cambiar con entrenamientos más largos. Además, el 81\% del agente principal sale de un solo entrenamiento, con una semilla que a los 300 episodios está entre las peores del completo, así que con otra semilla el resultado podría ser distinto.
 
-Ocho semillas son pocas para saber bien cuánto varían los resultados, y la calibración usó solo tres. Esas tres son también las primeras semillas de la ablación: con las semillas 42, 1042 y 2042, los agentes completos de la ablación son los mismos entrenamientos con los que se eligió la configuración, lo que puede favorecerlos un poco. Todo se corrió en una sola computadora, y en otra los números cambiarían. Por último, los cortes muestran solo tres planos, y la conclusión sobre el replay vale para esta forma de quitarlo.
+Ocho semillas son pocas para saber bien cuánto varían los resultados, y el test de signos pierde información al ignorar la magnitud de las diferencias. La calibración usó solo tres semillas. Esas tres son también las primeras semillas de la ablación: con las semillas 42, 1042 y 2042, los agentes completos de la ablación son los mismos entrenamientos con los que se eligió la configuración, lo que puede favorecerlos un poco. Todo se corrió en una sola computadora, y en otra los números cambiarían. Por último, los cortes muestran solo tres planos, y la conclusión sobre el replay vale para esta forma de quitarlo.
 
 \section{Conclusiones}
-Se implementó un agente DQN que cumple el criterio de éxito de la tarea: entrenado 1200 episodios, logra un 81\% de éxito en escenarios de test, mientras que el agente aleatorio no logra ninguno. En los cortes se ve que aprendió a frenar y a corregir el ángulo, con algunas asimetrías y diferencias entre semillas.
+Se implementó un agente DQN que cumple el criterio de éxito de la tarea: entrenado 1200 episodios, logra un 81\% de éxito en escenarios de test (30000 a 30199); en la evaluación de la plantilla (10000 a 10199), logra un 77,5\% frente al 0\% del agente aleatorio. En los cortes se ve que aprendió a frenar y a corregir el ángulo, con algunas asimetrías y diferencias entre semillas.
 
-En la ablación, quitar cualquiera de las tres partes empeora el promedio, y cada variante falla de una forma que tiene sentido con lo que hace esa parte. Pero con ocho semillas ninguna diferencia es significativa después de corregir por las tres comparaciones, así que no se puede concluir nada firme. Para eso haría falta usar más semillas y entrenamientos más largos.
+En la ablación, quitar cualquiera de las tres partes empeora el promedio, y cada variante falla de una forma que tiene sentido con lo que hace esa parte. Pero con ocho pares el test de signos no rechaza ninguna hipótesis después de corregir las tres comparaciones. Esto no demuestra equivalencia ni permite afirmar que la mejora se generalice a otras semillas. Para estudiar esa generalización haría falta usar nuevas semillas, separadas de la calibración, y entrenamientos más largos.
 
 \section*{Uso de Inteligencia Artificial}
 Se usaron herramientas de IA para desarrollar y revisar el código, organizar y verificar los resultados, y para la redacción de este informe. Todas las cifras se contrastaron con los datos guardados de las corridas.
@@ -260,7 +262,6 @@ Se usaron herramientas de IA para desarrollar y revisar el código, organizar y 
 \bibitem{towers2024} M.~Towers \textit{et al.}, ``Gymnasium: A standard interface for reinforcement learning environments,'' arXiv:2407.17032, 2024.
 \bibitem{mnih2015} V.~Mnih \textit{et al.}, ``Human-level control through deep reinforcement learning,'' \textit{Nature}, vol.~518, pp.~529--533, 2015, doi:~10.1038/nature14236.
 \bibitem{sutton2018} R.~S.~Sutton y A.~G.~Barto, \textit{Reinforcement Learning: An Introduction}, 2.\textsuperscript{a} ed. MIT Press, 2018.
-\bibitem{mann1947} H.~B.~Mann y D.~R.~Whitney, ``On a test of whether one of two random variables is stochastically larger than the other,'' \textit{Ann. Math. Statist.}, vol.~18, no.~1, pp.~50--60, 1947.
 \bibitem{holm1979} S.~Holm, ``A simple sequentially rejective multiple test procedure,'' \textit{Scand. J. Statist.}, vol.~6, no.~2, pp.~65--70, 1979.
 \end{thebibliography}
 \end{document}
