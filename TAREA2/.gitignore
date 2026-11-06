@@ -2,3 +2,7 @@
 .mplconfig/
 .ipynb_checkpoints/
 __pycache__/
+
+# Archivos que genera el notebook al ejecutarse (sus datos ya están dentro del notebook)
+resultados/
+aterrizaje_dqn.gif

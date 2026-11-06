@@ -51,7 +51,7 @@ agustin.occhiuzzi@fing.edu.uy}
 \maketitle
 
 \begin{abstract}
-Se implementó un agente DQN para LunarLander-v3 y se estudió cómo aprende, qué política obtiene y qué pasa al quitarle tres partes al algoritmo. Después de algunas pruebas de calibración se eligió una red con dos capas ocultas de 64 neuronas y una tasa de aprendizaje de $10^{-3}$. El estudio final tiene 32 agentes, ocho por condición, entrenados durante 300 episodios cada uno. El agente completo obtuvo un retorno medio de 137,8 y logró un retorno de al menos 200 en el 40,44\% de los episodios. Entrenado durante 1200 episodios, el agente principal llegó al 66\% de éxito, mientras que el agente aleatorio no tuvo ninguno. Los cortes de la política muestran que el agente aprendió a frenar la caída y a corregir el giro. Para comparar las variantes se usó el test de Mann--Whitney con la corrección de Holm, y solo quitar el replay dio una diferencia significativa. Estos resultados tienen límites: se usaron máquinas distintas, se evaluó en escenarios ya usados en la calibración y se usaron pocas semillas.
+Se implementó un agente DQN para LunarLander-v3, se calibraron sus hiperparámetros, se analizó la política aprendida y se estudió qué pasa al quitarle tres componentes. La calibración comparó una configuración de referencia con nueve alternativas en escenarios de validación y solo adoptó un cambio: reducir la duración de la exploración. Entrenado durante 1200 episodios, el agente principal aterriza con éxito (retorno de al menos 200) en el 81\% de 200 escenarios de test que no se usaron para ninguna decisión, frente al 0\% de un agente aleatorio. Los cortes de la política muestran que frena según la altura y corrige a la vez la inclinación y el giro. En la ablación, con ocho semillas por condición y la misma computadora para todas, el agente completo supera en promedio a las tres variantes, pero ninguna diferencia es significativa después de corregir por comparaciones múltiples.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -59,38 +59,32 @@ aprendizaje por refuerzos, DQN, LunarLander, ablación
 \end{IEEEkeywords}
 
 \section{Introducción}
-En LunarLander-v3 hay que aterrizar una nave usando un motor principal y dos motores laterales. Se usó la versión discreta de Gymnasium~\cite{towers2024}, sin viento. El estado es $s=(x,y,v_x,v_y,\theta,\omega,c_1,c_2)$: posición, velocidad, ángulo, velocidad angular y dos indicadores que dicen si cada pata toca el suelo. Hay cuatro acciones: no hacer nada, encender el motor izquierdo, encender el principal o encender el derecho.
+En LunarLander-v3 hay que posar una nave sobre una plataforma usando un motor principal y dos laterales. Se usó la versión discreta de Gymnasium~\cite{towers2024}, sin viento. El estado es $s=(x,y,v_x,v_y,\theta,\omega,c_1,c_2)$: posición, velocidad, ángulo, velocidad angular y dos indicadores de contacto de las patas. Gymnasium entrega estas observaciones ya escaladas, así que no están en metros ni en m/s; $\theta$ está en radianes. Hay cuatro acciones: no hacer nada, encender el motor izquierdo, el principal o el derecho.
 
-El objetivo fue entrenar un agente con DQN~\cite{mnih2015} y ver qué aportan la memoria de repetición, la red objetivo y la exploración. Se usó el criterio de la tarea: un episodio es exitoso si su retorno total $R=\sum_t r_t$ es de al menos 200, y la tasa de éxito tiene que ser mayor que 10\%. Este criterio mira solo la recompensa, así que no comprueba directamente que la nave haya aterrizado.
+Un episodio es exitoso si su retorno $R=\sum_t r_t$ es de al menos 200, y la tarea pide una tasa de éxito mayor que 10\% sin exploración. Este criterio mira solo la recompensa: no comprueba directamente que la nave haya aterrizado.
 
 \section{Solución DQN implementada}
 \label{sec:dqn}
-La clase \texttt{AgenteDQN} usa una red neuronal $Q_\theta$ que, dado un estado, estima cuánto vale cada acción. La red recibe los ocho valores del estado, tiene dos capas ocultas con ReLU y devuelve cuatro números, uno por acción. Cada número estima el retorno descontado que se espera obtener si se toma esa acción~\cite{sutton2018}. Si desde el paso $t$ se reciben las recompensas $r_t,r_{t+1},\dots$, ese retorno es $G_t=\sum_{k\geq0}\gamma^k r_{t+k}$, o sea que cada recompensa se multiplica por $\gamma$ una vez por cada paso que falta para recibirla. Con $\gamma=0{,}99$, una recompensa que llega 100 pasos después todavía vale cerca del 37\% ($0{,}99^{100}\approx0{,}37$). Por eso el agente tiene en cuenta cosas que pasan bastante más adelante, como el premio por aterrizar. La red tiene 4996 parámetros. El DQN original trabajaba con imágenes de juegos de Atari~\cite{mnih2015}. Acá, en cambio, la red recibe directamente el vector de estado y usa solo capas completamente conectadas. No se normalizan las observaciones ni se recortan las recompensas.
+La clase \texttt{AgenteDQN} usa una red $Q_\theta$ que recibe los ocho valores del estado, tiene dos capas ocultas de 64 neuronas con ReLU y devuelve un valor por acción: el retorno descontado $G_t=\sum_{k\geq0}\gamma^k r_{t+k}$ que se espera obtener tomando esa acción~\cite{sutton2018}. Con $\gamma=0{,}99$, una recompensa que llega 100 pasos después todavía pesa cerca del 37\%, así que el agente tiene en cuenta el premio por aterrizar. La red tiene 4996 parámetros. A diferencia del DQN original, que trabajaba con imágenes de Atari~\cite{mnih2015}, la red recibe directamente el vector de estado. No se agregó normalización propia ni se recortaron las recompensas.
 
-Cada transición $(s,a,r,s',d)$ se guarda en una memoria de repetición (\textit{replay}) con capacidad fija. Cada vez que se actualiza la red, se sacan al azar 64 transiciones distintas de esa memoria (un minilote). Así se aprovecha cada experiencia más de una vez y se evita aprender solo de transiciones seguidas. Esto importa porque de un paso al siguiente la nave está casi en el mismo lugar. Si la red aprendiera de las transiciones en orden, muchas actualizaciones seguidas la empujarían hacia el mismo lado: se adaptaría a la situación del momento y podría olvidar lo que aprendió antes.
+Cada transición $(s,a,r,s',d)$ se guarda en una memoria de repetición (\textit{replay}). Cada cuatro pasos se sacan al azar 64 transiciones distintas de la memoria. Así cada experiencia se usa más de una vez y se evita aprender de transiciones seguidas, que son casi iguales: aprendiendo en orden, la red se adaptaría a la situación del momento y olvidaría lo anterior.
 
-Además se usa una segunda red, la red objetivo $Q_{\theta^-}$. Empieza siendo una copia de $Q_\theta$, no se entrena y cada cierto número de pasos se vuelve a copiar. Con ella se calcula el valor objetivo de cada transición:
+Una segunda red, la red objetivo $Q_{\theta^-}$, empieza como copia de $Q_\theta$, no se entrena y se vuelve a copiar cada 1000 pasos. Con ella se calcula el objetivo de cada transición:
 \begin{equation}
  z=r+\gamma(1-d)\max_{a'}Q_{\theta^-}(s',a').
 \end{equation}
-En $z$, $r$ es la recompensa que realmente se recibió. La parte $\max_{a'}Q_{\theta^-}(s',a')$ es lo que la red estima que se puede ganar desde $s'$ eligiendo la mejor acción, y $\gamma$ lo descuenta. El factor $(1-d)$ vale 0 cuando el episodio terminó. En ese caso el objetivo es solo $r$, porque después del final ya no hay más recompensas.
+Si $z$ se calculara con la red que se entrena, el objetivo se movería con cada actualización; con la red objetivo queda fijo entre copias. La red minimiza la pérdida de Huber entre $Q_\theta(s,a)$ y $z$, sin propagar gradientes a través de $z$, con Adam~\cite{kingma2015} y la norma del gradiente limitada a 10.
 
-Si el objetivo se calculara con la misma red que se está entrenando, cada vez que la red cambia también cambiaría el valor $z$ al que se quiere llegar, como un perro que se persigue la cola. Con la red objetivo fija entre copias, el objetivo se queda quieto un tiempo y el entrenamiento es más estable.
+La variable $d$ vale 1 solo si el episodio termina de verdad (\texttt{terminated}). Si se corta por el límite de 1000 pasos, se conserva el valor futuro: la nave podía seguir volando, y como el estado no incluye el tiempo, la red no distinguiría esos estados de otros iguales.
 
-La red se entrena para que su predicción $Q_\theta(s,a)$ se acerque a $z$, usando la pérdida de Huber (SmoothL1 en PyTorch) promediada sobre el minilote. El valor $z$ se toma como un número fijo, sin calcular gradientes a través de él. Los pesos se ajustan con Adam, y se pone un límite al tamaño del gradiente para que ninguna actualización sea demasiado grande.
-
-La variable $d$ vale 1 solo cuando el episodio termina de verdad (\texttt{terminated}). Si el episodio se corta porque llegó al límite de 1000 pasos (truncamiento), se sigue usando el valor futuro, porque la nave no llegó a un final real. Si ese corte se tratara como un final, la red aprendería que en esos estados no queda nada por ganar, aunque la nave podría haber seguido volando y aterrizado. Además, como el estado no incluye el tiempo, la red no podría distinguir esos estados de otros iguales que no llegaron al límite.
-
-Durante el entrenamiento se usa la estrategia $\varepsilon$-greedy: con probabilidad $\varepsilon$ se elige una acción al azar y, si no, la de mayor valor. Después de $e$ episodios, $\varepsilon$ vale
+Durante el entrenamiento se usa $\varepsilon$-greedy: con probabilidad $\varepsilon$ se elige una acción al azar y, si no, la de mayor valor. Después de $e$ episodios,
 \begin{equation}
- \varepsilon_e=\max\left(0{,}05,\ 1-0{,}95\frac{e}{200}\right).
+ \varepsilon_e=\max\left(0{,}05,\ 1-0{,}95\,e/100\right).
 \end{equation}
-Al principio la red todavía no aprendió nada y sus valores son casi al azar, así que conviene probar muchas acciones para descubrir cuáles dan buenas recompensas. A medida que aprende, conviene usar más lo que ya sabe. Desde el episodio 200 queda un 5\% de acciones al azar, para seguir probando un poco.
-
-En la evaluación siempre se elige la acción de mayor valor, $\arg\max_a Q_\theta(s,a)$, sin explorar y sin cambiar los pesos.
+Al principio la red no sabe nada y conviene explorar; a medida que aprende conviene usar lo aprendido, y se mantiene un 5\% de acciones al azar. En la evaluación siempre se elige $\arg\max_a Q_\theta(s,a)$, sin explorar ni aprender.
 
 \begin{table}[t]
-\caption{Configuración de referencia A0}
+\caption{Configuración final}
 \label{tab:hiper}
 \centering
 \begin{tabular}{@{}ll@{}}
@@ -98,185 +92,162 @@ En la evaluación siempre se elige la acción de mayor valor, $\arg\max_a Q_\the
 Parámetro & Valor \\
 \midrule
 Red Q & $8\to64\to64\to4$, ReLU \\
-Adam & $\eta=10^{-3}$, $\beta_1=0{,}9$, $\beta_2=0{,}999$ \\
+Optimizador & Adam, $\eta=10^{-3}$ \\
 Descuento & $\gamma=0{,}99$ \\
 Memoria / minilote & 50\,000 / 64 transiciones \\
-Inicio / frecuencia & 1000 pasos / cada 4 pasos \\
-Copia a red objetivo & Cada 1000 pasos de entorno \\
-Exploración & Lineal por episodio, $1\to0{,}05$ \\
-Pérdida / gradiente & Huber ($\beta=1$) / norma $\leq10$ \\
-Presupuesto & 1200 ep. (principal), 300 (estudio) \\
+Inicio / frecuencia & paso 1000 / cada 4 pasos \\
+Copia a la red objetivo & cada 1000 pasos \\
+Exploración & $\varepsilon$: $1\to0{,}05$ en 100 episodios \\
+Pérdida / gradiente & Huber / norma $\leq10$ \\
+Episodios (hasta 1000 pasos) & 1200 principal, 300 estudio \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La tabla~\ref{tab:hiper} resume la configuración. Los episodios tienen hasta 1000 pasos. El agente principal se entrena 1200 episodios, como sugiere la plantilla. En la calibración y en el estudio de ablación cada agente se entrena 300 episodios: la consigna recomienda usar menos episodios en la ablación porque requiere muchos entrenamientos, y así las 32 corridas del estudio tienen el mismo presupuesto que la calibración con la que se eligió A0. Siempre se entrenan todos los episodios y se evalúan los pesos del final, sin quedarse con el mejor momento del entrenamiento.
+Los episodios se juegan completos, sin parada temprana, y siempre se evalúan los pesos del final. El agente principal se entrena 1200 episodios, como sugiere la plantilla. La calibración y la ablación usan 300 por agente, porque la consigna recomienda menos episodios en la ablación, que implica muchos entrenamientos (62). Todas las corridas se hicieron en la misma computadora (Windows 11, CPU, un hilo de PyTorch). Las semillas fijan Python, NumPy, PyTorch, el espacio de acciones y los reinicios del entorno: el notebook comprueba que dos entrenamientos con la misma semilla dan exactamente los mismos pesos.
+
+Se usan tres conjuntos de escenarios para no evaluar con los mismos datos que se usaron para decidir: los reinicios de entrenamiento (semilla del agente más el número de episodio), 100 escenarios de validación (50000 a 50099) solo para la calibración, y 200 escenarios de test (30000 a 30199) para todos los resultados finales.
 
 \section{Selección de hiperparámetros}
 \label{sec:calibracion}
-La calibración tuvo tres partes: arquitectura y tasa de aprendizaje, tamaño de la memoria y forma de explorar. Para elegir la configuración se usaron los resultados guardados de esas pruebas, que no siempre tuvieron el mismo presupuesto ni la misma configuración.
+Se partió de una configuración de referencia A0 con valores habituales para DQN (exploración en 200 episodios y el resto como en la tabla~\ref{tab:hiper}) y se la comparó con dos alternativas deliberadas, una por debajo y otra por encima, en los factores que más pesan: red y tasa de aprendizaje, frecuencia de copia de la red objetivo, duración de la exploración y tamaño de la memoria. Para la red y la tasa se usaron tres alternativas, porque A1 cambia a la vez el tamaño y la tasa y A2 permite separar ambos efectos. Cada configuración se entrenó con tres semillas y se evaluó en los 100 escenarios de validación (tabla~\ref{tab:calibracion}).
 
-Para la arquitectura y la tasa se entrenaron A0, A1 y A2 con las semillas 42 y 1042, durante 300 episodios, y cada agente se evaluó en 200 escenarios. A1 cambia a la vez el tamaño de las capas y la tasa respecto de A0. Por eso se agregó A2: entre A0 y A2 cambia solo la tasa, y entre A2 y A1 cambia solo el tamaño. Después se probó A3, igual a A0 pero con una tasa más alta. La tabla~\ref{tab:calibracion} muestra el retorno medio de cada agente.
+Antes de correr se fijó una regla: un valor de A0 se reemplaza solo si la alternativa le gana a A0 en las tres semillas. Con tres semillas y la variabilidad de DQN, ganar solo en el promedio no alcanza: la memoria de 10\,000 y A3 tienen mejor promedio que A0, pero pierden en una semilla cada una. Solo bajar $\varepsilon$ en 100 episodios cumplió la regla, y se adoptó. Es razonable: con 300 episodios, explorar durante 200 deja pocos episodios para aprovechar lo aprendido, y explorar durante 400 es lo peor de todo, porque $\varepsilon$ todavía vale cerca de 0,3 al terminar. La calibración usó 30 corridas y 129 minutos de CPU (20 minutos con 8 procesos en paralelo).
 
 \begin{table}[t]
-\caption{Calibración de arquitectura y tasa: retorno medio en 200 episodios por agente}
+\caption{Calibración: retorno medio en 100 escenarios de validación}
 \label{tab:calibracion}
 \centering
-\begin{tabular}{@{}lcrrr@{}}
+\begin{tabular}{@{}lrrrrc@{}}
 \toprule
-Config. & Capas ocultas & $\eta$ & Semilla 42 & Semilla 1042 \\
+Configuración & s42 & s1042 & s2042 & Media & Gana \\
 \midrule
-A0 & 64, 64 & $10^{-3}$ & 167,2 & 209,8 \\
-A1 & 128, 128 & $5\cdot10^{-4}$ & 142,1 & 33,7 \\
-A2 & 64, 64 & $5\cdot10^{-4}$ & $-7{,}4$ & 7,7 \\
-A3 & 64, 64 & $5\cdot10^{-3}$ & 203,3 & 99,9 \\
+A0 (referencia) & $-23{,}4$ & 150,6 & 213,3 & 113,5 & -- \\
+A1: 128$\times$128, $\eta=5\cdot10^{-4}$ & 85,6 & 12,8 & 16,7 & 38,4 & 1/3 \\
+A2: $\eta=5\cdot10^{-4}$ & 0,5 & $-14{,}4$ & $-49{,}5$ & $-21{,}1$ & 1/3 \\
+A3: $\eta=5\cdot10^{-3}$ & 237,3 & 156,9 & 15,4 & 136,5 & 2/3 \\
+Copia cada 250 & 222,8 & 116,6 & $-8{,}6$ & 110,3 & 1/3 \\
+Copia cada 4000 & 54,5 & $-17{,}3$ & 4,8 & 14,0 & 1/3 \\
+$\varepsilon$ en 100 episodios & $-14{,}7$ & 231,1 & 256,5 & \textbf{157,7} & \textbf{3/3} \\
+$\varepsilon$ en 400 episodios & $-147{,}9$ & $-48{,}2$ & $-49{,}7$ & $-81{,}9$ & 0/3 \\
+Memoria 10\,000 & 123,8 & 242,4 & 93,4 & 153,2 & 2/3 \\
+Memoria 150\,000 & $-8{,}0$ & $-10{,}2$ & 202,7 & 61,5 & 1/3 \\
 \bottomrule
 \end{tabular}
+\smallskip
+\parbox{\columnwidth}{\footnotesize Cada alternativa cambia solo lo indicado respecto de A0. Gana: semillas en las que supera a A0.}
 \end{table}
-
-Promediando las dos semillas, A0 obtuvo 188,5, A1 87,9, A2 0,1 y A3 151,6. Por eso se eligió A0, aunque A3 le gana en la semilla 42. Con solo dos entrenamientos por configuración no se puede decir que A0 sea la mejor en general.
-
-En una prueba anterior se compararon memorias de 100\,000 y 10\,000 transiciones y un prototipo sin memoria. Con la semilla 42, 500 episodios de entrenamiento y 50 de evaluación, los retornos medios fueron 247,7, 223,6 y $-87{,}7$, y las tasas de éxito, 86\%, 80\% y 0\%. Ese agente tenía capas de 128 neuronas y $\eta=5\cdot10^{-4}$. Los valores que usa A0 (memoria de 50\,000 y minilote de 64) no se eligieron con una búsqueda sistemática.
-
-La prueba anterior de exploración usó cinco semillas, 600 episodios de entrenamiento y 100 de evaluación por agente, con una red 128/128, $\varepsilon$ mínimo de 0,01 y actualización suave de la red objetivo. En la actualización suave, en vez de copiar todos los pesos de golpe cada cierto tiempo, la red objetivo se acerca un poco a la que aprende en cada actualización: $\theta^-\leftarrow\tau\theta+(1-\tau)\theta^-$, con $\tau$ chico. Así el objetivo cambia de a poco en lugar de dar saltos. Bajar $\varepsilon$ de forma exponencial por episodios dio un retorno medio de 177,1, y bajarlo de forma lineal en 50\,000 pasos dio 127,1. El test de Mann--Whitney bilateral dio $p=0{,}2222$, sin corregir por comparaciones múltiples. El estudio final usó la bajada lineal por episodios de A0, que es distinta de las dos.
 
 \section{Aprendizaje y desempeño final}
 \label{sec:resultados}
-\subsection{Selección y evaluación}
-El estudio final tiene ocho agentes por condición: completo, sin replay, sin red objetivo y sin exploración. Hay tres agentes completos más que quedaron fuera de los promedios y de los tests. Qué corridas entraron se decidió por su origen y por las semillas que cubrían, no por lo bien que les fue.
+El agente principal (configuración final, semilla 42) se entrenó 1200 episodios en 277 segundos y 466\,776 pasos. La figura~\ref{fig:curvas} (izquierda) muestra su retorno: la media de los últimos 100 episodios pasa de $-95$ en el episodio 100 a 145 en el 300 y llega a un máximo de 255 en el episodio 668. Después baja hasta 132 cerca del episodio 1080 y se recupera hasta 219 al final. Esa caída, sin cambios en la configuración, es la inestabilidad típica de DQN: la red sigue actualizándose con datos que ella misma genera y puede empeorar temporalmente. Por eso no se eligió el mejor momento del entrenamiento: se evalúan los pesos finales, lo que da una medida conservadora.
 
-Las semillas de entrenamiento son 42, 1042, 2042, 3042, 4042, 5042, 6042 y 7042. Se fijan las semillas de Python, NumPy, PyTorch y del espacio de acciones. El episodio $i$ (contando desde cero) empieza con la semilla de entrenamiento más $i$. Cada agente final se evalúa sin explorar en los escenarios 10000 a 10199, que son los mismos que se usaron en la calibración. Fijar las semillas permite repetir exactamente un entrenamiento en la misma máquina y probar todas las condiciones en los mismos escenarios. Hacen falta varias semillas porque el resultado de DQN depende mucho de la suerte: en la tabla~\ref{tab:resultados}, el agente completo va de 60,5 a 208,7 según la semilla.
-
-Cada agente entrenado cuenta como un solo dato. Sus 200 episodios de evaluación sirven para medir qué tan bueno es ese agente, pero no son 200 entrenamientos distintos. Todos vienen del mismo entrenamiento: si una semilla dio una red mala, sus 200 episodios van a ser malos juntos. Como lo que se compara es la forma de entrenar, contarlos como 200 datos haría que las diferencias parecieran mucho más seguras de lo que son. En la tabla~\ref{tab:resultados}, cada celda es el promedio de esos 200 retornos. Las últimas filas muestran el promedio de las ocho semillas y su desviación estándar (DE). Como todos los agentes tienen 200 evaluaciones, la tasa de éxito es la cantidad de éxitos sobre los 1600 episodios.
-
-\begin{table}[t]
-\caption{Evaluación del estudio final por semilla de entrenamiento}
-\label{tab:resultados}
+\begin{figure*}[t]
 \centering
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Semilla & Completo & Sin objetivo & Sin replay & Sin explor. \\
-\midrule
-42   & 174,9 & 140,3 & $-28{,}2$ & $-168{,}7$ \\
-1042 & 183,2 & $-211{,}9$ & 122,8 & 62,6 \\
-2042 & 80,6  & 189,3 & 6,2 & 150,7 \\
-3042 & 69,5  & 20,6 & $-129{,}5$ & $-70{,}2$ \\
-4042 & 60,5  & 0,7 & $-129{,}2$ & $-133{,}3$ \\
-5042 & 121,9 & 81,7 & 107,6 & 65,9 \\
-6042 & 203,2 & 149,7 & 38,3 & 119,2 \\
-7042 & 208,7 & 7,0 & 5,1 & 180,3 \\
-\midrule
-Media & 137,8 & 47,2 & $-0{,}8$ & 25,8 \\
-DE entre semillas & 62,0 & 126,6 & 94,5 & 132,8 \\
-Éxitos / 1600 & 647 & 352 & 189 & 287 \\
-Éxito (\%) & 40,44 & 22,00 & 11,81 & 17,94 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Curvas y comparación con el azar}
-La figura~\ref{fig:curvas} muestra que el agente completo mejora: sus primeros 20 episodios promedian $-177{,}6$ y los últimos 20, 147,0. Las ablaciones también mejoran, pero quedan por debajo del completo. Sin red objetivo, al final las semillas dan resultados muy distintos entre sí.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figuras/curvas_aprendizaje.pdf}
-\caption{Retorno durante el entrenamiento, suavizado con el promedio de los últimos 20 episodios (o menos, al principio). Cada línea es el promedio de ocho semillas. Las bandas muestran $\pm1$ DE entre semillas y no son intervalos de confianza.}
+\includegraphics[width=\textwidth]{figuras/curvas_aprendizaje.pdf}
+\caption{Retorno de entrenamiento. Izquierda: agente principal, por episodio (claro) y media móvil de 100 episodios (oscuro). Derecha: estudio de ablación, media móvil de 20 episodios promediada sobre ocho semillas, con bandas de $\pm1$ DE entre semillas. El eje vertical se recortó en $-450$: sin exploración empieza cerca de $-1000$. La línea discontinua es el umbral de éxito.}
 \label{fig:curvas}
-\end{figure}
+\end{figure*}
 
-El agente completo tuvo 647 éxitos en 1600 evaluaciones (40,44\%). Siete de los ocho agentes superan el 10\%. La excepción es la semilla 3042, con 7 éxitos de 200 (3,5\%). Las tasas van de 3,5\% a 71,5\%, así que cumplir el criterio en promedio no garantiza cumplirlo en todos los entrenamientos.
-
-Para comparar con un agente que elige al azar en la misma máquina, se usó el notebook final. Ahí se entrenó el agente principal, con la configuración A0 y la semilla 42, durante 1200 episodios (490 segundos), y se evaluó en 200 episodios: obtuvo $223{,}75\pm66{,}51$ de retorno y 132 éxitos de 200 (66\%), sin ningún episodio por debajo de 0. Con la misma semilla y los mismos escenarios, el agente del estudio entrenado 300 episodios había obtenido 174,90 y 68 éxitos (34\%). El agente aleatorio, con su generador fijado en 42 y en los mismos escenarios, obtuvo $-183{,}17\pm111{,}96$ y ningún éxito. Acá $\pm$ es la desviación estándar de los 200 retornos.
+En los 200 escenarios de test, el agente principal obtuvo un retorno medio de 240,2 (DE 65,1) y 162 éxitos (81\%). Terminó posado en 165 episodios, chocó en 3 y en 32 llegó al límite de pasos. En la evaluación de la plantilla (escenarios 10000 a 10199) obtuvo 235,8 y 155 éxitos (77,5\%), sin ningún episodio con retorno negativo, mientras que el agente aleatorio, en los mismos escenarios, obtuvo $-183{,}2$ y ningún éxito.
 
 \section{Análisis de la política}
 \label{sec:politica}
-Para ver qué aprendió el agente se hicieron tres cortes. En cada uno se parte de un estado de referencia y se mueven solo dos de sus valores en una grilla de $101\times101$: $(x,v_x)$, $(\theta,\omega)$ o $(y,v_y)$. Los otros seis quedan fijos. Esto hace falta porque la política depende de ocho variables y no se puede dibujar entera. Fijando seis, la acción depende solo de dos y se puede mostrar como una imagen, aunque cada corte muestra solo una parte de la política. El estado de referencia tiene $x=v_x=\theta=\omega=c_1=c_2=0$, $y=0{,}8$ y $v_y=-0{,}3$. Se eligió la semilla 42 por ser la primera de la lista, no por su resultado. La figura~\ref{fig:cortes} muestra, en cada punto, la acción que elige la red, calculada con los pesos guardados.
+La política depende de ocho variables y no se puede dibujar entera. Para verla se parte de un estado de referencia (nave sobre la plataforma a media altura, bajando despacio y derecha: $x=v_x=\theta=\omega=c_1=c_2=0$, $y=0{,}8$, $v_y=-0{,}3$) y se varían solo dos variables en una grilla de $101\times101$: $(x,v_x)$, $(\theta,\omega)$ y $(y,v_y)$. La figura~\ref{fig:cortes} muestra, para el agente principal, la acción elegida y el mayor valor Q. Los puntos son estados visitados en 20 episodios reales; como sus otras seis variables no coinciden con las del corte, indican qué zonas importan, pero no validan cada punto.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figuras/cortes_politica.pdf}
-\caption{DQN completo, semilla 42: acción que elige la red en cada punto. En cada panel solo cambian las dos variables de los ejes. Las demás quedan como en el estado de referencia.}
+\caption{Cortes de la política del agente principal. Arriba: acción greedy, con los estados visitados en 20 episodios (puntos). Abajo: mayor valor Q. En cada columna solo varían las dos variables de los ejes; el resto queda en el estado de referencia.}
 \label{fig:cortes}
 \end{figure*}
 
-En el corte vertical aparece una frontera inclinada: el motor principal se enciende cuando la nave cae rápido, y cerca del suelo también cuando cae más despacio. Esto tiene sentido, porque el motor no puede frenar la nave de golpe: cuanto más rápido cae, más altura necesita para frenar. Por eso, si cae rápido conviene empezar a frenar antes, y si cae despacio alcanza con frenar cerca del suelo. Más arriba de esa zona aparecen tanto no hacer nada como el motor derecho, así que el agente no sigue simplemente la regla de frenar o no frenar.
+\textbf{Altura y velocidad vertical.} El motor principal se enciende por debajo de una frontera que depende de la altura: a $y=0{,}2$ lo hace si $v_y\leq-0{,}38$, a $y=0{,}8$ si $v_y\leq-0{,}82$ y a $y=1{,}4$ recién si $v_y\leq-1{,}33$. Cuanto más cerca del suelo, menos velocidad de caída tolera, porque le queda menos altura para frenar. Las trayectorias reales siguen esa frontera: caen, frenan y vuelven a caer hasta tocar el suelo.
 
-En el corte del ángulo, a cada lado de una frontera que depende de $\theta$ y $\omega$ se usa un motor lateral distinto. Cerca de esa frontera, el motor derecho reduce el ángulo y el izquierdo lo aumenta. Parece que el agente corrige a la vez la inclinación y el giro, aunque esto no alcanza para decir que siga una regla lineal en todos los estados. En los cortes de las ocho semillas, guardados en el notebook, se ve algo parecido, aunque cambian las fronteras y las zonas donde no hace nada o usa el motor principal.
+\textbf{Ángulo y velocidad angular.} Hay dos regiones de motores laterales separadas por una frontera inclinada. Con $\theta=0$, usa el motor derecho (que reduce el ángulo) si $\omega>-0{,}11$ y el izquierdo si $\omega<-0{,}17$. Con $\theta=0{,}4$ la frontera baja a $\omega\approx-0{,}36$, y con $\theta=-0{,}4$ sube por encima de 0,4. O sea que corrige a la vez cuánto está inclinada la nave y hacia dónde gira, como un controlador proporcional-derivativo. Esta organización aparece en los ocho agentes completos del estudio (figura en el notebook), aunque cambian las fronteras y las zonas donde usa el motor principal.
 
-En el corte horizontal, si la nave se mueve rápido hacia la derecha ($v_x$ positiva y alta), el agente prefiere el motor izquierdo, lo que parece servir para frenar ese desplazamiento. La división depende también de $x$ y no es simétrica. Con un solo estado de referencia no se puede decir que el agente prefiera un lado en general.
+\textbf{Posición y velocidad horizontal.} Si la nave se mueve hacia la izquierda ($v_x<0$), usa el motor derecho, que la empuja a la derecha, en casi cualquier posición. Si se mueve despacio hacia la derecha ($v_x=0{,}2$), no hace nada mientras está a la izquierda o sobre la plataforma, es decir, mientras se acerca, y usa el izquierdo cuando ya la pasó; con $v_x=0{,}5$ usa el izquierdo casi siempre. Detenida, en el centro y a la izquierda usa el motor derecho y en $x=0{,}6$ el izquierdo: tiende a volver al centro. Con velocidades mayores, que casi no visita, deja de corregir. En el estado de referencia exacto elige el motor derecho, una pequeña asimetría.
 
-Para ver cómo terminan los episodios, las 32 redes se evaluaron de nuevo en 20 escenarios cada una (10000 a 10019). Con eso se armó la tabla~\ref{tab:fines}. Un final cuenta como posado si el episodio termina con una recompensa de $+100$ en el último paso. Los demás finales cuentan como choque o salida de la zona, y los truncados son los que llegan a los 1000 pasos.
-
-\begin{table}[t]
-\caption{Cómo terminan los episodios en la reevaluación hecha en macOS (160 episodios por condición)}
-\label{tab:fines}
-\centering
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-Condición & Posado & Choque/salida & Truncado \\
-\midrule
-Completo & 105 & 7 & 48 \\
-Sin red objetivo & 66 & 54 & 40 \\
-Sin replay & 22 & 135 & 3 \\
-Sin exploración & 35 & 48 & 77 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-En el agente completo, la mayoría de los episodios que no terminan posados son truncados (48 de 55). Sin replay, en cambio, casi todos son choques o salidas (135 de 160). Estos números describen el comportamiento, pero no son tasas de éxito. Por ejemplo, el agente completo tiene 105 finales posados, pero solo 68 episodios con $R\geq200$. Una nave que aterriza gastando mucho combustible puede no llegar a 200.
+\textbf{Valor Q.} Q estima el retorno descontado, no una probabilidad de éxito. Su máximo está a mucha altura y con caída rápida, una zona que el agente casi no visita: ahí la red extrapola, y por eso un valor de Q, por sí solo, no valida una decisión.
 
 \section{Estudio de ablación}
 \label{sec:ablacion}
-\subsection{Variantes y test estadístico}
-En cada condición se quita una sola parte. Sin red objetivo, el valor futuro se calcula con la misma red que se está entrenando, y $z$ se sigue tomando como un número fijo. Sin replay, cada actualización usa solo la transición que acaba de pasar. Como se mantienen el inicio en el paso 1000 y la actualización cada cuatro pasos, las otras tres transiciones no se usan para aprender. Sin exploración, $\varepsilon=0$ desde el principio, aunque sigue habiendo azar en los pesos iniciales y en el entorno.
+\subsection{Variantes y diseño}
+Cada variante quita un solo componente: \textbf{sin red objetivo}, el valor futuro se calcula con la red que se entrena; \textbf{sin replay}, cada actualización usa solo la transición actual (minilote de 1) con la misma frecuencia, así que tres de cada cuatro transiciones no se usan; \textbf{sin exploración}, $\varepsilon=0$ desde el principio, aunque sigue habiendo azar en los pesos iniciales y en el entorno. Se esperaba un entrenamiento más inestable sin red objetivo, peor uso de los datos sin replay y que el agente sin exploración repitiera lo que su red inicial cree mejor.
 
-Por lo visto en la sección~\ref{sec:dqn}, sin red objetivo se espera un entrenamiento más inestable, porque el valor al que se quiere llegar cambia en cada actualización. Sin replay se espera que la red aprenda de datos muy parecidos entre sí, use cada transición como mucho una vez y se olvide de lo que aprendió. Sin exploración se espera que el agente repita lo que su red inicial cree mejor y tarde más en descubrir acciones útiles, aunque el azar del entorno y de los pesos le da algo de variedad.
-
-Para comparar cada variante con el agente completo se usó el test U de Mann--Whitney bilateral exacto~\cite{mann1947}, con las ocho medias de cada condición. Este test no necesita que los datos sigan una distribución normal, y compara si los dos grupos vienen de la misma distribución, no solo sus medias. Como se hacen tres comparaciones, los valores $p$ se corrigen con el método de Holm~\cite{holm1979}, con un nivel de significación de $\alpha=0{,}05$ para el conjunto.
-
-La hipótesis nula es que quitar esa parte no cambia nada, o sea, que las medias de las dos condiciones vienen de la misma distribución. El valor $p$ es la probabilidad de ver una diferencia igual o más grande que la observada si la hipótesis nula fuera cierta. Si $p$ es menor que $\alpha$, se rechaza la hipótesis nula. Cuantos más tests se hacen, más fácil es que alguno dé significativo por casualidad, igual que al tirar muchas monedas es más fácil que alguna salga varias veces seguidas del mismo lado. La corrección de Holm ajusta los valores $p$ para que la chance de encontrar por error una diferencia en alguna de las tres comparaciones siga siendo de 0,05 como máximo. El test supone que los grupos son independientes, lo que hay que tomar con cuidado porque las variantes usan las mismas semillas.
+Las cuatro condiciones se entrenaron 300 episodios con las mismas ocho semillas (42, 1042, \dots, 7042), en la misma computadora, y se evaluaron en los mismos 200 escenarios de test. Cada agente entrenado es un dato: el promedio de sus 200 episodios, que no son 200 entrenamientos independientes. Una versión preliminar del estudio, corrida en tres computadoras, se descartó porque mezclaba el efecto de cada componente con el de la máquina.
 
 \begin{table}[t]
-\caption{Comparaciones contra el agente completo (ocho agentes por condición)}
-\label{tab:tests}
+\caption{Retorno medio en 200 escenarios de test, por semilla}
+\label{tab:resultados}
 \centering
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-Ablación & $\Delta$ & U & $p$ MW & $p$ Holm \\
+Semilla & Completo & Sin obj. & Sin replay & Sin explor. \\
 \midrule
-Sin objetivo & 90,6 & 47 & 0,1304 & 0,1304 \\
-Sin replay & 138,7 & 57 & 0,0070 & 0,0210 \\
-Sin explor. & 112,0 & 50 & 0,0650 & 0,1299 \\
+42   & $-2{,}1$ & $-166{,}9$ & $-148{,}0$ & $-165{,}5$ \\
+1042 & 231,5 & 150,8 & $-76{,}8$ & 63,4 \\
+2042 & 250,5 & 205,8 & 17,3 & 156,3 \\
+3042 & 72,3 & 73,8 & $-39{,}7$ & $-72{,}1$ \\
+4042 & $-23{,}8$ & 178,1 & 118,3 & $-133{,}8$ \\
+5042 & 38,2 & 219,8 & 15,0 & 69,4 \\
+6042 & 220,8 & $-166{,}5$ & $-3{,}3$ & 127,1 \\
+7042 & 194,5 & $-524{,}6$ & 176,3 & 170,9 \\
+\midrule
+Media & 122,7 & $-3{,}7$ & 7,4 & 27,0 \\
+DE entre semillas & 113,2 & 262,2 & 103,2 & 132,7 \\
+Éxito (\% de 1600) & 44,4 & 35,2 & 9,3 & 17,8 \\
+Semillas con $>10\%$ & 5/8 & 5/8 & 1/8 & 4/8 \\
+Posado / choque (\%) & 51 / 3 & 45 / 41 & 22 / 76 & 26 / 26 \\
+Truncado (\%) & 45 & 14 & 2 & 49 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Test estadístico}
+Como cada semilla se usa en las cuatro condiciones, con los mismos pesos iniciales y los mismos reinicios del entorno, las comparaciones son pareadas. El test principal es el de rangos con signo de Wilcoxon~\cite{wilcoxon1945}, bilateral y exacto, sobre las ocho diferencias completo menos variante. No supone normalidad, que con ocho valores no se puede comprobar. La hipótesis nula es que las diferencias se distribuyen de forma simétrica alrededor de cero, o sea, que quitar el componente no cambia el resultado. Como se hacen tres comparaciones, los $p$ se corrigen con Holm~\cite{holm1979}, que mantiene en 5\% la probabilidad de declarar alguna diferencia por casualidad. Se informa también un intervalo bootstrap del 95\% para la diferencia media~\cite{efron1993} y, como comprobación, el test de Mann--Whitney~\cite{mann1947}, que ignora el pareo.
+
+\begin{table}[t]
+\caption{Comparaciones contra el agente completo}
+\label{tab:tests}
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrcccc@{}}
+\toprule
+Variante & $\Delta$ & IC 95\% & Gana & $p$ W / Holm & $p$ MW / Holm \\
+\midrule
+Sin obj. & 126,4 & $[-52{,}5;\ 333{,}0]$ & 5/8 & 0,461 / 0,461 & 0,328 / 0,328 \\
+Sin replay & 115,3 & $[17{,}5;\ 206{,}6]$ & 7/8 & 0,055 / 0,109 & 0,050 / 0,150 \\
+Sin explor. & 95,8 & $[47{,}9;\ 137{,}8]$ & 7/8 & 0,023 / 0,070 & 0,161 / 0,321 \\
 \bottomrule
 \end{tabular}
 \smallskip
-\parbox{\columnwidth}{\footnotesize $\Delta$: retorno medio del agente completo menos el de la ablación. U corresponde al agente completo.}
+\parbox{\columnwidth}{\footnotesize $\Delta$: retorno medio del completo menos el de la variante. Gana: semillas en que el completo supera a la variante. W: Wilcoxon pareado; MW: Mann--Whitney.}
 \end{table}
 
-La tabla~\ref{tab:tests} muestra que solo la variante sin replay es significativamente distinta del agente completo. El completo le gana en las ocho semillas, por 138,7 puntos en promedio. Esto indica que el replay sirve en esta configuración. Hay que tener en cuenta que esta variante no solo quita la memoria: también aprende de una sola transición por vez y de menos transiciones en total. Cada actualización depende de una transición muy parecida a las anteriores, así que los ajustes de la red son muy irregulares y la red se adapta a lo último que vio. Esto coincide con la tabla~\ref{tab:fines}: 135 de sus 160 episodios terminan en choque o salida, contra 7 del completo, lo que sugiere que la red no llega a aprender bien a frenar y estabilizarse antes de tocar el suelo.
+\subsection{Resultados}
+El completo tiene mejor promedio que las tres variantes (tabla~\ref{tab:tests}), pero ninguna diferencia es significativa después de la corrección de Holm. Sin exploración es la más clara: el completo gana en 7 de 8 semillas, el $p$ sin corregir es 0,023 y el intervalo bootstrap no incluye el cero, pero el $p$ corregido es 0,070. Sin replay también pierde en 7 de 8 semillas y su intervalo excluye el cero, con $p$ corregido 0,109. Los intervalos no están corregidos por comparaciones múltiples y, con ocho semillas, el bootstrap tiende a dar intervalos demasiado angostos, así que no contradicen al test: son evidencia de que el efecto existe, no prueba suficiente. No rechazar la hipótesis nula tampoco significa que los componentes no sirvan.
 
-Sin red objetivo y sin exploración también tienen medias más bajas, pero sus $p$ corregidos son 0,1304 y 0,1299, así que no se puede rechazar la hipótesis nula. Eso no quiere decir que sean iguales al completo ni que esas partes no sirvan. Con ocho semillas y tanta variación, diferencias de 90,6 y 112,0 puntos no alcanzan para ser significativas.
+Los finales de los episodios (tabla~\ref{tab:resultados}) muestran que cada variante falla de un modo distinto. Sin replay choca en el 76\% de los episodios, contra el 3\% del completo: aprendiendo de una transición por vez, cada actualización depende de datos casi iguales y la red no llega a frenar a tiempo. Sin exploración, casi la mitad de los episodios llegan al límite de pasos: muchas semillas aprenden a flotar sin estrellarse, pero no descubren cómo posarse. Sin red objetivo es la más inestable: con algunas semillas iguala o supera al completo, pero con otras se desmorona (semilla 7042: $-524{,}6$), y por eso su desviación entre semillas es más del doble que la del completo. Esa inestabilidad es la que la red objetivo busca evitar, pero con ocho semillas no alcanza para mostrar una diferencia en la media.
 
 \balance
 \section{Limitaciones}
-Todas las corridas del estudio tienen los mismos 300 episodios, pero no la misma cantidad de pasos ni de actualizaciones: usaron entre 32\,968 y 241\,521 pasos, según cuánto duraron sus episodios. Por eso los resultados se comparan después de 300 episodios, sin decir que el entrenamiento haya terminado de mejorar ni que todas las corridas costaran lo mismo. De hecho, con la semilla 42 el éxito pasó de 34\% a 66\% al entrenar 1200 episodios en lugar de 300, así que las diferencias de la ablación podrían cambiar con entrenamientos más largos. Además, ocho semillas son pocas para saber bien cuánto varían los resultados. También se usaron máquinas distintas (Windows y macOS) con el mismo código, y no todas las condiciones se corrieron en todas las máquinas. Por eso los tests no pueden separar el efecto de la parte quitada del efecto de la máquina.
-
-La evaluación final usa los mismos escenarios que la calibración, lo que puede favorecer a la configuración elegida. Como no se hizo la evaluación con los escenarios reservados (30000 a 30199), los resultados no muestran cómo le iría al agente en escenarios totalmente nuevos. Las evaluaciones extra sirven para analizar los agentes guardados, pero no cuentan como entrenamientos nuevos. Por último, los cortes muestran solo tres planos, y la conclusión sobre el replay vale para esta forma de quitarlo.
+Con 300 episodios los agentes del estudio todavía están aprendiendo. Con la semilla 42, el completo obtiene $-2{,}1$ a los 300 episodios y el agente principal llega a 240 a los 1200 con la misma configuración, así que las diferencias de la ablación podrían cambiar con entrenamientos más largos. El presupuesto es de episodios, no de pasos: las corridas usaron entre 32\,968 y 241\,521 pasos según cuánto duraron sus episodios, así que no todas tuvieron el mismo costo. Ocho semillas dan poca potencia frente a desviaciones de 100 a 260 puntos entre semillas: un efecto como el de quitar la exploración necesitaría más semillas para alcanzar significancia. La calibración usó tres semillas por configuración, suficientes para descartar alternativas claramente peores, pero no para ordenar las cercanas. Por último, los cortes muestran tres planos con seis variables fijas, y la conclusión sobre el replay vale para esta forma de quitarlo, que también reduce el minilote a una transición.
 
 \section{Conclusiones}
-Se implementó un agente DQN que cumple el criterio de éxito de la tarea en promedio y en siete de sus ocho entrenamientos completos. Entrenado 1200 episodios, el agente principal llega al 66\% de éxito, muy por encima del agente aleatorio. En los cortes se ve que aprendió a frenar y a corregir el ángulo, con algunas asimetrías y diferencias entre semillas.
-
-El resultado más claro del estudio es el del replay: sin él, el agente empeora y la diferencia sigue siendo significativa después de corregir por las tres comparaciones. Con estas corridas no se puede concluir nada firme sobre la red objetivo ni sobre la exploración. Para eso haría falta usar más semillas, correr todas las condiciones en máquinas parecidas y evaluar con los escenarios reservados.
+El agente DQN implementado cumple ampliamente el criterio de la tarea: entrenado 1200 episodios, logra un 81\% de éxito en escenarios de test que no se usaron para ninguna decisión, frente al 0\% del agente aleatorio. La calibración, con una regla de decisión fijada de antemano, mostró que la duración de la exploración era el ajuste más importante para el presupuesto disponible. Los cortes muestran un comportamiento con sentido físico: frenar según la altura, corregir la inclinación y el giro a la vez y volver hacia la plataforma. En la ablación, quitar cualquier componente empeora el promedio, y cada variante falla de un modo coherente con su función, pero con ocho semillas ninguna diferencia resiste la corrección por comparaciones múltiples. Para confirmar estos efectos haría falta repetir el estudio con más semillas y entrenamientos más largos.
 
 \section*{Uso de Inteligencia Artificial}
 Se usaron herramientas de IA para desarrollar y revisar el código, organizar y verificar los resultados, y para la redacción de este informe. Todas las cifras se contrastaron con los datos guardados de las corridas.
 
-
 \begin{thebibliography}{00}
 \bibitem{towers2024} M.~Towers \textit{et al.}, ``Gymnasium: A standard interface for reinforcement learning environments,'' arXiv:2407.17032, 2024.
-\bibitem{mnih2015} V.~Mnih \textit{et al.}, ``Human-level control through deep reinforcement learning,'' \textit{Nature}, vol.~518, pp.~529--533, 2015, doi:~10.1038/nature14236.
+\bibitem{mnih2015} V.~Mnih \textit{et al.}, ``Human-level control through deep reinforcement learning,'' \textit{Nature}, vol.~518, pp.~529--533, 2015.
 \bibitem{sutton2018} R.~S.~Sutton y A.~G.~Barto, \textit{Reinforcement Learning: An Introduction}, 2.\textsuperscript{a} ed. MIT Press, 2018.
-\bibitem{mann1947} H.~B.~Mann y D.~R.~Whitney, ``On a test of whether one of two random variables is stochastically larger than the other,'' \textit{Ann. Math. Statist.}, vol.~18, no.~1, pp.~50--60, 1947.
+\bibitem{kingma2015} D.~P.~Kingma y J.~Ba, ``Adam: A method for stochastic optimization,'' en \textit{Proc. ICLR}, 2015.
+\bibitem{wilcoxon1945} F.~Wilcoxon, ``Individual comparisons by ranking methods,'' \textit{Biometrics Bulletin}, vol.~1, no.~6, pp.~80--83, 1945.
 \bibitem{holm1979} S.~Holm, ``A simple sequentially rejective multiple test procedure,'' \textit{Scand. J. Statist.}, vol.~6, no.~2, pp.~65--70, 1979.
+\bibitem{mann1947} H.~B.~Mann y D.~R.~Whitney, ``On a test of whether one of two random variables is stochastically larger than the other,'' \textit{Ann. Math. Statist.}, vol.~18, no.~1, pp.~50--60, 1947.
+\bibitem{efron1993} B.~Efron y R.~J.~Tibshirani, \textit{An Introduction to the Bootstrap}. Chapman \& Hall, 1993.
 \end{thebibliography}
 \end{document}

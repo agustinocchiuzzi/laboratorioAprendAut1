@@ -1,33 +1,46 @@
-# Tarea 2 — LunarLander DQN
+# Tarea 2: LunarLander con DQN
 
-Entrada para la entrega y su reproducción. La limpieza afecta únicamente a `TAREA2/` del repositorio.
+## Qué se entrega
 
-- [Notebook integrado ejecutado](entrega_borrador.ipynb): candidato autocontenido con resultados, pesos, curvas, GIF y cortes.
-- [Informe IEEE](informe/informe.tex): todavía requiere redacción del equipo, compilación y revisión de los marcadores `REDACTAR`.
-- [Estado y pendientes](CIERRE_02_11.md).
-- [Resultados conjuntos](analysis/team_study/README.md) y [protocolo](protocols/team_final.json): 32 políticas seleccionadas, ocho por condición.
-- [Diferencias entre plataformas](PLATAFORMAS.md): procedencia y límites para interpretar las ablaciones.
-- [Apuntes de arquitectura](ARQUITECTURA_METODOLOGIA.md).
-- [Referencias históricas y registro de limpieza](REFERENCIAS_LIMPIEZA.md): documentos anteriores íntegros, inventario y recuperación desde Git.
+| Entregable | Archivo |
+|---|---|
+| Notebook (copia de la plantilla con los tres TODO resueltos) | [`LunarLander_DQN.ipynb`](LunarLander_DQN.ipynb) |
+| Informe IEEE (fuente) | [`informe/informe.tex`](informe/informe.tex) + [`informe/figuras/`](informe/figuras/) |
 
-Se conservan `results/` con datos y pesos originales, `preparation/` con procedencia y fuentes del ensamblado, `analisis_politica/`, figuras del informe, protocolos, scripts y tests. No borrar esas fuentes: permiten reproducir y auditar el estudio. `lander.ipynb` es el cuaderno común para entrenamiento; `course_template.ipynb` conserva la plantilla docente. `AgustinAgente/EXPLICACION_AgenteDQN.md` se conserva porque el informe lo referencia.
+El PDF del informe se genera compilando `informe/informe.tex` (por ejemplo en Overleaf, con
+pdfLaTeX). Hay que comprobar que tenga como máximo 5 páginas.
 
-Desde `TAREA2/`, crear un entorno con Python 3.12 e instalar dependencias:
+## Resultados principales
 
-```sh
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m unittest discover -s tests -v
-```
+- **Agente principal** (1200 episodios): 81 % de éxito (162/200) en escenarios de test que no se
+  usaron para ninguna decisión; el agente aleatorio, 0 %.
+- **Calibración**: A0 contra 9 alternativas, 3 semillas cada una, en escenarios de validación.
+  Solo se adoptó explorar durante 100 episodios en lugar de 200.
+- **Ablación**: 4 condiciones × 8 semillas, todas en la misma computadora. El completo supera en
+  promedio a las tres variantes, pero ninguna diferencia es significativa con Wilcoxon pareado y
+  corrección de Holm.
 
-En Windows usar `.venv\Scripts\python.exe`. En esta máquina también está disponible el entorno `../../.venv`. `requirements-analysis-lock.txt` registra el entorno de análisis actual; `requirements-lock.txt`, el entorno histórico de A.
-
-Reproducir el ensamblado y verificar el notebook sin entrenar:
+## Cómo ejecutar el notebook
 
 ```sh
-python scripts/assemble_team_study.py
-python scripts/build_delivery_draft.py --replace-draft
-python scripts/verify_delivery_draft.py
+python -m venv .venv
+.venv/Scripts/python -m pip install -r requirements.txt   # en Linux/macOS: .venv/bin/python
 ```
 
-Estos comandos actualizan los artefactos generados. Para nuevas corridas, consultar `python scripts/run_notebook.py --help`; cada corrida guarda configuración, semillas y versiones. El paquete a entregar debe incluir el notebook y el informe definitivo según la consigna. El estado actual aún requiere revisión del equipo.
+Abrir `LunarLander_DQN.ipynb` con ese entorno y ejecutar todas las celdas. El notebook trae
+adentro los resultados de las 63 corridas (celda *Datos guardados*, sección 7), así que **no
+reentrena** y tarda unos 2 minutos. Al ejecutarse escribe `resultados/` y `aterrizaje_dqn.gif`
+(ignorados por git) y regenera las figuras de `informe/figuras/`.
+
+Para reentrenar todo desde cero: borrar `resultados/` y la celda *Datos guardados*. Las 63
+corridas tardan cerca de 1 hora con 8 núcleos.
+
+## Otros archivos
+
+- `Tarea - Aprendizaje por Refuerzos (2026).pdf`: la letra.
+- `AgustinAgente/`: apuntes de estudio y una primera versión del agente. No forman parte de la
+  entrega.
+
+Las versiones anteriores (notebooks intermedios, corridas en varias computadoras, scripts y
+revisiones) se quitaron para simplificar. Siguen disponibles en el historial de git, en el commit
+`3cfa592` de la rama `integration/assignment-2`.

@@ -1,7 +1,8 @@
 gymnasium[box2d]>=1.0
 torch
+numpy
 matplotlib
+pillow
+scipy
+joblib
 ipykernel
-nbformat
-nbclient
-scipy>=1.18,<1.19
