@@ -2,13 +2,15 @@
 
 ## Qué se entrega
 
+Los dos entregables que pide la letra están en [`ENTREGAFINAL/`](ENTREGAFINAL/):
+
 | Entregable | Archivo |
 |---|---|
-| Notebook (copia de la plantilla con los tres TODO resueltos) | [`LunarLander_DQN.ipynb`](LunarLander_DQN.ipynb) |
-| Informe IEEE (fuente) | [`informe/informe.tex`](informe/informe.tex) + [`informe/figuras/`](informe/figuras/) |
+| Notebook (copia de la plantilla con los tres TODO resueltos) | [`ENTREGAFINAL/LunarLander_DQN.ipynb`](ENTREGAFINAL/LunarLander_DQN.ipynb) |
+| Informe IEEE en PDF (5 páginas) | [`ENTREGAFINAL/lab2-grupo09.pdf`](ENTREGAFINAL/lab2-grupo09.pdf) |
 
-El PDF del informe se genera compilando `informe/informe.tex` (por ejemplo en Overleaf, con
-pdfLaTeX). Hay que comprobar que tenga como máximo 5 páginas.
+Fuentes de trabajo: `LunarLander_DQN.ipynb` (idéntico al de la entrega) y `informe/informe.tex`
+con sus figuras en `informe/figuras/`.
 
 ## Resultados principales
 
